@@ -2,12 +2,15 @@ package history.traveler.springbootdeveloper.domain;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-
+import lombok.NoArgsConstructor;
 
 
 @Getter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "place")
 public class Place {
     @Id
@@ -32,16 +35,7 @@ public class Place {
     @Column(name = "region")
     private String region;
 
-    // 생성자
-    public Place() {
-    }
+    @Column(name = "whichDay")
+    private String whichDay;
 
-    public Place(Long id, String placeName, String website, double latitude, double longitude, String imageUrl) {
-        this.id = id;
-        this.placeName = placeName;
-        this.website = website;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.imageUrl = imageUrl;
-    }
 }

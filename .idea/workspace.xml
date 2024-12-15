@@ -5,79 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/SpringBootDeveloperApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/LoggingFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/TokenAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/WebOAuthSecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/WebSecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/jwt/JwtProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/jwt/TokenProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2AuthorizationRequestBasedOnCookieRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2SuccessHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2UserCustomService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/ExampleController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/HomeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/LogApiController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/LogViewController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/TokenApiController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/UserApiController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/UserViewController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/Article.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/Place.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/RefreshToken.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/AddArticleRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/AddUserRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleListViewResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleViewResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/CreateAccessTokenRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/CreateAccessTokenResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/UpdateArticleRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/LogRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/PlaceRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/RefreshTokenRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/LogService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/RefreshTokenService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/TokenService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/UserDetailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/util/CookieUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/google.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/tour_image.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/article.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/token.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/article.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/articleList.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/example.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/newArticle.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/oauthLogin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/signup.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/config/jwt/JwtFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/config/jwt/TokenProviderTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/LogApiControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/TokenApiControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/Place.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/Place.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,6 +51,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -153,7 +86,7 @@
     &quot;Spring Boot.SpringBootDeveloperApplication.executor&quot;: &quot;Run&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Traveler/history-traveler/src/main/resources/static/images&quot;,
@@ -454,11 +387,28 @@
       <workItem from="1734251956284" duration="59000" />
       <workItem from="1734252164956" duration="14000" />
       <workItem from="1734253719033" duration="963000" />
+      <workItem from="1734256452758" duration="1904000" />
+      <workItem from="1734283375418" duration="2815000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
