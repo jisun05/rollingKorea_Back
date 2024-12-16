@@ -55,6 +55,7 @@ public class WebOAuthSecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/token")).permitAll() // 토큰 요청 허용
                         .requestMatchers(new AntPathRequestMatcher("/api/place")) // 이 요청도 허용
                         .permitAll() // 인증 없이 접근 허용
+                        .requestMatchers(new AntPathRequestMatcher("/api/images/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated() // 나머지 API는 인증 필요
                         .anyRequest().permitAll()) // 나머지 요청은 허용
                 .oauth2Login(oauth2 -> oauth2.loginPage("/login")

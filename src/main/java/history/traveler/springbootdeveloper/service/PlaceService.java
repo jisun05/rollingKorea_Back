@@ -2,12 +2,10 @@ package history.traveler.springbootdeveloper.service;
 
 import history.traveler.springbootdeveloper.domain.Place;
 import history.traveler.springbootdeveloper.repository.PlaceRepository;
-
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @Service
 public class PlaceService {
@@ -18,7 +16,11 @@ public class PlaceService {
     }
 
     public List<Place> getPlacesByRegion(String region) {
-        // region에 따른 장소 데이터를 데이터베이스에서 조회
-        return placeRepository.findByRegion(region);
+        List<Place> places = placeRepository.findByRegion(region);
+
+        return places.stream().peek(place -> {
+            // HTTP URL 형식으로 이미지 경로 설정
+            place.setImagePath("http://localhost:8080/api/images/" + place.getImagePath());
+        }).collect(Collectors.toList());
     }
 }

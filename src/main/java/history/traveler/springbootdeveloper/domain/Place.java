@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Getter
@@ -29,8 +30,9 @@ public class Place {
     @Column(name = "longitude")
     private double longitude; // 장소의 경도
 
-    @Column(name = "image_url")
-    private String imageUrl; // 장소의 대표 이미지
+    @Column(name = "imagePath")
+    @Setter
+    private String imagePath; // 장소의 대표 이미지
 
     @Column(name = "region")
     private String region;
