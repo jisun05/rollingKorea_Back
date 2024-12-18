@@ -11,18 +11,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @RequiredArgsConstructor
 @Configuration
+@EnableWebSecurity
 public class WebOAuthSecurityConfig {
 
     private final OAuth2UserCustomService oAuth2UserCustomService;
@@ -56,8 +57,10 @@ public class WebOAuthSecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/place")) // 이 요청도 허용
                         .permitAll() // 인증 없이 접근 허용
                         .requestMatchers(new AntPathRequestMatcher("/api/images/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated() // 나머지 API는 인증 필요
-                        .anyRequest().permitAll()) // 나머지 요청은 허용
+                        .requestMatchers("/api/oauth2/**").permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/login")).permitAll() // 나머지 API는 인증 필요
+                        .requestMatchers("/").permitAll()
+                        .anyRequest().authenticated()) // 나머지 요청은 허용
                 .oauth2Login(oauth2 -> oauth2.loginPage("/login")
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository()))
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oAuth2UserCustomService))
