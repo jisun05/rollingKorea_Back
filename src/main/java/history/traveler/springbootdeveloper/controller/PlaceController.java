@@ -25,6 +25,6 @@ public class PlaceController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/place")
     public List<Place> getPlaces(@RequestParam String region) {
-        return placeService.getPlacesByRegion(region); // 지역에 따른 장소 반환
+        return placeService.getPlacesByRegion(region);
     }
 }

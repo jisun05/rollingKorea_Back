@@ -33,4 +33,10 @@ public class UserService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
     }
+
+    public User authenticate(String email, String password) {
+        return userRepository.findByEmail(email)
+                .filter(user -> new BCryptPasswordEncoder().matches(password, user.getPassword()))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+    }
 }
