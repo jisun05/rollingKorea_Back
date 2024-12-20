@@ -12,7 +12,7 @@ import java.io.File;
 
     @RestController
     public class ImageController {
-        private final String imagePath = "C:/Traveler/imgKorea/";
+        private final String imagePath = "D:/Traveler/imgKorea/";
 
         @GetMapping("/api/images/{imageName}")
         public ResponseEntity<FileSystemResource> getImage(@PathVariable String imageName) {
