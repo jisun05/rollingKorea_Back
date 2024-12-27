@@ -1,86 +1,46 @@
 package history.traveler.springbootdeveloper.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 
-import java.util.Collection;
-import java.util.List;
 
+import java.sql.Timestamp;
 
-@Table(name ="users")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 @Entity
-public class User implements UserDetails {
-
+@Getter
+@NoArgsConstructor
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
-    private Long id;
-
-
-
-    @Column(name = "email", nullable = false, unique = true)
+    private long id;
+    private String username;
     private String email;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "nickname", unique = true)
-    private String nickname;
+    private int enabled;
+    private String role;
+    private Timestamp createDate;
+    // 구글, 네이버, 자체 로그인 정보 저장
+    private String provider;
+    private String providerId;
 
     @Builder
-    public User(String email, String password, String nickname){
+    public User(String username, String email, String password, int enabled, String role,
+                String provider, String providerId, Timestamp createDate) {
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.nickname = nickname;
+        this.enabled = enabled;
+        this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.createDate = createDate;
     }
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("user"));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-
-    public User update(String nickname){
-        this.nickname = nickname;
-
-        return this;
-    }
 
 }
