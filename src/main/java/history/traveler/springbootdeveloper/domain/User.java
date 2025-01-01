@@ -1,5 +1,6 @@
 package history.traveler.springbootdeveloper.domain;
 
+import com.nimbusds.oauth2.sdk.TokenIntrospectionSuccessResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,13 +8,16 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
+import lombok.Setter;
+
 
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class User {
     @Id
@@ -22,16 +26,17 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private int enabled;
+    private boolean enabled;
     private String role;
-    private Timestamp createDate;
-    // 구글, 네이버, 자체 로그인 정보 저장
+    private LocalDateTime createDate;
     private String provider;
     private String providerId;
+    private String nickname;
 
     @Builder
-    public User(String username, String email, String password, int enabled, String role,
-                String provider, String providerId, Timestamp createDate) {
+    // 모든 필드를 포함하는 생성자
+    public User(String username, String email, String password, boolean enabled, String role,
+                String provider, String providerId, LocalDateTime createDate, String nickname) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -40,7 +45,13 @@ public class User {
         this.provider = provider;
         this.providerId = providerId;
         this.createDate = createDate;
+        this.nickname = nickname;
     }
 
+
+    public User update(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
 
 }
