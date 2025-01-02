@@ -1,9 +1,6 @@
 package history.traveler.springbootdeveloper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import history.traveler.springbootdeveloper.domain.Article;
-import history.traveler.springbootdeveloper.dto.AddArticleRequest;
-import history.traveler.springbootdeveloper.dto.ArticleResponse;
 import history.traveler.springbootdeveloper.dto.UpdateArticleRequest;
 import history.traveler.springbootdeveloper.repository.LogRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +18,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

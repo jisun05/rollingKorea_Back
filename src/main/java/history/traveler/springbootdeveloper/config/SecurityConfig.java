@@ -45,8 +45,11 @@ public class SecurityConfig {
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize // authorizeRequests() 대체
                         .requestMatchers("/api/token").permitAll()
+                        .requestMatchers("/api/place").permitAll()
+                        .requestMatchers("/api/images/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
+
                 )
                 .oauth2Login(oauth2 -> oauth2 // OAuth2 로그인 설정
                         .loginPage("/login") // 로그인 페이지 URL

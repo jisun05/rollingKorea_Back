@@ -4,18 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="update login v.0.0.3">
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/PrincipalOauth2UserService.java" afterDir="false" />
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="update login v.0.0.4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2AuthorizationRequestBasedOnCookieRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2AuthorizationRequestBasedOnCookieRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2SuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2SuccessHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/UserApiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/WebOAuthSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/ImageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/LogApiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/LogViewController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/UserViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/UserViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/UserDetailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/oauthLogin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/Article.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/AddArticleRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleListViewResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleViewResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/UpdateArticleRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/LogRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/LogService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/article.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/token.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/article.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/articleList.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/newArticle.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/LogApiControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/LogApiControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -438,6 +448,8 @@
       <workItem from="1734676623353" duration="1595000" />
       <workItem from="1734678994239" duration="2369000" />
       <workItem from="1734683936813" duration="1374000" />
+      <workItem from="1735726944429" duration="250000" />
+      <workItem from="1735803591665" duration="3363000" />
     </task>
     <task id="LOCAL-00001" summary="change imagePath, redownload settings">
       <option name="closed" value="true" />
@@ -447,7 +459,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734676100537</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="update login v.0.0.4">
+      <option name="closed" value="true" />
+      <created>1735727019521</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1735727019521</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -467,7 +487,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="readme" />
     <MESSAGE value="change imagePath, redownload settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="change imagePath, redownload settings" />
+    <MESSAGE value="update login v.0.0.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="update login v.0.0.4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -479,7 +500,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/LogApiControllerTest.java</url>
-          <line>164</line>
+          <line>160</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

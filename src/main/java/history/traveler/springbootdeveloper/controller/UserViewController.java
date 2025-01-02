@@ -25,8 +25,8 @@ public class UserViewController {
 
     private final UserService userService;
     private final TokenProvider tokenProvider;
-    private final PasswordEncoder passwordEncoder; // PasswordEncoder 주입
-    private final UserRepository userRepository; // UserRepository 주입
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     public UserViewController(UserService userService, TokenProvider tokenProvider, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.userService = userService;
@@ -34,28 +34,6 @@ public class UserViewController {
         this.passwordEncoder = passwordEncoder; // PasswordEncoder 초기화
         this.userRepository = userRepository; // UserRepository 초기화
     }
-
-//    @CrossOrigin(origins = "http://localhost:3000")
-//    @PostMapping("/googleLoginUrl")
-//    public ResponseEntity<?> login(@RequestBody AddUserRequest addUserRequest) {
-//        // 사용자 인증 로직
-//        String email = addUserRequest.getEmail();
-//        String password = addUserRequest.getPassword();
-//        log.info("email = " + email + "CHECK /googleLoginUrl");
-//
-//        // 사용자 인증
-//        User user = userService.authenticate(email, password);
-//        if (user == null) {
-//            // 인증 실패 시 401 Unauthorized 반환
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 잘못된 이메일 또는 비밀번호입니다.");
-//        }
-//
-//        // JWT 토큰 생성
-//        String token = tokenProvider.generateToken(user, Duration.ofHours(1)); // 1시간 유효한 토큰 생성
-//
-//        // 성공 시 JWT 토큰 반환
-//        return ResponseEntity.ok(new CreateAccessTokenResponse(token));
-//    }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/googleLoginUrl")
