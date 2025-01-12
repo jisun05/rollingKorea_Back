@@ -4,15 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="delete and reorganise login v.0.0.5">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="reorganise project v.0.0.1">
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/LoggingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/util/LoggingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/TokenAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/TokenAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/jwt/TokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/TokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2AuthorizationRequestBasedOnCookieRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/OAuth2AuthorizationRequestBasedOnCookieRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2SuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/OAuth2SuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/oauth/OAuth2UserCustomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/OAuth2UserCustomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/place/ImageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/PlaceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/place/PlaceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/TokenApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/TokenApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/UserViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/user/UserViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/GoogleUserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/GoogleUserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/OAuth2UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/OAuth2UserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/Place.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/place/Place.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/RefreshToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/RefreshToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/AddUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/user/AddUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/CreateAccessTokenRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/CreateAccessTokenRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/CreateAccessTokenResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/CreateAccessTokenResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/PlaceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/place/PlaceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/RefreshTokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/RefreshTokenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/user/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/PlaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/place/PlaceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/PrincipalOauth2UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/PrincipalOauth2UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/RefreshTokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/RefreshTokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/oauth/token/TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/config/jwt/TokenProviderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/config/jwt/TokenProviderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/TokenApiControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/TokenApiControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -462,7 +483,7 @@
       <workItem from="1736507079182" duration="3152000" />
       <workItem from="1736666991962" duration="407000" />
       <workItem from="1736688005390" duration="1609000" />
-      <workItem from="1736715131136" duration="676000" />
+      <workItem from="1736715131136" duration="1631000" />
     </task>
     <task id="LOCAL-00001" summary="change imagePath, redownload settings">
       <option name="closed" value="true" />
@@ -488,7 +509,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735807005273</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="reorganise project v.0.0.1">
+      <option name="closed" value="true" />
+      <created>1736716038168</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736716038168</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -510,7 +539,8 @@
     <MESSAGE value="change imagePath, redownload settings" />
     <MESSAGE value="update login v.0.0.4" />
     <MESSAGE value="delete and reorganise login v.0.0.5" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete and reorganise login v.0.0.5" />
+    <MESSAGE value="reorganise project v.0.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="reorganise project v.0.0.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

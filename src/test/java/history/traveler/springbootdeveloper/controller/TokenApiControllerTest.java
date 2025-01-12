@@ -2,12 +2,12 @@ package history.traveler.springbootdeveloper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import history.traveler.springbootdeveloper.config.jwt.JwtFactory;
-import history.traveler.springbootdeveloper.config.jwt.JwtProperties;
-import history.traveler.springbootdeveloper.domain.RefreshToken;
-import history.traveler.springbootdeveloper.domain.User;
-import history.traveler.springbootdeveloper.dto.CreateAccessTokenRequest;
-import history.traveler.springbootdeveloper.repository.RefreshTokenRepository;
-import history.traveler.springbootdeveloper.repository.UserRepository;
+import history.traveler.springbootdeveloper.login.oauth.token.JwtProperties;
+import history.traveler.springbootdeveloper.login.oauth.token.RefreshToken;
+import history.traveler.springbootdeveloper.user.User;
+import history.traveler.springbootdeveloper.login.oauth.token.CreateAccessTokenRequest;
+import history.traveler.springbootdeveloper.login.oauth.token.RefreshTokenRepository;
+import history.traveler.springbootdeveloper.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

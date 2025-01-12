@@ -1,5 +1,6 @@
 package history.traveler.springbootdeveloper.config.jwt;
 
+import history.traveler.springbootdeveloper.login.oauth.token.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -7,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.Duration;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;

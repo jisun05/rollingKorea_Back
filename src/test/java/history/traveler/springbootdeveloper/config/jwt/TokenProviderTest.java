@@ -1,8 +1,10 @@
 package history.traveler.springbootdeveloper.config.jwt;
 
 
-import history.traveler.springbootdeveloper.domain.User;
-import history.traveler.springbootdeveloper.repository.UserRepository;
+import history.traveler.springbootdeveloper.login.oauth.token.JwtProperties;
+import history.traveler.springbootdeveloper.login.oauth.token.TokenProvider;
+import history.traveler.springbootdeveloper.user.User;
+import history.traveler.springbootdeveloper.user.UserRepository;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
