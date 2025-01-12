@@ -1,12 +1,14 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.1'
-    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'history.traveler'
 version = '1.0'
-sourceCompatibility = '17'
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
 
 repositories {
     mavenCentral()
@@ -15,7 +17,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     //spring data JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -28,14 +30,14 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     //about security
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
-    implementation 'javax.validation:validation-api:2.0.1.Final' // 또는 최신 버전
-    implementation 'org.hibernate.validator:hibernate-validator:6.0.13.Final' // 또는 최신 버전
-    implementation 'org.glassfish:javax.el:3.0.0' // 또는 최신 버전
+    //implementation 'javax.validation:validation-api:2.0.1.Final' // 또는 최신 버전
+    //implementation 'org.hibernate.validator:hibernate-validator:6.0.13.Final' // 또는 최신 버전
+    //implementation 'org.glassfish:javax.el:3.0.0' // 또는 최신 버전
 
 }
 

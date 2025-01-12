@@ -4,28 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="update login v.0.0.4">
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="delete and reorganise login v.0.0.5">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/config/WebOAuthSecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/ImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/ImageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/LogApiController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/LogViewController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/UserViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/controller/UserViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/domain/Article.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/AddArticleRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleListViewResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/ArticleViewResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/dto/UpdateArticleRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/repository/LogRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/springbootdeveloper/service/LogService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/article.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/token.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/article.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/articleList.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/newArticle.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/LogApiControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/history/traveler/springbootdeveloper/controller/LogApiControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +36,11 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="history-traveler" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="history-traveler" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
               </path>
             </expand>
             <select />
@@ -92,6 +84,16 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="corretto-21" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="corretto-21" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -106,12 +108,14 @@
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
     &quot;Gradle.Build history-traveler.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Build rollingKorea_Back.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Building Gradle Dependencies.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.LogApiControllerTest.addArticle.executor&quot;: &quot;Debug&quot;,
     &quot;Gradle.LogApiControllerTest.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.LogApiControllerTest.updateArticle.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.LogServiceTest.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.TokenApiControllerTest.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.TokenProviderTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Upgrade Gradle wrapper.executor&quot;: &quot;Run&quot;,
     &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
     &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
     &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
@@ -136,7 +140,10 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;C:/Traveler/history-traveler/src/main/java/history/traveler/Main.java&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.archetype.catalogs&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -449,7 +456,13 @@
       <workItem from="1734678994239" duration="2369000" />
       <workItem from="1734683936813" duration="1374000" />
       <workItem from="1735726944429" duration="250000" />
-      <workItem from="1735803591665" duration="3363000" />
+      <workItem from="1735803591665" duration="3441000" />
+      <workItem from="1736056040911" duration="2150000" />
+      <workItem from="1736225918790" duration="618000" />
+      <workItem from="1736507079182" duration="3152000" />
+      <workItem from="1736666991962" duration="407000" />
+      <workItem from="1736688005390" duration="1609000" />
+      <workItem from="1736715131136" duration="676000" />
     </task>
     <task id="LOCAL-00001" summary="change imagePath, redownload settings">
       <option name="closed" value="true" />
@@ -467,7 +480,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735727019521</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="delete and reorganise login v.0.0.5">
+      <option name="closed" value="true" />
+      <created>1735807005273</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1735807005273</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -488,7 +509,8 @@
     <MESSAGE value="readme" />
     <MESSAGE value="change imagePath, redownload settings" />
     <MESSAGE value="update login v.0.0.4" />
-    <option name="LAST_COMMIT_MESSAGE" value="update login v.0.0.4" />
+    <MESSAGE value="delete and reorganise login v.0.0.5" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete and reorganise login v.0.0.5" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
