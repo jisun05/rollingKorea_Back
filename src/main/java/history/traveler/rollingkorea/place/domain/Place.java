@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 
 @Getter
 @Entity
@@ -16,28 +18,26 @@ import lombok.Setter;
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "placeName", nullable = false)
+    @Column(name = "place_id")
+    private Long placeId;
+    @Column(name = "place_name", nullable = false)
     private String placeName;
 
-    @Column(name = "website")
     private String website; // 장소 관련 공식 홈페이지
-
-    @Column(name = "latitude")
     private double latitude; // 장소의 위도
-
-    @Column(name = "longitude")
     private double longitude; // 장소의 경도
 
-    @Column(name = "imagePath")
+    @Column(name = "image_path")
     @Setter
     private String imagePath; // 장소의 대표 이미지
-
-    @Column(name = "region")
     private String region;
 
-    @Column(name = "whichDay")
-    private String whichDay;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "count_like")
+    private String countLike;
 }

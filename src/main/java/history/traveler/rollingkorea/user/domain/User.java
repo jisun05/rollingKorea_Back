@@ -12,51 +12,50 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor //기본생성자 자동생성
 
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
     @Column(name = "user_email")
     private String email;
     @Column(name = "user_name")
     private String userName;
-    @Column(name = "nick_name")
-    private String nickName;
+
+    private String nickname;
     private String password;
     @Column(name = "provider_id")
     private String providerId;
     private String enabled;
-    @Column(name = "create_date")
-    private LocalDateTime createDate;
-    @Column(name = "update_date")
-    private LocalDateTime updateDate;
-    @Column(name = "delete_date")
-    private LocalDateTime deleteDate;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     @Builder
-    //모든 필드를 받는 생성자
-    public User(String userId, String email, String userName, String nickName, String password, String providerId, String enabled, LocalDateTime createDate, LocalDateTime updateDate, LocalDateTime deleteDate) {
+    //모든 필드를 받는 생성자, 빌더패턴은 매개변수를 순서에 상관없이 설정할 수 있음
+    public User(Long userId, String email, String userName, String nickname, String password, String providerId, String enabled, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.userId = userId;
         this.email = email;
         this.userName = userName;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.password = password;
         this.providerId = providerId;
         this.enabled = enabled;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.deleteDate = deleteDate;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
 
 
 
-    public User update(String nickName) {
-        this.nickName = nickName;
+    public User update(String nickname) {
+        this.nickname = nickname;
         return this;
     }
 
