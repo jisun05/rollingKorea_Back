@@ -1,7 +1,6 @@
-package history.traveler.rollingkorea.analyst.domain;
+package history.traveler.rollingkorea.user.domain;
 
 
-import history.traveler.rollingkorea.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
