@@ -1,5 +1,4 @@
 package history.traveler.rollingkorea.comment.domain;
-
 import history.traveler.rollingkorea.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,7 +37,7 @@ public class Reply {
 
     private String content;
     private String nickname;
-    private Long like;
+    private Long likes;
 
 
     @Column(name = "created_at")

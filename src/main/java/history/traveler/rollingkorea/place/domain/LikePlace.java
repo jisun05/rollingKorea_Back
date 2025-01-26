@@ -4,17 +4,14 @@ package history.traveler.rollingkorea.place.domain;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "LIKE_PLACE")
-@Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //상속받은 서브클래스에서만 기본 생성자를 사용할 수 있도록 제한=>외부에서 직접 인스턴스를 생성하는 것을 방지
 public class LikePlace {
 
 
@@ -27,10 +24,15 @@ public class LikePlace {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @ManyToOne //LIKE_PLACE는 여러 개가 하나의 COMMENT에 속할 수 있는 관계
-    @JoinColumn(name = "comment_id", referencedColumnName = "comment_id", insertable = false, updatable = false)
-    private Comment comment;
-
-
+    @Builder  //빌더패턴으로 생성자 생성
+    //모든 필드를 한 번에 설정할 필요가 없고, 필요한 필드만 설정하여 객체를 생성 가능
+    //JPA 엔티티에서 기본 생성자는 필요하지만, 필드가 많은 경우 빌더 패턴을 통해 객체를 생성하는 것이  편리
+    public LikePlace(Long likePlaceId, User user, LocalDateTime createdAt) {
+        this.likePlaceId = likePlaceId;
+        this.user = user;
+        this.createdAt = createdAt;
+    }
 }

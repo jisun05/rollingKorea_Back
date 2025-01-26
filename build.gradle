@@ -44,6 +44,9 @@ dependencies {
     //유연한 XML 처리: JAXB는 XML 문서의 구조가 변경시 유연한 대응 가능
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
+
+
+
     //테스트의존성 주입 ex)JUnit: 단위 테스트 및 통합 테스트를 작성에 사용,Spring Test:테스트 유틸리티를 제공하여 Spring 컴포넌트를 테스트,Mockito:의존성을 주입하여 테스트를 보다 유연하게 작성
     //AssertJ:테스트에서 assertion 보다 읽기 쉽고 강력하게 만들어줌. JSONPath: JSON 데이터를 쉽게 검증할 수 있도록 함
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -68,7 +71,7 @@ dependencies {
 
 
 
-    //implementation 'javax.validation:validation-api:2.0.1.Final' // 또는 최신 버전
+    implementation 'javax.validation:validation-api:2.0.1.Final' // 또는 최신 버전
     //implementation 'org.hibernate.validator:hibernate-validator:6.0.13.Final' // 또는 최신 버전
     //implementation 'org.glassfish:javax.el:3.0.0' // 또는 최신 버전
 

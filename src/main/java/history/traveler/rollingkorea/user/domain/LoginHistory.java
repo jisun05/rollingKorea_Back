@@ -2,16 +2,25 @@ package history.traveler.rollingkorea.user.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 @Getter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //상속받은 서브클래스에서만 기본 생성자를 사용할 수 있도록 제한=>외부에서 직접 인스턴스를 생성하는 것을 방지
 @Table(name = "LOGIN_HISTORY")
 public class LoginHistory {
 
@@ -39,5 +48,13 @@ public class LoginHistory {
     @Column(name = "try_num")
     private String tryNum;
 
-
+    @Builder
+    public LoginHistory(Long loginHistoryId, User user, LocalDateTime loginDate, LocalDateTime loginTime, String ipAddress, String tryNum) {
+        this.loginHistoryId = loginHistoryId;
+        this.user = user;
+        this.loginDate = loginDate;
+        this.loginTime = loginTime;
+        this.ipAddress = ipAddress;
+        this.tryNum = tryNum;
+    }
 }

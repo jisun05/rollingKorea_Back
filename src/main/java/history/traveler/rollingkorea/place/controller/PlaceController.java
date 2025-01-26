@@ -22,7 +22,7 @@ public class PlaceController {
 
     private final PlaceService placeService;
     private final String imagePath = "D:/Traveler/imgKorea/";
-    private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PlaceController.class);
 
     public PlaceController(PlaceService placeService) {
         this.placeService = placeService;

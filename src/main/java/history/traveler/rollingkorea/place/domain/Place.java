@@ -2,19 +2,15 @@ package history.traveler.rollingkorea.place.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 
 @Getter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "place")
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //상속받은 서브클래스에서만 기본 생성자를 사용할 수 있도록 제한=>외부에서 직접 인스턴스를 생성하는 것을 방지
+@Table(name = "PLACE")
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +27,21 @@ public class Place {
     @Setter
     private String imagePath; // 장소의 대표 이미지
     private String region;
+
+
+    @Builder
+    public Place(Long placeId, String placeName, String website, double latitude, double longitude, String imagePath, String region, LocalDateTime createdAt, LocalDateTime updatedAt, String countLike) {
+        this.placeId = placeId;
+        this.placeName = placeName;
+        this.website = website;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.imagePath = imagePath;
+        this.region = region;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.countLike = countLike;
+    }
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
