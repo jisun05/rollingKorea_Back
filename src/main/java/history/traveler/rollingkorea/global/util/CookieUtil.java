@@ -1,4 +1,4 @@
-package history.traveler.rollingkorea.global.config.util;
+package history.traveler.rollingkorea.global.util;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

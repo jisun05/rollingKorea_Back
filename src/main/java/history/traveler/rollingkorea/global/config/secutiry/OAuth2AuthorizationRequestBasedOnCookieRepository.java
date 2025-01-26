@@ -1,6 +1,6 @@
 package history.traveler.rollingkorea.global.config.secutiry;
 
-import history.traveler.rollingkorea.global.config.util.CookieUtil;
+import history.traveler.rollingkorea.global.util.CookieUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="add Entity and rename field V0.0.2" />
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="add Entity and rename field V0.0.3">
+      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/article/domain/ContactUs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Reply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Reply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2AuthorizationRequestBasedOnCookieRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2AuthorizationRequestBasedOnCookieRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2SuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2SuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2UserCustomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2UserCustomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/RefreshToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/RefreshToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/RefreshTokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/RefreshTokenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/util/CookieUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/util/CookieUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/util/LoggingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/util/LoggingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/ImageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/PlaceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/PlaceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/repository/PlaceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/repository/PlaceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/PlaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/PlaceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/rank/domain/Rank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/ranking/domain/Ranking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/controller/UserViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/controller/UserViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/service/UserService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,17 +44,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="history-traveler" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="history-traveler" type="f1a62948:ProjectNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -476,7 +487,10 @@
       <workItem from="1737790164095" duration="937000" />
       <workItem from="1737796910993" duration="53000" />
       <workItem from="1737802938982" duration="811000" />
-      <workItem from="1737816084235" duration="3971000" />
+      <workItem from="1737816084235" duration="6104000" />
+      <workItem from="1737822356256" duration="632000" />
+      <workItem from="1737867867205" duration="4194000" />
+      <workItem from="1737879034342" duration="3247000" />
     </task>
     <task id="LOCAL-00001" summary="change imagePath, redownload settings">
       <option name="closed" value="true" />
@@ -550,7 +564,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737819644234</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add Entity and rename field V0.0.3">
+      <option name="closed" value="true" />
+      <created>1737820337688</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1737820337688</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -578,7 +600,8 @@
     <MESSAGE value="reorganise and rename structure v.0.0.3" />
     <MESSAGE value="add Entity and rename field V0.0.1" />
     <MESSAGE value="add Entity and rename field V0.0.2" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Entity and rename field V0.0.2" />
+    <MESSAGE value="add Entity and rename field V0.0.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="add Entity and rename field V0.0.3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

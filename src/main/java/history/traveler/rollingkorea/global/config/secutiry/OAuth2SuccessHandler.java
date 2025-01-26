@@ -6,7 +6,7 @@ import history.traveler.rollingkorea.global.config.secutiry.token.RefreshToken;
 import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.global.config.secutiry.token.RefreshTokenRepository;
 import history.traveler.rollingkorea.user.service.UserService;
-import history.traveler.rollingkorea.global.config.util.CookieUtil;
+import history.traveler.rollingkorea.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
-    private void saveRefreshToken(String userId, String newRefreshToken){
+    private void saveRefreshToken(Long userId, String newRefreshToken){
         RefreshToken refreshToken = refreshTokenRepository.findByUserId(userId)
                 .map(entity -> entity.update(newRefreshToken))
                 .orElse(new RefreshToken(userId,newRefreshToken));

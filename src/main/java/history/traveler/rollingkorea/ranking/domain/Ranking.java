@@ -1,4 +1,4 @@
-package history.traveler.rollingkorea.rank.domain;
+package history.traveler.rollingkorea.ranking.domain;
 
 
 import jakarta.persistence.*;
@@ -8,10 +8,10 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "RANK")
+@Table(name = "Ranking")
 @Setter
 @Getter
-public class Rank {
+public class Ranking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class Rank {
     private Long placeId;
 
     @Column
-    private String rank;
+    private String position;
 
     @Column(name = "count_like")
     private String countLike;

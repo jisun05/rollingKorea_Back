@@ -20,7 +20,7 @@ public class TokenService {
             throw new IllegalArgumentException("unexpected token");
         }
 
-        String userId = refreshTokenService.findByRefreshToken(refreshToken).getUserId();
+        Long userId = refreshTokenService.findByRefreshToken(refreshToken).getUserId();
         User user = userService.findById(userId);
 
         return tokenProvider.generateToken(user, Duration.ofDays(2));

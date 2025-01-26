@@ -28,12 +28,12 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
     private User saveOrUpdate(OAuth2User oAuth2User){
         Map<String, Object> attributes = oAuth2User.getAttributes();
         String email = (String) attributes.get("email");
-        String nickName = (String) attributes.get("nickName");
+        String nickname = (String) attributes.get("nickname");
         User user = userRepository.findByEmail(email)
-                .map(entity -> entity.update(nickName))
+                .map(entity -> entity.update(nickname))
                 .orElse(User.builder()
                         .email(email)
-                        .nickName(nickName)
+                        .nickname(nickname)
                         .build());
         return userRepository.save(user);
     }

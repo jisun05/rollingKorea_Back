@@ -8,9 +8,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 
-@Entity
-@Table(name = "COMMENT")
-@Getter
+@Entity// 이 클래스가 JPA 엔티티임을 나타냄
+@Table(name = "COMMENT")  // 데이터베이스의 COMMENT 테이블과 매핑
+@Getter // Lombok을 사용하여 getter 메서드를 자동 생성
 @Setter
 public class Comment {
 
@@ -33,6 +33,6 @@ public class Comment {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    private Long like;
+    private Long likes;
 
 }

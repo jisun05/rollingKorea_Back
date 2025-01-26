@@ -15,7 +15,7 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public String save(AddUserRequest dto){
+    public Long save(AddUserRequest dto){
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return userRepository.save(User.builder()
@@ -24,7 +24,7 @@ public class UserService {
                 .build()).getUserId();
     }
 
-    public User findById(String userId){
+    public User findById(Long userId){
         return userRepository.findById(Long.valueOf(userId))  //userId 타입 문제 더 봐야함
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
     }

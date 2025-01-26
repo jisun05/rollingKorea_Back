@@ -1,4 +1,5 @@
 package history.traveler.rollingkorea.user.controller;
+
 import history.traveler.rollingkorea.global.config.secutiry.token.CreateAccessTokenResponse;
 import history.traveler.rollingkorea.global.config.secutiry.token.TokenProvider;
 import history.traveler.rollingkorea.user.domain.AddUserRequest;
@@ -37,7 +38,7 @@ public class UserViewController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/googleLoginUrl")
-    public ResponseEntity<?> login(@RequestBody AddUserRequest addUserRequest) {
+    public ResponseEntity<CreateAccessTokenResponse> login(@RequestBody AddUserRequest addUserRequest) {
         // 사용자 인증 로직
         String email = addUserRequest.getEmail();
         String password = addUserRequest.getPassword();
@@ -47,7 +48,7 @@ public class UserViewController {
         User user = userService.authenticate(email, password);
         if (user == null) {
             // 인증 실패 시 401 Unauthorized 반환
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 잘못된 이메일 또는 비밀번호입니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
         // JWT 토큰 생성
@@ -56,9 +57,9 @@ public class UserViewController {
         // 성공 시 JWT 토큰 반환
         return ResponseEntity.ok(new CreateAccessTokenResponse(token));
     }
+
     @PostMapping("/join")
     public String join(User user) {
-        System.out.println("user = " + user);
         user.setEnabled("ROLE_USER");
         String rawPassword = user.getPassword();
         String encPassword = passwordEncoder.encode(rawPassword);
@@ -68,7 +69,7 @@ public class UserViewController {
     }
 
     @PostMapping("/user")
-    public String signup(AddUserRequest request){
+    public String signup(AddUserRequest request) {
         userService.save(request);
         return "redirect:/";
     }
@@ -79,6 +80,4 @@ public class UserViewController {
                 SecurityContextHolder.getContext().getAuthentication());
         return "redirect:/";
     }
-
-
 }
