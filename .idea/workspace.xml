@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="make User entity ,dto, service, controller v0.01" />
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="rename article package v0.01">
+      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/Image.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/Place.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/Place.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -566,7 +570,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737970407056</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="rename article package v0.01">
+      <option name="closed" value="true" />
+      <created>1737970927317</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1737970927317</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -597,7 +609,8 @@
     <MESSAGE value="add Entity and rename field V0.0.5" />
     <MESSAGE value="add Entity and rename field V0.0.6" />
     <MESSAGE value="make User entity ,dto, service, controller v0.01" />
-    <option name="LAST_COMMIT_MESSAGE" value="make User entity ,dto, service, controller v0.01" />
+    <MESSAGE value="rename article package v0.01" />
+    <option name="LAST_COMMIT_MESSAGE" value="rename article package v0.01" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
