@@ -1,4 +1,4 @@
-package history.traveler.rollingkorea.article.domain;
+package history.traveler.rollingkorea.question.domain;
 
 
 import history.traveler.rollingkorea.user.domain.User;

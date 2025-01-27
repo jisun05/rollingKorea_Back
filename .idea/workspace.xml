@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="add Entity and rename field V0.0.6">
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/security/JwtTokenDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/controller/response/UserResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/service/Implementation/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2AuthorizationRequestBasedOnCookieRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2SuccessHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/OAuth2UserCustomService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/RefreshToken.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/RefreshTokenRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/config/secutiry/token/TokenService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/controller/UserViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/controller/UserViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/service/UserService.java" afterDir="false" />
-    </list>
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="make User entity ,dto, service, controller v0.01" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -571,7 +558,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737965838063</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="make User entity ,dto, service, controller v0.01">
+      <option name="closed" value="true" />
+      <created>1737970407056</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1737970407056</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -601,7 +596,8 @@
     <MESSAGE value="add Entity and rename field V0.0.2" />
     <MESSAGE value="add Entity and rename field V0.0.5" />
     <MESSAGE value="add Entity and rename field V0.0.6" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Entity and rename field V0.0.6" />
+    <MESSAGE value="make User entity ,dto, service, controller v0.01" />
+    <option name="LAST_COMMIT_MESSAGE" value="make User entity ,dto, service, controller v0.01" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
