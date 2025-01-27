@@ -1,7 +1,7 @@
 package history.traveler.rollingkorea.user.service;
 
 
-import history.traveler.rollingkorea.user.controller.request.UserSignupRequest;
+import history.traveler.rollingkorea.user.domain.AddUserRequest;
 import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,27 +15,27 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public Long save(UserSignupRequest dto){
+    public String save(AddUserRequest dto){
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return userRepository.save(User.builder()
-                .loginId(dto.loginId())
-                .password(encoder.encode(dto.password()))
+                .email(dto.getEmail())
+                .password(encoder.encode(dto.getPassword()))
                 .build()).getUserId();
     }
 
-    public User findById(Long userId){
+    public User findById(String userId){
         return userRepository.findById(Long.valueOf(userId))  //userId 타입 문제 더 봐야함
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
     }
 
-    public User findByEmail(String loginId){
-        return userRepository.findByLoginId(loginId)
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
     }
 
-    public User authenticate(String loginId, String password) {
-        return userRepository.findByLoginId(loginId)
+    public User authenticate(String email, String password) {
+        return userRepository.findByEmail(email)
                 .filter(user -> new BCryptPasswordEncoder().matches(password, user.getPassword()))
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
     }
