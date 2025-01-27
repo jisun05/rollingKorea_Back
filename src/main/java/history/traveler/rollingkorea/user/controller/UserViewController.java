@@ -1,84 +1,95 @@
 package history.traveler.rollingkorea.user.controller;
-import history.traveler.rollingkorea.global.config.secutiry.token.CreateAccessTokenResponse;
-import history.traveler.rollingkorea.global.config.secutiry.token.TokenProvider;
-import history.traveler.rollingkorea.user.domain.AddUserRequest;
-import history.traveler.rollingkorea.user.domain.User;
-import history.traveler.rollingkorea.user.repository.UserRepository;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import history.traveler.rollingkorea.global.config.security.JwtTokenDto;
+import history.traveler.rollingkorea.user.controller.request.LoginRequest;
+import history.traveler.rollingkorea.user.controller.request.UserEditRequest;
+import history.traveler.rollingkorea.user.controller.request.UserSignupRequest;
+import history.traveler.rollingkorea.user.controller.response.UserResponse;
 import history.traveler.rollingkorea.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@Controller
+@RequiredArgsConstructor //클래스의 모든 final 필드와 @NonNull로 표시된 필드를 매개변수로 받는 생성자를 자동으로 생성
+@RequestMapping("/api")
 public class UserViewController {
 
     private final UserService userService;
-    private final TokenProvider tokenProvider;
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
-    public UserViewController(UserService userService, TokenProvider tokenProvider, PasswordEncoder passwordEncoder, UserRepository userRepository) {
-        this.userService = userService;
-        this.tokenProvider = tokenProvider;
-        this.passwordEncoder = passwordEncoder; // PasswordEncoder 초기화
-        this.userRepository = userRepository; // UserRepository 초기화
+//
+//    @CrossOrigin(origins = "http://localhost:3000")
+//    @PostMapping("/googleLoginUrl")
+//    public ResponseEntity<?> login(@RequestBody AddUserRequest addUserRequest) {
+//        // 사용자 인증 로직
+//        String email = addUserRequest.getEmail();
+//        String password = addUserRequest.getPassword();
+//        log.info("email = " + email + "CHECK /googleLoginUrl");
+//
+//        // 사용자 인증
+//        User user = userService.authenticate(email, password);
+//        if (user == null) {
+//            // 인증 실패 시 401 Unauthorized 반환
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 잘못된 이메일 또는 비밀번호입니다.");
+//        }
+//
+//        // JWT 토큰 생성
+//        String token = tokenProvider.generateToken(user, Duration.ofHours(1)); // 1시간 유효한 토큰 생성
+//
+//        // 성공 시 JWT 토큰 반환
+//        return ResponseEntity.ok(new CreateAccessTokenResponse(token));
+//    }
+
+    //from login
+    @PostMapping("/user/login")
+    @ResponseStatus(HttpStatus.OK)
+    public JwtTokenDto login(@RequestBody LoginRequest loginRequest) throws JsonProcessingException {
+        return userService.login(loginRequest);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/googleLoginUrl")
-    public ResponseEntity<?> login(@RequestBody AddUserRequest addUserRequest) {
-        // 사용자 인증 로직
-        String email = addUserRequest.getEmail();
-        String password = addUserRequest.getPassword();
-        log.info("email = " + email + "CHECK /googleLoginUrl");
-
-        // 사용자 인증
-        User user = userService.authenticate(email, password);
-        if (user == null) {
-            // 인증 실패 시 401 Unauthorized 반환
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 잘못된 이메일 또는 비밀번호입니다.");
-        }
-
-        // JWT 토큰 생성
-        String token = tokenProvider.generateToken(user, Duration.ofHours(1)); // 1시간 유효한 토큰 생성
-
-        // 성공 시 JWT 토큰 반환
-        return ResponseEntity.ok(new CreateAccessTokenResponse(token));
-    }
-    @PostMapping("/join")
-    public String join(User user) {
-        System.out.println("user = " + user);
-        user.setEnabled("ROLE_USER");
-        String rawPassword = user.getPassword();
-        String encPassword = passwordEncoder.encode(rawPassword);
-        user.setPassword(encPassword);
-        userRepository.save(user); // 회원가입 잘됨. 비밀번호:1234 => 시큐리티로 로그인을 할 수 없음. 이유는 패스워드가 암호화가 안되었기 때문
-        return "redirect:/loginForm";
-    }
-
-    @PostMapping("/user")
-    public String signup(AddUserRequest request){
-        userService.save(request);
+    //sign up
+    @PostMapping("/user/signup")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String signup(@RequestBody @Valid UserSignupRequest request){
+        userService.userSignup(request);
         return "redirect:/";
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        new SecurityContextLogoutHandler().logout(request, response,
-                SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/";
+    @GetMapping("/members/me")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')") //메서드에 대한 접근 제어를 설정, 사용자가 'USER' 또는 'ADMIN' 역할이여야 접근 가능
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponse findByDetailMyInfo() {
+        return userService.findByDetailMyInfo();
     }
+    //edit user
+    @PutMapping("/member")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public void memberEdit(@RequestBody @Valid UserEditRequest userEditRequest) {
+        userService.userEdit(userEditRequest);
+    }
+
+    //withdrawal
+    @DeleteMapping("/member")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public void userDelete() {
+        userService.userDelete();
+    }
+
+//
+//    @GetMapping("/logout")
+//    public String logout(HttpServletRequest request, HttpServletResponse response) {
+//        new SecurityContextLogoutHandler().logout(request, response,
+//                SecurityContextHolder.getContext().getAuthentication());
+//        return "redirect:/";
+//    }
 
 
 }

@@ -1,42 +1,33 @@
 package history.traveler.rollingkorea.user.service;
 
 
-import history.traveler.rollingkorea.user.domain.AddUserRequest;
-import history.traveler.rollingkorea.user.domain.User;
-import history.traveler.rollingkorea.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-@RequiredArgsConstructor
-@Service
-public class UserService {
-
-    private final UserRepository userRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import history.traveler.rollingkorea.global.config.security.JwtTokenDto;
+import history.traveler.rollingkorea.user.controller.request.LoginRequest;
+import history.traveler.rollingkorea.user.controller.request.UserEditRequest;
+import history.traveler.rollingkorea.user.controller.request.UserSignupRequest;
+import history.traveler.rollingkorea.user.controller.response.UserResponse;
 
 
-    public String save(AddUserRequest dto){
+public interface UserService {
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return userRepository.save(User.builder()
-                .email(dto.getEmail())
-                .password(encoder.encode(dto.getPassword()))
-                .build()).getUserId();
-    }
 
-    public User findById(String userId){
-        return userRepository.findById(Long.valueOf(userId))  //userId 타입 문제 더 봐야함
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
-    }
+    // 내정보찾기
+    UserResponse findByDetailMyInfo();
 
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
-    }
+    // 회원생성
+    void userSignup(UserSignupRequest userSignupRequest);
 
-    public User authenticate(String email, String password) {
-        return userRepository.findByEmail(email)
-                .filter(user -> new BCryptPasswordEncoder().matches(password, user.getPassword()))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
-    }
+
+    // 일반 로그인                               //자바 객체 -> JSON 문자열
+    JwtTokenDto login(LoginRequest loginRequest) throws JsonProcessingException;
+
+    // 회원 수정
+    void userEdit(UserEditRequest userEditRequest);
+
+    // 회원 삭제
+    void userDelete();
+
+    // 로그인 히스토리 삭제 스케줄러
+    void schedulerLoginHistoryDeleteCron();
 }
