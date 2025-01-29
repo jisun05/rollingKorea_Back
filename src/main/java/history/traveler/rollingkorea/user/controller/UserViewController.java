@@ -56,8 +56,8 @@ public class UserViewController {
     //sign up
     @PostMapping("/user/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    public String signup(@RequestBody @Valid UserSignupRequest request){
-        userService.userSignup(request);
+    public String signup(@RequestBody @Valid UserSignupRequest userSignupRequest){
+        userService.userSignup(userSignupRequest);
         return "redirect:/";
     }
 

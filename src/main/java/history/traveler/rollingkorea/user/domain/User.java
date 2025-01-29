@@ -103,9 +103,11 @@ public class User {
     }
 
 
-    //
+    //withdraw
     public void userDelete(){
         this.deletedAt = LocalDateTime.now();
     }
+
+
 
 }

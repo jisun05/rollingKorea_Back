@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="rename article package v0.01">
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/Image.java" afterDir="false" />
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="create image Entity v0.01">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/Place.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/Place.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/controller/UserViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/controller/UserViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/user/domain/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -481,6 +481,8 @@
       <workItem from="1737796910993" duration="53000" />
       <workItem from="1737802938982" duration="811000" />
       <workItem from="1737816084235" duration="3971000" />
+      <workItem from="1737978961022" duration="587000" />
+      <workItem from="1738158289924" duration="1108000" />
     </task>
     <task id="LOCAL-00001" summary="change imagePath, redownload settings">
       <option name="closed" value="true" />
@@ -578,7 +580,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737970927317</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="create image Entity v0.01">
+      <option name="closed" value="true" />
+      <created>1737978855507</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1737978855507</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -610,7 +620,8 @@
     <MESSAGE value="add Entity and rename field V0.0.6" />
     <MESSAGE value="make User entity ,dto, service, controller v0.01" />
     <MESSAGE value="rename article package v0.01" />
-    <option name="LAST_COMMIT_MESSAGE" value="rename article package v0.01" />
+    <MESSAGE value="create image Entity v0.01" />
+    <option name="LAST_COMMIT_MESSAGE" value="create image Entity v0.01" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
