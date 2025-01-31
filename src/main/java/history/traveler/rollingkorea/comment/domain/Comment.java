@@ -1,9 +1,13 @@
 package history.traveler.rollingkorea.comment.domain;
 
+import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
+import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.user.domain.User;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +17,7 @@ import java.util.List;
 @Entity// 이 클래스가 JPA 엔티티임을 나타냄
 @Table(name = "COMMENT")  // 데이터베이스의 COMMENT 테이블과 매핑
 @Getter // Lombok을 사용하여 getter 메서드를 자동 생성
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
 
     @Id //이 엔터티의 기본키, 각 레코드를 고유하게 식별하는데 사용됨,유일성 보장
@@ -38,5 +42,28 @@ public class Comment {
     private LocalDateTime updatedAt;
 
     private Long likes;
+
+    @Builder
+    public Comment(Long userId, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
+
+        this.getUser().setUserId(userId);
+        this.content = content;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    //create comment
+    public static Comment createComment(User user, CommentCreateRequest commentCreateRequest) {
+
+        return Comment.builder()
+                .userId(user.getUserId())
+                .content(commentCreateRequest.content())
+                .build();
+    }
+
+    //edit comment
+    public void editComment(CommentEditRequest commentEditRequest) {
+        this.content = commentEditRequest.content();
+    }
 
 }
