@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     // 날짜 기준으로 코멘트 조회
@@ -19,4 +20,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select r from Comment r where r.user.userId = :userId")
     List<Comment> findByUserId(@Param("userId") Long userId);
 
+    
+    //코멘트id 기준으로 코멘트 찾기
+    @Query("select r from Comment r where r.commentId = :commentId")
+    Optional<Comment> findByCommentId(Long commentId);
 }

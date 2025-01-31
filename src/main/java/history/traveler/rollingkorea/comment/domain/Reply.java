@@ -1,10 +1,8 @@
 package history.traveler.rollingkorea.comment.domain;
+import history.traveler.rollingkorea.comment.controller.request.ReplyCreateRequest;
 import history.traveler.rollingkorea.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -47,5 +45,20 @@ public class Reply {
     private LocalDateTime updatedAt;
 
 
+    @Builder
+    public Reply(User user, Comment comment, String content) {
+        this.user = user;
+        this.comment = comment;
+        this.content = content;
+    }
+
+    // create reply
+    public static Reply createReply(User user, Comment comment, ReplyCreateRequest replyCreateRequest) {
+        return Reply.builder()
+                .user(user)
+                .comment(comment)
+                .content(replyCreateRequest.content())
+                .build();
+    }
 
 }
