@@ -24,7 +24,7 @@ public class Reply {
 
 
     @ManyToOne // Reply는 여러 개가 하나의 User에 속할 수 있는 관계
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     //referencedColumnName = "user_id": 외래 키가 참조하는 엔티티(User) pk 컬럼 이름을 지정
     //insertable = false: 이 컬럼이 삽입(insert) 시에 사용되지 않도록 설정
     //updatable = false: Comment 엔티티 업데이트될 때 user_id 값 변경불가, 처음 설정된 값 유지

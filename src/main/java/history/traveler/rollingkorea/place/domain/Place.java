@@ -6,14 +6,13 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //상속받은 서브클래스에서만 기본 생성자를 사용할 수 있도록 제한=>외부에서 직접 인스턴스를 생성하는 것을 방지
-@Table(name = "PLACE")
+@Table(name = "place")
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +45,9 @@ public class Place {
     @Column(name = "count_like")
     private String countLike;
 
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
+
     @Builder
     public Place(Long placeId, String placeName, String website, double latitude, double longitude, String imagePath, String region, String placeDescription, LocalDateTime createdAt, LocalDateTime updatedAt, String countLike) {
         this.placeId = placeId;
@@ -60,6 +62,5 @@ public class Place {
         this.countLike = countLike;
     }
 
-    @OneToMany(mappedBy = "PLACE", cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
+
 }

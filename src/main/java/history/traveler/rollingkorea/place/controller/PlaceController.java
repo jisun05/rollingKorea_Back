@@ -30,7 +30,7 @@ public class PlaceController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/place")
     public List<Place> getPlaces(@RequestParam String region) {
-        return placeService.getPlacesByRegion(region);
+        return placeService.findByRegion(region);
     }
 
     @GetMapping("/api/images/{imageName}")

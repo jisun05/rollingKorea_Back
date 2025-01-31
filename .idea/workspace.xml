@@ -4,22 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="add Comment,Reply,Image (controller, service) v0.01">
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/response/ReplyResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/CommentRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/ReplyRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/repository/ImageRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/Implementation/PlaceServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/question/repository/ContactUsRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/question/service/ContactUsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/question/service/Implementation/ContactUsServiceImpl.java" afterDir="false" />
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="add Comment,Reply,Image (controller, service) v0.02">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/CommentCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/CommentCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/CommentEditRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/CommentEditRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/ReplyCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/ReplyCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/ReplyEditRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/ReplyEditRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/response/CommentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/response/CommentResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Reply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Reply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/ReplyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/ReplyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/PlaceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/PlaceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/response/PlaceResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/response/PlaceResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/Place.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/Place.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/repository/PlaceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/repository/PlaceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/Implementation/PlaceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/Implementation/PlaceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/PlaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/PlaceService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -497,7 +493,7 @@
       <workItem from="1737978961022" duration="587000" />
       <workItem from="1738158289924" duration="2903000" />
       <workItem from="1738238359145" duration="6655000" />
-      <workItem from="1738292022379" duration="4947000" />
+      <workItem from="1738292022379" duration="11660000" />
     </task>
     <task id="LOCAL-00001" summary="change imagePath, redownload settings">
       <option name="closed" value="true" />
@@ -627,7 +623,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738245211731</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="add Comment,Reply,Image (controller, service) v0.02">
+      <option name="closed" value="true" />
+      <created>1738297680530</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1738297680530</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -663,7 +667,8 @@
     <MESSAGE value="update parameter name v0.01" />
     <MESSAGE value="add PlaceCreateRequest v0.01" />
     <MESSAGE value="add Comment,Reply,Image (controller, service) v0.01" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Comment,Reply,Image (controller, service) v0.01" />
+    <MESSAGE value="add Comment,Reply,Image (controller, service) v0.02" />
+    <option name="LAST_COMMIT_MESSAGE" value="add Comment,Reply,Image (controller, service) v0.02" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
