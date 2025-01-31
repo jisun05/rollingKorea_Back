@@ -27,23 +27,23 @@ public class CommentController {
     @PostMapping("/comment")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('USER')")
-    public void commentCreate(@RequestBody @Valid CommentCreateRequest commentCreateRequest) {
-        //  commentService.commentCreate(commentCreateRequest);
+    public void commentCreate(Long userId, @RequestBody @Valid CommentCreateRequest commentCreateRequest) {
+         commentService.commentCreate(commentCreateRequest);
     }
 
-//    //comment search
-//    @GetMapping("/comment")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Page<CommentResponse> commentFindAll(Long commentId, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-//        return commentService.commentFindAll(commentId, pageable);
-//    }
+    //comment search
+    @GetMapping("/comment")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<CommentResponse> commentFindAll( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return commentService.commentFindAll(pageable);
+    }
 
     //edit comment
     @PutMapping("/comment/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('USER')")
     public void commentEdit(@PathVariable("commentId") Long commentId, @RequestBody @Valid CommentEditRequest commentEditRequest) {
-        //  commentService.commentEdit(commentId, commentEditRequest);
+        commentService.commentEdit(commentId, commentEditRequest);
     }
 
     //delete comment
@@ -51,7 +51,7 @@ public class CommentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void commentDelete(@PathVariable("commentId") Long commentId) {
-        // commentService.commentDelete(commentId);
+        commentService.commentDelete(commentId);
     }
 
 
