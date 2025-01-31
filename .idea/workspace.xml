@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="update comment sevice, controller V.0.01">
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="update comment,reply,errorCode V.0.01">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/ReplyCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/ReplyCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/ReplyEditRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/request/ReplyEditRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/CommentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Reply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Reply.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/CommentRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/ReplyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/ReplyRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/CommentServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/ReplyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/ReplyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/error/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/error/ErrorCode.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -492,7 +491,7 @@
       <workItem from="1737978961022" duration="587000" />
       <workItem from="1738158289924" duration="2903000" />
       <workItem from="1738238359145" duration="6655000" />
-      <workItem from="1738292022379" duration="20346000" />
+      <workItem from="1738292022379" duration="22392000" />
     </task>
     <task id="LOCAL-00001" summary="change imagePath, redownload settings">
       <option name="closed" value="true" />
@@ -662,7 +661,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738314288299</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="update comment,reply,errorCode V.0.01">
+      <option name="closed" value="true" />
+      <created>1738319867994</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1738319867994</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -703,7 +710,8 @@
     <MESSAGE value="update Comment Entity,DTO V.0.01" />
     <MESSAGE value="Add exception handling V.0.01" />
     <MESSAGE value="update comment sevice, controller V.0.01" />
-    <option name="LAST_COMMIT_MESSAGE" value="update comment sevice, controller V.0.01" />
+    <MESSAGE value="update comment,reply,errorCode V.0.01" />
+    <option name="LAST_COMMIT_MESSAGE" value="update comment,reply,errorCode V.0.01" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

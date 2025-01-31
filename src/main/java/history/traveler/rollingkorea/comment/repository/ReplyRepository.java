@@ -14,9 +14,6 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Query("select r from Reply r where r.comment.commentId = :commentId")
     List<Reply> findByCommentId(@Param("commentId") Long commentId);
 
-    List<Reply> findByUser_UserId(Long userUserId);
-
-
     Optional<Reply> findByReplyIdAndUser_UserId(Long replyId, Long userId);
 }
 

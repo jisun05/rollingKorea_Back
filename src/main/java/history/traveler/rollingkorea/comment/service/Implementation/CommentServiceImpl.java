@@ -69,13 +69,25 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.delete(comment);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<CommentResponse> findByUser(Pageable pageable) {
+        User user = getUser();
+        Page<Comment> comments = commentRepository.findByUser(user, pageable);
+        return comments.map(CommentResponse::new);
+    }
+
+
+
+
+
     private User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && authentication.isAuthenticated()) {
             String loginId = authentication.getName(); // bring loginId
 
             return userRepository.findByLoginId(loginId) //search by loginId
-                    .orElse(null); // 사용자가 없으면 null 반환
+                    .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
         }
 
         return null;

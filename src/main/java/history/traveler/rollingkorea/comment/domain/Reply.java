@@ -4,6 +4,8 @@ import history.traveler.rollingkorea.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -61,4 +63,9 @@ public class Reply {
                 .build();
     }
 
+    public void edit(@NotNull(message = "write your reply") @Size(max = 500, message = "max size is 500") String content) {
+
+            this.content = content;
+
+    }
 }

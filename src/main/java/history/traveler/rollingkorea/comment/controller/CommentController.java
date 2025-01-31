@@ -35,7 +35,7 @@ public class CommentController {
     @GetMapping("/comment")
     @ResponseStatus(HttpStatus.OK)
     public Page<CommentResponse> commentFindAll( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return commentService.commentFindAll(pageable);
+        return commentService.commentFindAll(pageable); // 댓글 서비스에서 페이지 정보를 기반으로 모든 댓글을 조회하여 반환
     }
 
     //edit comment
@@ -53,6 +53,14 @@ public class CommentController {
     public void commentDelete(@PathVariable("commentId") Long commentId) {
         commentService.commentDelete(commentId);
     }
+
+    //search by id
+    @GetMapping("/comment/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<CommentResponse> findByUser( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return commentService.findByUser(pageable);
+    }
+
 
 
 }

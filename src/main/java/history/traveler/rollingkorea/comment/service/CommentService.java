@@ -26,4 +26,6 @@ public interface CommentService {
 
     //delete comment
     void commentDelete(Long commentId);
+
+    Page<CommentResponse> findByUser(Pageable pageable);
 }

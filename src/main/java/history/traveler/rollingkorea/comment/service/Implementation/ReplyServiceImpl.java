@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_REPLY;
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_USER;
 
@@ -47,14 +46,20 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
 
-
+    //edit reply
     @Override
-    public void replyEdit(Long replyId, ReplyEditRequest ReplyEditRequest) {
-
+    public void replyEdit(Long replyId, ReplyEditRequest replyEditRequest) {
+                User user = getUser();
+                Reply reply = existMemberWriteReplyCheck(replyId, user);
+                reply.edit(replyEditRequest.content());
     }
 
     @Override
     public void replyDelete(Long replyId) {
+
+        User user  = getUser();
+        Reply reply = existMemberWriteReplyCheck(replyId, user);
+        replyRepository.delete(reply);
 
     }
 
