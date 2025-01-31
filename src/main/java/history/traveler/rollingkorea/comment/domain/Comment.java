@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity// 이 클래스가 JPA 엔티티임을 나타냄
@@ -25,6 +27,8 @@ public class Comment {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user; // User 엔티티와의 관계를 나타내는 필드
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<Reply> replies = new ArrayList<>();
 
     private String nickname;
     private String content;
