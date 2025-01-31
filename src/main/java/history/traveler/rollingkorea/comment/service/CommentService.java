@@ -14,18 +14,18 @@ import org.springframework.stereotype.Service;
 public interface CommentService {
 
     //create comment
-    void commentCreate(CommentCreateRequest commentCreateRequest);
+    void createComment(CommentCreateRequest commentCreateRequest);
 
     //search whole comment
     Page<CommentResponse> commentFindAll(Pageable pageable);
 
 
     //edit comment
-    void commentEdit(Long commentId, CommentEditRequest commentEditRequest);
+    void editComment(Long commentId, CommentEditRequest commentEditRequest);
 
 
     //delete comment
-    void commentDelete(Long commentId);
+    void deleteComment(Long commentId);
 
     Page<CommentResponse> findByUser(Pageable pageable);
 }

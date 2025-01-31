@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository; // Spring Data JPA
 /// Spring의 @Repository 어노테이션 임포트,이 어노테이션은 해당 인터페이스가 데이터 접근 레이어임을 나타냄
 import org.springframework.stereotype.Repository;
 
+
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, Long> {
@@ -18,6 +20,9 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     @Override
     Page<Place> findAll(Pageable pageable);
+
+    Optional<Place> findByPlaceId(Long placeId);
+
 
 
 }

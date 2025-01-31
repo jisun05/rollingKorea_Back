@@ -4,15 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="update comment,reply,errorCode V.0.01">
+    <list default="true" id="145163a8-6db1-45b6-8ebb-15e8385c7269" name="Changes" comment="update comment,reply V.0.02">
+      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/LikePlaceController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/request/LikePlaceAddRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/controller/response/LikePlaceResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/repository/LikePlaceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/Implementation/LikePlaceServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/LikePlaceService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Reply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/domain/Reply.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/CommentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/ReplyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/repository/ReplyRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/CommentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/CommentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/ReplyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/comment/service/Implementation/ReplyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/error/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/global/error/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/LikePlace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/domain/LikePlace.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/repository/PlaceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/repository/PlaceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/PlaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/history/traveler/rollingkorea/place/service/PlaceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/history/traveler/rollingkorea/config/jwt/TokenProviderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/history/traveler/rollingkorea/config/jwt/TokenProviderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,10 +61,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Record" />
-        <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Record" />
+        <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -491,7 +499,9 @@
       <workItem from="1737978961022" duration="587000" />
       <workItem from="1738158289924" duration="2903000" />
       <workItem from="1738238359145" duration="6655000" />
-      <workItem from="1738292022379" duration="22392000" />
+      <workItem from="1738292022379" duration="22665000" />
+      <workItem from="1738322124929" duration="609000" />
+      <workItem from="1738328643776" duration="8739000" />
     </task>
     <task id="LOCAL-00001" summary="change imagePath, redownload settings">
       <option name="closed" value="true" />
@@ -669,7 +679,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738319867994</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="update comment,reply V.0.02">
+      <option name="closed" value="true" />
+      <created>1738321877689</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1738321877689</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -711,7 +729,8 @@
     <MESSAGE value="Add exception handling V.0.01" />
     <MESSAGE value="update comment sevice, controller V.0.01" />
     <MESSAGE value="update comment,reply,errorCode V.0.01" />
-    <option name="LAST_COMMIT_MESSAGE" value="update comment,reply,errorCode V.0.01" />
+    <MESSAGE value="update comment,reply V.0.02" />
+    <option name="LAST_COMMIT_MESSAGE" value="update comment,reply V.0.02" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

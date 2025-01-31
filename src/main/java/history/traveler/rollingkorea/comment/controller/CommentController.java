@@ -27,8 +27,8 @@ public class CommentController {
     @PostMapping("/comment")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('USER')")
-    public void commentCreate(Long userId, @RequestBody @Valid CommentCreateRequest commentCreateRequest) {
-         commentService.commentCreate(commentCreateRequest);
+    public void createComment(Long userId, @RequestBody @Valid CommentCreateRequest commentCreateRequest) {
+         commentService.createComment(commentCreateRequest);
     }
 
     //comment search
@@ -42,16 +42,16 @@ public class CommentController {
     @PutMapping("/comment/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('USER')")
-    public void commentEdit(@PathVariable("commentId") Long commentId, @RequestBody @Valid CommentEditRequest commentEditRequest) {
-        commentService.commentEdit(commentId, commentEditRequest);
+    public void editComment(@PathVariable("commentId") Long commentId, @RequestBody @Valid CommentEditRequest commentEditRequest) {
+        commentService.editComment(commentId, commentEditRequest);
     }
 
     //delete comment
     @DeleteMapping("/comment/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public void commentDelete(@PathVariable("commentId") Long commentId) {
-        commentService.commentDelete(commentId);
+    public void deleteComment(@PathVariable("commentId") Long commentId) {
+        commentService.deleteComment(commentId);
     }
 
     //search by id

@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
 
     //only user can write
     @Override
-    public void commentCreate(CommentCreateRequest commentCreateRequest) {
+    public void createComment(CommentCreateRequest commentCreateRequest) {
         User user = getUser(); // bring user data
         if(user == null) {
             throw new IllegalArgumentException("user is null");
@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
 
     //edit comment
     @Override
-    public void commentEdit(Long commentId, CommentEditRequest commentEditRequest) {
+    public void editComment(Long commentId, CommentEditRequest commentEditRequest) {
         User user = getUser();
         Comment comment = existCommentCheck(commentId);
         writeCommentUserEqualLoginUserCheck(user, comment);
@@ -62,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
 
     //delete comment
     @Override
-    public void commentDelete(Long commentId) {
+    public void deleteComment(Long commentId) {
         User user = getUser();
         Comment comment = existCommentCheck(commentId);
         writeCommentUserEqualLoginUserCheck(user, comment);

@@ -20,9 +20,11 @@ public enum ErrorCode {
 
 
     //place
-
+    NOT_FOUND_PLACE(HttpStatus.NOT_FOUND, "Place is not found."),
 
     //place_likes
+    PLACE_IS_DUPLICATED(HttpStatus.NOT_FOUND, "you already have it."),
+    NOT_FOUND_LIKEPLACE(HttpStatus.NOT_FOUND, "not found your save place."),
 
 
     //comment

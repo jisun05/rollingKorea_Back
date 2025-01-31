@@ -24,15 +24,20 @@ public class LikePlace {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
 
+
+    @Column(nullable = false)
+    private Long placeId;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Builder  //빌더패턴으로 생성자 생성
     //모든 필드를 한 번에 설정할 필요가 없고, 필요한 필드만 설정하여 객체를 생성 가능
     //JPA 엔티티에서 기본 생성자는 필요하지만, 필드가 많은 경우 빌더 패턴을 통해 객체를 생성하는 것이  편리
-    public LikePlace(Long likePlaceId, User user, LocalDateTime createdAt) {
+    public LikePlace(Long likePlaceId, User user, Long placeId, LocalDateTime createdAt) {
         this.likePlaceId = likePlaceId;
         this.user = user;
+        this.placeId = placeId;
         this.createdAt = createdAt;
     }
 }

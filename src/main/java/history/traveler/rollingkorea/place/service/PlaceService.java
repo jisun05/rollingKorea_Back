@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-@Service // 이 클래스가 비즈니스 로직을 처리함을 명시
+// 이 클래스가 비즈니스 로직을 처리함을 명시
 public interface PlaceService {
 
 
