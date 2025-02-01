@@ -33,14 +33,15 @@ public class Comment {
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<Reply> replies = new ArrayList<>();
-
+    @Column
     private String nickname;
+    @Column
     private String content;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
+    @Column
     private Long likes;
 
     @Builder

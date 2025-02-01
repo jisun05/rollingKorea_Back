@@ -1,17 +1,20 @@
 package history.traveler.rollingkorea.question.domain;
 
 
+import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
+import history.traveler.rollingkorea.comment.domain.Comment;
+import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
+import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
 import history.traveler.rollingkorea.user.domain.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity // 이 클래스가 JPA 엔티티임을 나타냄
 @Table(name = "CONTACTUS") // 데이터베이스의 CONTACTUS 테이블과 매핑
 @Getter // Lombok을 사용하여 getter 메서드를 자동 생성
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ContactUs {
 
     @Id // 이 필드가 엔티티의 기본 키(pk)임을 나타냄
@@ -37,4 +40,25 @@ public class ContactUs {
     private LocalDateTime updatedAt;
 
 
+    @Builder
+    public ContactUs(Long userId, String content) {
+
+        this.getUser().setUserId(userId);
+        this.content = content;
+    }
+
+    public static ContactUs createContactUs(User user, ContactUsCreateRequest contactUsCreateRequest) {
+
+        return ContactUs.builder()
+                .userId(user.getUserId())
+                .content(contactUsCreateRequest.content())
+                .build();
+
+    }
+
+
+    //edit comment
+    public void editContactUs(ContactUsEditRequest contactUsEditRequest) {
+        this.content = contactUsEditRequest.content();
+    }
 }

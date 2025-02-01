@@ -34,9 +34,12 @@ public enum ErrorCode {
 
     //reply
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "User not found"),
-    NOT_FOUND_REPLY(HttpStatus.NOT_FOUND, "Reply not found.");
+    NOT_FOUND_REPLY(HttpStatus.NOT_FOUND, "Reply not found."),
 
 
+    //contactUs
+    NOT_FOUND_CONTACTUS(HttpStatus.NOT_FOUND, "Question not found"),
+    NOT_MATCH_CONTACTUS(HttpStatus.BAD_REQUEST, "This is not the question you wrote.");
 
     ErrorCode(HttpStatus httpStatus, String message) {
         this.httpStatus = httpStatus;
