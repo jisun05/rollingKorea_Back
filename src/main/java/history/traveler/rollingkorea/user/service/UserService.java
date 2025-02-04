@@ -18,6 +18,8 @@ public interface UserService {
     // 회원생성
     void userSignup(UserSignupRequest userSignupRequest);
 
+    // 회원 중복체크
+    void loginIdDuplicateCheck(String loginId);
 
     // 일반 로그인                               //자바 객체 -> JSON 문자열
     JwtTokenDto login(LoginRequest loginRequest) throws JsonProcessingException;

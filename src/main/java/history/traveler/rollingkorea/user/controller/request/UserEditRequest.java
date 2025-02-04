@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public record UserEditRequest(
 
         @NotNull(message = "Please enter your First Name.")
-        String userName,              // Password
+        String userName,
 
         @NotNull(message = "Please enter your password.")
         String password,              // Password

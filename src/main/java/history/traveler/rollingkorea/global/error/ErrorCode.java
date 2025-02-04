@@ -11,8 +11,8 @@ public enum ErrorCode {
 
     //user
 
-
-
+    NOT_EQUAL_PASSWORD(HttpStatus.BAD_REQUEST,"Check your password"),
+    DUPLICATED_LOGIN_ID(HttpStatus.BAD_REQUEST, "This ID already exists."),
 
 
 
@@ -23,8 +23,8 @@ public enum ErrorCode {
     NOT_FOUND_PLACE(HttpStatus.NOT_FOUND, "Place is not found."),
 
     //place_likes
-    PLACE_IS_DUPLICATED(HttpStatus.NOT_FOUND, "you already have it."),
-    NOT_FOUND_LIKEPLACE(HttpStatus.NOT_FOUND, "not found your save place."),
+    PLACE_IS_DUPLICATED(HttpStatus.NOT_FOUND, "You already have it."),
+    NOT_FOUND_LIKEPLACE(HttpStatus.NOT_FOUND, "Not found your save place."),
 
 
     //comment
