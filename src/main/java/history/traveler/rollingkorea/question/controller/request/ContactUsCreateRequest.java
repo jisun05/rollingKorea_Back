@@ -1,3 +1,6 @@
 package history.traveler.rollingkorea.question.controller.request;
 
-public record ContactUsCreateRequest (){}
+public record ContactUsCreateRequest (
+        Long userId,
+        String content
+){}

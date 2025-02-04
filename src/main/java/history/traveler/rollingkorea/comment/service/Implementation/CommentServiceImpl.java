@@ -78,6 +78,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
+    public User getCommentForUser(Long userId) {
+        return userRepository.findById(userId).get();
+    }
 
 
 

@@ -1,6 +1,7 @@
 package history.traveler.rollingkorea.question.service.Implementation;
 
 
+import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
@@ -58,7 +59,8 @@ public class ContactUsServiceImpl implements ContactUsService {
     }
 
     @Override
-    public Page<ContactUsResponse> findByUser(Pageable pageable) {
+    public Page<CommentResponse> findByUser(Pageable pageable) {
+        return Page.empty(pageable);
 //        User user = getUser();
 //        Page<ContactUs> contactUs = contactUsRepository.findByUser(user, pageable);
 //        return contactUs.map(ContactUsResponse::new);
@@ -80,8 +82,9 @@ public class ContactUsServiceImpl implements ContactUsService {
 
 
     private ContactUs existContactUsCheck(Long contactUsId) {
-        return contactUsRepository.findById(contactUsId)
-                .orElseThrow(() -> new BusinessException(NOT_FOUND_CONTACTUS));
+        return null;
+//        return contactUsRepository.findById(contactUsId)
+//                .orElseThrow(() -> new BusinessException(NOT_FOUND_CONTACTUS));
     }
 
     private void writeContactUsUserEqualLoginUserCheck(User user, ContactUs contactUs) {
