@@ -68,10 +68,11 @@ public class UserServiceImpl implements UserService {
 //            //make google user
 //            User user = User.googleCreate(loginRequest, passwordEncoder);
 //
-//            //if request email is same
-//            if (userRepository.findByLoginIdAndRequestLoginId(loginRequest.loginId(), loginRequest.loginId()).isPresent()) {
+//            // 동일한 Email , LoginID 일 경우 토큰만 발급 후 리턴
+//            if (userRepository.findByLoginIdAndLoginType(loginRequest.loginId(),LoginType.NO_SOCIAL).isPresent()) {
 //                return tokenProvider.generateToken(loginRequest);
 //            }
+//
 //            DuplicatedLoginIdCheck(userRepository.findByLoginId(loginRequest.loginId()).isPresent());
 //            return tokenProvider.generateToken(loginRequest);
 //        }
