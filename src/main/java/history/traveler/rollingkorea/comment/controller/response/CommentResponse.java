@@ -1,24 +1,21 @@
 package history.traveler.rollingkorea.comment.controller.response;
-
 import history.traveler.rollingkorea.comment.domain.Comment;
-
+import history.traveler.rollingkorea.comment.service.ReplyService;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public record CommentResponse(
-
+        Long commentId,
         Long userId,
-        String content,
-        List<ReplyResponse> replyResponse
-
+        String content
 ) {
-
     public CommentResponse(Comment comment) {
-        this(comment.getUser().getUserId(),
-                comment.getContent(),
-                comment.getReplies()
-                        .stream()
-                        .map(ReplyResponse::new)
-                        .collect(Collectors.toList()));
+        this(comment.getCommentId(), comment.getUser().getUserId(),
+                comment.getContent());
+
+    }
+
+    // Reply 리스트를 별도로 조회하는 메서드
+    public List<ReplyResponse> getReplies(ReplyService replyService) {
+        return replyService.getRepliesByCommentId(this.commentId);
     }
 }

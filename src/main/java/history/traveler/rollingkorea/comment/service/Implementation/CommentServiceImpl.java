@@ -4,7 +4,9 @@ import history.traveler.rollingkorea.comment.controller.request.CommentCreateReq
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
+import history.traveler.rollingkorea.comment.domain.Reply;
 import history.traveler.rollingkorea.comment.repository.CommentRepository;
+import history.traveler.rollingkorea.comment.repository.ReplyRepository;
 import history.traveler.rollingkorea.comment.service.CommentService;
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.user.domain.User;
@@ -16,8 +18,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static history.traveler.rollingkorea.global.error.ErrorCode.*;
+import java.util.List;
+import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_COMMENT;
+import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_USER;
+import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_COMMENT;
 
 @Service
 @Transactional
@@ -26,14 +30,14 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
-
+    private final ReplyRepository replyRepository;
 
 
     //only user can write
     @Override
     public void createComment(CommentCreateRequest commentCreateRequest) {
         User user = getUser(); // bring user data
-        if(user == null) {
+        if (user == null) {
             throw new IllegalArgumentException("user is null");
         }
         Comment comment = Comment.createComment(user, commentCreateRequest);
@@ -77,16 +81,26 @@ public class CommentServiceImpl implements CommentService {
         return comments.map(CommentResponse::new);
     }
 
+    @Override
+    public Comment findById(Long commentId) {
+        //TODO :
+        return null;
+    }
+
+    public List<Reply> findByCommentId(Long commentId) {
+
+        return replyRepository.findByCommentId(commentId);
+    }
+
 
     public User getCommentForUser(Long userId) {
         return userRepository.findById(userId).get();
     }
 
 
-
     private User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             String loginId = authentication.getName(); // bring loginId
 
             return userRepository.findByLoginId(loginId) //search by loginId
@@ -104,11 +118,10 @@ public class CommentServiceImpl implements CommentService {
 
     //check comment's owner
     private void writeCommentUserEqualLoginUserCheck(User user, Comment comment) {
-        if(!comment.getUser().getLoginId().equals(user.getLoginId())) {
+        if (!comment.getUser().getLoginId().equals(user.getLoginId())) {
             throw new BusinessException(NOT_MATCH_COMMENT);
         }
     }
-
 
 
 }

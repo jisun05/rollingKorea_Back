@@ -3,7 +3,6 @@ import history.traveler.rollingkorea.comment.controller.request.ReplyCreateReque
 import history.traveler.rollingkorea.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;

@@ -2,6 +2,9 @@ package history.traveler.rollingkorea.comment.service;
 
 import history.traveler.rollingkorea.comment.controller.request.ReplyCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest;
+import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
+
+import java.util.List;
 
 public interface ReplyService {
 
@@ -14,4 +17,6 @@ public interface ReplyService {
 
 
     void replyDelete(Long replyId);
+
+    List<ReplyResponse> getRepliesByCommentId(Long commentId);
 }
