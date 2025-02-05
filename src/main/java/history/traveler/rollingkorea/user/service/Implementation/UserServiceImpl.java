@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
 
         //Check RoleType
         if (user.getRoleType().equals(RoleType.ROLE_USER)) {
-            List<LikePlace> likePlaceList = likePlaceRepository.findByUserId(user.getUserId());
+            List<LikePlace> likePlaceList = likePlaceRepository.findByUser_UserId(user.getUserId());
             likePlaceRepository.deleteAll(likePlaceList);
         }
     }
