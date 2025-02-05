@@ -3,15 +3,20 @@ package history.traveler.rollingkorea.comment.domain;
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.user.domain.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity// 이 클래스가 JPA 엔티티임을 나타냄
@@ -31,8 +36,8 @@ public class Comment {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user; // User 엔티티와의 관계를 나타내는 필드
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
-    private List<Reply> replies = new ArrayList<>();
+
+
     @Column
     private String nickname;
     @Column
