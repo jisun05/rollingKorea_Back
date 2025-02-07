@@ -2,6 +2,7 @@ package history.traveler.rollingkorea.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import history.traveler.rollingkorea.global.config.security.JwtTokenDto;
+import history.traveler.rollingkorea.place.controller.PlaceController;
 import history.traveler.rollingkorea.user.controller.request.LoginRequest;
 import history.traveler.rollingkorea.user.controller.request.UserEditRequest;
 import history.traveler.rollingkorea.user.controller.request.UserSignupRequest;
@@ -9,9 +10,20 @@ import history.traveler.rollingkorea.user.controller.response.UserResponse;
 import history.traveler.rollingkorea.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -19,9 +31,11 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor //클래스의 모든 final 필드와 @NonNull로 표시된 필드를 매개변수로 받는 생성자를 자동으로 생성
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000/*")
 public class UserViewController {
 
     private final UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(PlaceController.class);
 
 //
 //    @CrossOrigin(origins = "http://localhost:3000")
@@ -56,19 +70,20 @@ public class UserViewController {
     //sign up
     @PostMapping("/user/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    public String signup(@RequestBody @Valid UserSignupRequest userSignupRequest){
+    public ResponseEntity<String> signup(@RequestBody @Valid UserSignupRequest userSignupRequest){
+        logger.info("Request SignUP"); // 응답 로그 추가
         userService.userSignup(userSignupRequest);
-        return "redirect:/";
+        return ResponseEntity.status(HttpStatus.CREATED).body("SUCCESS");
     }
 
-    @GetMapping("/members/me")
+    @GetMapping("/user/me")
     @PreAuthorize("hasAnyRole('USER','ADMIN')") //메서드에 대한 접근 제어를 설정, 사용자가 'USER' 또는 'ADMIN' 역할이여야 접근 가능
     @ResponseStatus(HttpStatus.OK)
     public UserResponse findByDetailMyInfo() {
         return userService.findByDetailMyInfo();
     }
     //edit user
-    @PutMapping("/member")
+    @PutMapping("/user")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void memberEdit(@RequestBody @Valid UserEditRequest userEditRequest) {
@@ -76,7 +91,7 @@ public class UserViewController {
     }
 
     //withdrawal
-    @DeleteMapping("/member")
+    @DeleteMapping("/user")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void userDelete() {
