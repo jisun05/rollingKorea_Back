@@ -1,4 +1,4 @@
-package history.traveler.rollingkorea.place.service.Implementation;
+package history.traveler.rollingkorea.place.service.implementation;
 
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.place.controller.request.LikePlaceAddRequest;
@@ -73,7 +73,7 @@ public class LikePlaceServiceImpl implements LikePlaceService {
         return userRepository.findByLoginId(authentication.getName()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
     }
 
-    //check if the place is exist
+    //The code is tested
     private Place existPlaceCheck(Long placeId) {
         return placeRepository.findByPlaceId(placeId).orElseThrow(
                 () -> new BusinessException(NOT_FOUND_PLACE));

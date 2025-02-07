@@ -1,9 +1,6 @@
 package history.traveler.rollingkorea.place.domain;
-
-
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,7 @@ public class Place {
     @Column(name = "latitude")
     private double latitude; // 장소의 위도
 
-    @Column(name = "longtitude")
+    @Column(name = "longitude")
     private double longitude; // 장소의 경도
 
     @Column(name = "place_description")
