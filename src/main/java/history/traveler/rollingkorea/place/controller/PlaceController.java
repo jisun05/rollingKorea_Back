@@ -74,7 +74,7 @@ public class PlaceController {
 
     // 유적지 수정 (관리자)
     //@CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/api/place/{id}")//이후 url수정필요
+    @PutMapping("/admin/place/{id}")//이후 url수정필요
     public ResponseEntity<Place> updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
         Place updatedPlace = placeService.update(id, placeEditRequest);
         if (updatedPlace != null) {
