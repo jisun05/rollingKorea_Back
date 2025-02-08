@@ -19,7 +19,7 @@ public interface UserService {
     void loginIdDuplicateCheck(String loginId);
 
     // 일반 로그인                               //자바 객체 -> JSON 문자열
-   // JwtTokenDto login(LoginRequest loginRequest) throws JsonProcessingException;
+    // JwtTokenDto login(LoginRequest loginRequest) throws JsonProcessingException;
 
     // 회원 수정
     void userEdit(UserEditRequest userEditRequest);
