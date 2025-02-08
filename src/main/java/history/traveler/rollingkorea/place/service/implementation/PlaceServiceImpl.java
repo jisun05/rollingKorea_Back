@@ -61,7 +61,9 @@ public class PlaceServiceImpl implements PlaceService {
     @Transactional
     public boolean placeDelete(Long id) {
         if (placeRepository.existsById(id)) {
+            imageRepository.deleteByPlace_PlaceId(id);
             placeRepository.deleteById(id);
+
             return true;
         }
         return false;
