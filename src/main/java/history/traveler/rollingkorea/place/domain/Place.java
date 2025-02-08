@@ -1,5 +1,6 @@
 package history.traveler.rollingkorea.place.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,8 +43,10 @@ public class Place {
     private String region;
 
     @Column(name = "created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -52,7 +55,7 @@ public class Place {
 
 
     @Builder
-    public Place(Long placeId, String placeName, String website, double latitude, double longitude, String imagePath, String region, String placeDescription, LocalDateTime createdAt, LocalDateTime updatedAt, String countLike) {
+    public Place(Long placeId, String placeName, String website, double latitude, double longitude, String region, String placeDescription, LocalDateTime createdAt, LocalDateTime updatedAt, String countLike) {
         this.placeId = placeId;
         this.placeName = placeName;
         this.website = website;

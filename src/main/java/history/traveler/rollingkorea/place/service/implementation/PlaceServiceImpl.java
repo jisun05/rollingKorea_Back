@@ -70,13 +70,27 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     @Transactional
     public Place placeCreate(PlaceCreateRequest placeCreateRequest) {
+
+        LocalDateTime now = LocalDateTime.now();
+
         Place newPlace = Place.builder()
                 .placeName(placeCreateRequest.placeName())
                 .placeDescription(placeCreateRequest.placeDescription())
                 .region(placeCreateRequest.region())
-                .createdAt(LocalDateTime.now()) // 생성일시 추가
-                .updatedAt(LocalDateTime.now()) // 수정일시 추가
+                .createdAt(now) // 생성일시 추가
+                .updatedAt(now) // 수정일시 추가
                 .build();
+
+        // 이미지를 저장할 때 imagePath가 null이 아닐 경우에만 저장
+        if (placeCreateRequest.imageRequest() != null &&
+                placeCreateRequest.imageRequest().imagePath() != null) {
+
+            Image newImage = Image.builder()
+                    .imagePath(placeCreateRequest.imageRequest().imagePath())
+                    .build();
+
+            imageRepository.save(newImage);
+        }
 
         return placeRepository.save(newPlace);
     }

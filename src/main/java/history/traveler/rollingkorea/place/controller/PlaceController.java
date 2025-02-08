@@ -38,6 +38,7 @@ public class PlaceController {
     public List<Place> getPlaces(@PathVariable String region) {
         logger.info("Response Status: 200 for region: {}", region);
         return placeService.findByRegion(region);
+        //TODO : 이미지 어떻게 가져올지
     }
 
     //유적지 조회?

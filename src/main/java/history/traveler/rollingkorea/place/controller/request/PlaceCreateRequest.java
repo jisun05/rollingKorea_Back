@@ -19,6 +19,6 @@ public record PlaceCreateRequest(
         @NotNull
         String placeDescription,
         @Nullable
-        ImageRequest images
+        ImageRequest imageRequest
 ) {
 }
