@@ -1,9 +1,6 @@
 package history.traveler.rollingkorea.user.service;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import history.traveler.rollingkorea.global.config.security.JwtTokenDto;
-import history.traveler.rollingkorea.user.controller.request.LoginRequest;
 import history.traveler.rollingkorea.user.controller.request.UserEditRequest;
 import history.traveler.rollingkorea.user.controller.request.UserSignupRequest;
 import history.traveler.rollingkorea.user.controller.response.UserResponse;
@@ -22,7 +19,7 @@ public interface UserService {
     void loginIdDuplicateCheck(String loginId);
 
     // 일반 로그인                               //자바 객체 -> JSON 문자열
-    JwtTokenDto login(LoginRequest loginRequest) throws JsonProcessingException;
+   // JwtTokenDto login(LoginRequest loginRequest) throws JsonProcessingException;
 
     // 회원 수정
     void userEdit(UserEditRequest userEditRequest);
