@@ -16,6 +16,8 @@ public record PlaceCreateRequest(
         double latitude,
         @NotNull
         double longitude,
+        @Nullable
+        String website,
         @NotNull
         String placeDescription,
         @Nullable

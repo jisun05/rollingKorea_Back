@@ -23,7 +23,7 @@ public interface PlaceService {
     Place update(Long id, PlaceEditRequest placeEditRequest) throws IOException;
 
     // 관리자 유적지 삭제
-    boolean delete(Long id);
+    boolean placeDelete(Long id);
 
     //관리자 유적지 생성
     Place placeCreate(PlaceCreateRequest placeCreateRequest);

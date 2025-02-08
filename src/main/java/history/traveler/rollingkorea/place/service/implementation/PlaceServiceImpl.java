@@ -59,7 +59,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Transactional
-    public boolean delete(Long id) {
+    public boolean placeDelete(Long id) {
         if (placeRepository.existsById(id)) {
             placeRepository.deleteById(id);
             return true;
@@ -77,19 +77,20 @@ public class PlaceServiceImpl implements PlaceService {
                 .placeName(placeCreateRequest.placeName())
                 .placeDescription(placeCreateRequest.placeDescription())
                 .region(placeCreateRequest.region())
+                .longitude(placeCreateRequest.longitude())
+                .latitude(placeCreateRequest.latitude())
+                .website(placeCreateRequest.website())
                 .createdAt(now) // 생성일시 추가
                 .updatedAt(now) // 수정일시 추가
                 .build();
 
-        // 이미지를 저장할 때 imagePath가 null이 아닐 경우에만 저장
-        if (placeCreateRequest.imageRequest() != null &&
-                placeCreateRequest.imageRequest().imagePath() != null) {
-
+        // 2. Image가 있는 경우 place 설정 후 저장
+        if (placeCreateRequest.imageRequest() != null && placeCreateRequest.imageRequest().imagePath() != null) {
             Image newImage = Image.builder()
-                    .imagePath(placeCreateRequest.imageRequest().imagePath())
+                    .imagePath(placeCreateRequest.imageRequest().imagePath()) // 이미지 경로 설정
+                    .place(newPlace)  // ✅ Place 객체 설정 (placeId 자동 세팅됨)
                     .build();
-
-            imageRepository.save(newImage);
+            imageRepository.save(newImage); // Image 저장
         }
 
         return placeRepository.save(newPlace);

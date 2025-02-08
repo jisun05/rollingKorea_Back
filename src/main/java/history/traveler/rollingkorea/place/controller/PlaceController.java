@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +27,6 @@ import java.util.List;
 public class PlaceController {
 
     private final PlaceService placeService;
-    private final String imagePath = "D:/Traveler/imgKorea/";
     private static final Logger logger = LoggerFactory.getLogger(PlaceController.class);
 
     public PlaceController(PlaceService placeService) {
@@ -46,6 +46,7 @@ public class PlaceController {
     // 유적지 등록 (관리자)
    // @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/admin/place/create")
+    @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public ResponseEntity<Place> addPlace(@RequestBody PlaceCreateRequest placeCreateRequest) {
         Place createdPlace = placeService.placeCreate(placeCreateRequest);
         logger.info("Place created: {}", createdPlace);
@@ -55,6 +56,7 @@ public class PlaceController {
     // 유적지 수정 (관리자)
     //@CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/admin/place/{id}")//이후 url수정필요
+    @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public ResponseEntity<Place> updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
         Place updatedPlace = placeService.update(id, placeEditRequest);
         if (updatedPlace != null) {
@@ -69,8 +71,9 @@ public class PlaceController {
     // 유적지 삭제 (관리자)
     //@CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/admin/place/{id}")
+    @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public ResponseEntity<Void> deletePlace(@PathVariable Long id) {
-        boolean isDeleted = placeService.delete(id);
+        boolean isDeleted = placeService.placeDelete(id);
         if (isDeleted) {
             logger.info("Place deleted with id: {}", id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
