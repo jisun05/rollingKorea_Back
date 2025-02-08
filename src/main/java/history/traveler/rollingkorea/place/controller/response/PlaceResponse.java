@@ -3,7 +3,6 @@ package history.traveler.rollingkorea.place.controller.response;
 import history.traveler.rollingkorea.place.domain.Place;
 import lombok.Builder;
 
-
 import java.util.List;
 
 @Builder
@@ -31,7 +30,6 @@ public record PlaceResponse(
                 .longitude(place.getLongitude())
                 .placeDescription(place.getPlaceDescription())
                 .countLike(place.getCountLike())
-                .imageList(ImageResponse.toResponse(place))
                 .build();
     }
 

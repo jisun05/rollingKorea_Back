@@ -1,9 +1,17 @@
 package history.traveler.rollingkorea.place.domain;
-import jakarta.persistence.*;
-import lombok.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Getter
@@ -42,8 +50,6 @@ public class Place {
     @Column(name = "count_like")
     private String countLike;
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
 
     @Builder
     public Place(Long placeId, String placeName, String website, double latitude, double longitude, String imagePath, String region, String placeDescription, LocalDateTime createdAt, LocalDateTime updatedAt, String countLike) {

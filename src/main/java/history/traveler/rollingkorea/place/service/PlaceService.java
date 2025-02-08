@@ -3,6 +3,7 @@ package history.traveler.rollingkorea.place.service;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
+import history.traveler.rollingkorea.place.domain.Image;
 import history.traveler.rollingkorea.place.domain.Place;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +26,8 @@ public interface PlaceService {
 
     //관리자 유적지 생성
     Place placeCreate(PlaceCreateRequest placeCreateRequest);
+
+    List<Image> findImagesByPlaceId(Long placeId);
+
+
 }

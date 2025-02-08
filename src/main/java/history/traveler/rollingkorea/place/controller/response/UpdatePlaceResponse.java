@@ -1,7 +1,6 @@
 package history.traveler.rollingkorea.place.controller.response;
-
+import history.traveler.rollingkorea.place.domain.Image;
 import java.util.List;
-
 public record UpdatePlaceResponse(
 
         Long placeId,
@@ -10,7 +9,7 @@ public record UpdatePlaceResponse(
         String placeDescription,
         double latitude,
         double longitude,
-        List<ImageResponse> imageList
+        List<Image> imageList
 
 ) {
 }

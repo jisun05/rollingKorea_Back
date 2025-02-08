@@ -3,7 +3,9 @@ package history.traveler.rollingkorea.place.service.implementation;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
+import history.traveler.rollingkorea.place.domain.Image;
 import history.traveler.rollingkorea.place.domain.Place;
+import history.traveler.rollingkorea.place.repository.ImageRepository;
 import history.traveler.rollingkorea.place.repository.PlaceRepository;
 import history.traveler.rollingkorea.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +23,7 @@ import java.util.List;
 public class PlaceServiceImpl implements PlaceService {
 
     private final PlaceRepository placeRepository;
+    private final ImageRepository imageRepository;
 
     @Override
     public Page<PlaceResponse> placeFindAll(Pageable pageable) {
@@ -74,6 +78,11 @@ public class PlaceServiceImpl implements PlaceService {
                 .build();
 
         return placeRepository.save(newPlace);
+    }
+
+    @Override
+    public List<Image> findImagesByPlaceId(Long placeId) {
+        return imageRepository.findByPlace_PlaceId(placeId);
     }
 
     // Place 객체를 PlaceResponse 객체로 변환하는 메서드
