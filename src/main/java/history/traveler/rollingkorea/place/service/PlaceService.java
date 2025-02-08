@@ -7,6 +7,7 @@ import history.traveler.rollingkorea.place.domain.Image;
 import history.traveler.rollingkorea.place.domain.Place;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public interface PlaceService {
     Place placeCreate(PlaceCreateRequest placeCreateRequest);
 
     List<Image> findImagesByPlaceId(Long placeId);
+
 
 
 }

@@ -33,6 +33,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public List<Place> findByRegion(String region) {
+
         return placeRepository.findByRegion(region);
     }
 
@@ -85,9 +86,10 @@ public class PlaceServiceImpl implements PlaceService {
         return imageRepository.findByPlace_PlaceId(placeId);
     }
 
+
     // Place 객체를 PlaceResponse 객체로 변환하는 메서드
     private PlaceResponse convertToResponse(Place place) {
-        return PlaceResponse.from(place);
+        return PlaceResponse.from(place, imageRepository);
     }
 
 }

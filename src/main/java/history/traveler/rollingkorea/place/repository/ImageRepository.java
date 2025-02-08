@@ -9,4 +9,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
     // placeId 기준으로 imagePath 값 전부 가져오기
     List<Image> findByPlace_PlaceId(Long placeId);
+
 }
