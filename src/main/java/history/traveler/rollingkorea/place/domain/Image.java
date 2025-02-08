@@ -30,10 +30,6 @@ public class Image {
         this.place = place;
     }
 
-    // 연관관계 편의 메서드 (양방향 매핑)
-    public void setPlace(Place place) {
-        this.place = place;
-        place.getImages().add(this);
-    }
+
 
 }

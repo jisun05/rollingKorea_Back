@@ -1,5 +1,4 @@
 package history.traveler.rollingkorea.place.controller;
-
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.domain.Place;
@@ -12,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -54,7 +52,7 @@ public class PlaceController {
 
     // 유적지 등록 (관리자)
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/api/place")
+    @PostMapping("/admin/place")
     public ResponseEntity<Place> addPlace(@RequestBody PlaceCreateRequest placeCreateRequest) {
         Place createdPlace = placeService.placeCreate(placeCreateRequest);
         logger.info("Place created: {}", createdPlace);
@@ -62,8 +60,8 @@ public class PlaceController {
     }
 
     // 유적지 수정 (관리자)
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/api/place/{id}")
+    //@CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/admin/place/{id}")
     public ResponseEntity<Place> updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
         Place updatedPlace = placeService.update(id, placeEditRequest);
         if (updatedPlace != null) {
@@ -76,8 +74,8 @@ public class PlaceController {
     }
 
     // 유적지 삭제 (관리자)
-    @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/api/place/{id}")
+    //@CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping("/admin/place/{id}")
     public ResponseEntity<Void> deletePlace(@PathVariable Long id) {
         boolean isDeleted = placeService.delete(id);
         if (isDeleted) {
