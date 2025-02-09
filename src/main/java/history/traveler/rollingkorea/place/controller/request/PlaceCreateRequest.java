@@ -1,7 +1,5 @@
 package history.traveler.rollingkorea.place.controller.request;
-
 import jakarta.annotation.Nullable;
-
 import javax.validation.constraints.NotNull;
 
 public record PlaceCreateRequest(

@@ -1,5 +1,4 @@
 package history.traveler.rollingkorea.place.domain;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -29,7 +28,5 @@ public class Image {
         this.imagePath = imagePath;
         this.place = place;
     }
-
-
 
 }

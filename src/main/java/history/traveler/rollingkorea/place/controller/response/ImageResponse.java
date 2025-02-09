@@ -1,8 +1,11 @@
 package history.traveler.rollingkorea.place.controller.response;
 import history.traveler.rollingkorea.place.domain.Place;
 import java.util.List;
+
 public record ImageResponse(
+
         String imagePath
+
 ) {
 
     public static List<ImageResponse> toResponse(Place place){

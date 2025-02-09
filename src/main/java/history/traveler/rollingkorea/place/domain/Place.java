@@ -1,5 +1,4 @@
 package history.traveler.rollingkorea.place.domain;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,15 +10,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
-
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //상속받은 서브클래스에서만 기본 생성자를 사용할 수 있도록 제한=>외부에서 직접 인스턴스를 생성하는 것을 방지
 @Table(name = "place")
 public class Place {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_id")
@@ -53,7 +51,6 @@ public class Place {
     @Column(name = "count_like")
     private String countLike;
 
-
     @Builder
     public Place(Long placeId, String placeName, String website, double latitude, double longitude, String region, String placeDescription, LocalDateTime createdAt, LocalDateTime updatedAt, String countLike) {
         this.placeId = placeId;
@@ -67,6 +64,4 @@ public class Place {
         this.updatedAt = updatedAt;
         this.countLike = countLike;
     }
-
-
 }

@@ -1,5 +1,4 @@
 package history.traveler.rollingkorea.place.controller;
-
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.domain.Place;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -32,7 +30,6 @@ public class PlaceController {
     public PlaceController(PlaceService placeService) {
         this.placeService = placeService;
     }
-
 
     @GetMapping(path = "/api/place/{region}",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Place> getPlaces(@PathVariable String region) {
