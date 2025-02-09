@@ -12,6 +12,8 @@ import history.traveler.rollingkorea.place.repository.ImageRepository;
 import history.traveler.rollingkorea.place.repository.PlaceRepository;
 import history.traveler.rollingkorea.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,15 +28,14 @@ public class PlaceServiceImpl implements PlaceService {
     private final PlaceRepository placeRepository;
     private final ImageRepository imageRepository;
 
-//
-//    public Page<PlaceResponse> placeFindAll(Pageable pageable) {
-//        // 모든 유적지를 페이지네이션하여 반환
-//        return placeRepository.findAll(pageable).map(this::convertToResponse);
-//    }
-
     @Override
-    public List<Place> findByRegion(String region) {
-        return placeRepository.findByRegion(region);
+    @Transactional(readOnly = true)
+    public Page<PlaceResponse> findByRegion(String region, Pageable pageable) {
+        // region으로 검색 후 모든 place 찾기
+        Page<Place> places = placeRepository.findByRegion(pageable, region);
+
+        // Place 객체들을 PlaceResponse 객체로 변환
+        return places.map(place -> PlaceResponse.from(place, imageRepository));  // from() 메서드 사용
     }
 
     @Override

@@ -1,4 +1,5 @@
 package history.traveler.rollingkorea.place.controller.response;
+
 import history.traveler.rollingkorea.place.domain.Image;
 import history.traveler.rollingkorea.place.domain.Place;
 import history.traveler.rollingkorea.place.repository.ImageRepository;
