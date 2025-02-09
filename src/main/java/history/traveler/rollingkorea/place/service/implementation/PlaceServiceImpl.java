@@ -41,11 +41,6 @@ public class PlaceServiceImpl implements PlaceService {
     @Transactional
     public void update(Long id, PlaceEditRequest placeEditRequest) throws IOException {
 
-        // 수정할 이름이 이미 존재하면 예외처리
-        if (placeRepository.findByPlaceName(placeEditRequest.placeName()).isPresent()) {
-            throw new BusinessException(ErrorCode.DUPLICATE_PLACE);
-        }
-
         Place place = placeRepository.findByPlaceId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
 
