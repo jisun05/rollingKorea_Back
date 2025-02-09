@@ -4,6 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +20,6 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     Optional<Place> findByPlaceId(Long placeId);
 
+
+    Optional<Object> findByPlaceName(@NotNull(message = "The placeName is a required field.") String s);
 }

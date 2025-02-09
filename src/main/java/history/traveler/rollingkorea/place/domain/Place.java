@@ -1,5 +1,6 @@
 package history.traveler.rollingkorea.place.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -63,5 +64,14 @@ public class Place {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.countLike = countLike;
+    }
+
+    // 업데이트 ( 이미지는 이미지 엔티티에서 처리)
+    public void update(PlaceEditRequest placeEditRequest) {
+        this.placeName = placeEditRequest.placeName();
+        this.region = placeEditRequest.region();
+        this.latitude = placeEditRequest.latitude();
+        this.longitude = placeEditRequest.longitude();
+        this.placeDescription = placeEditRequest.placeDescription();
     }
 }

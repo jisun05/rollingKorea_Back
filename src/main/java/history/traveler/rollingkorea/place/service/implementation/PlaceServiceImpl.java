@@ -1,5 +1,8 @@
 package history.traveler.rollingkorea.place.service.implementation;
 
+import history.traveler.rollingkorea.global.error.ErrorCode;
+import history.traveler.rollingkorea.global.error.exception.BusinessException;
+import history.traveler.rollingkorea.place.controller.request.ImageRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
@@ -37,25 +40,37 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     @Transactional
     public void update(Long id, PlaceEditRequest placeEditRequest) throws IOException {
-        Place place = placeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Place not found with id: " + id));
 
-        // Builder 패턴을 사용하여 수정
-        Place updatedPlace = Place.builder()
-                .placeId(place.getPlaceId()) // 기존 ID 유지  왜 이렇게 하는지? 세팅안하면 그대로 이지 않나?
-                .placeName(placeEditRequest.placeName())
-                .placeDescription(placeEditRequest.placeDescription())
-                .latitude(placeEditRequest.latitude())
-                .longitude(placeEditRequest.longitude())
-                .region(placeEditRequest.region())
-                .createdAt(place.getCreatedAt()) // 기존 생성일시 유지
-                .updatedAt(LocalDateTime.now()) // 수정일시 업데이트
-                .build();
+        // 수정할 이름이 이미 존재하면 예외처리
+        if (placeRepository.findByPlaceName(placeEditRequest.placeName()).isPresent()) {
+            throw new BusinessException(ErrorCode.DUPLICATE_PLACE);
+        }
 
-             placeRepository.save(updatedPlace);
+        Place place = placeRepository.findByPlaceId(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
 
+        // Place 정보 업데이트
+        place.update(placeEditRequest);
+
+        // 이미지 업데이트 로직
+        if (placeEditRequest.imageRequests() != null && !placeEditRequest.imageRequests().isEmpty()) {
+            List<String> newImagePaths = placeEditRequest.imageRequests().stream()
+                    .map(ImageRequest::imagePath)  // ImageRequest에서 imagePath 추출
+                    .toList();
+
+            // 기존 이미지 삭제 (이미지 테이블에서 해당 placeId에 해당하는 이미지들 삭제)
+            imageRepository.deleteByPlace_PlaceId(id);  // PlaceId에 해당하는 이미지 모두 삭제
+
+            // 새로운 이미지 추가
+            for (String imagePath : newImagePaths) {
+                Image image = Image.builder()
+                        .imagePath(imagePath)
+                        .place(place)  // 해당 Place와 연결
+                        .build();
+                imageRepository.save(image);  // 새로운 이미지 저장
+            }
+        }
     }
-
     @Override
     @Transactional
     public boolean placeDelete(Long id) {
