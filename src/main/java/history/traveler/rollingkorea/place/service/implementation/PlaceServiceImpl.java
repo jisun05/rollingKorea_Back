@@ -17,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -40,7 +38,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Transactional
-    public void update(Long id, PlaceEditRequest placeEditRequest) throws IOException {
+    public void placeUpdate(Long id, PlaceEditRequest placeEditRequest){
 
         Place place = placeRepository.findByPlaceId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
@@ -80,30 +78,37 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Transactional
-    public Place placeCreate(PlaceCreateRequest placeCreateRequest) {
+    public void placeCreate(PlaceCreateRequest placeCreateRequest) {
 
-        LocalDateTime now = LocalDateTime.now();
+        // 같은 이름의 상품이 있으면 예외처리
+        if (placeRepository.findByPlaceName(placeCreateRequest.placeName()).isPresent()) {
+            throw new BusinessException(ErrorCode.DUPLICATE_PLACE);
+        }
 
-        Place newPlace = Place.builder()
-                .placeName(placeCreateRequest.placeName())
-                .placeDescription(placeCreateRequest.placeDescription())
-                .region(placeCreateRequest.region())
-                .longitude(placeCreateRequest.longitude())
-                .latitude(placeCreateRequest.latitude())
-                .website(placeCreateRequest.website())
-                .createdAt(now) // 생성일시 추가
-                .updatedAt(now) // 수정일시 추가
-                .build();
+        // 같은 좌표(latitude, longitude)의 장소가 있으면 예외 처리
+        if (placeRepository.findByLatitudeAndLongitude(placeCreateRequest.latitude(), placeCreateRequest.longitude()).isPresent()) {
+            throw new BusinessException(ErrorCode.DUPLICATE_LOCATION);
+        }
+
+        //유적지 저장
+        Place place = Place.create(placeCreateRequest);
+        placeRepository.save(place);
 
         // 2. Image가 있는 경우 place 설정 후 저장
-        if (placeCreateRequest.imageRequest() != null && placeCreateRequest.imageRequest().imagePath() != null) {
-            Image newImage = Image.builder()
-                    .imagePath(placeCreateRequest.imageRequest().imagePath()) // 이미지 경로 설정
-                    .place(newPlace)  //  Place 객체 설정 (placeId 자동 세팅됨)
-                    .build();
-            imageRepository.save(newImage); // Image 저장
+        if (placeCreateRequest.imageRequests() != null) {
+            List<String> newImagePaths = placeCreateRequest.imageRequests().stream()
+                    .map(ImageRequest::imagePath)  // ImageRequest에서 imagePath 추출
+                    .toList();
+
+            for (String imagePath : newImagePaths) {
+                Image image = Image.builder()
+                        .imagePath(imagePath)
+                        .place(place)  // 해당 Place와 연결
+                        .build();
+                imageRepository.save(image);  // 새로운 이미지 저장
+            }
         }
-        return placeRepository.save(newPlace);
+         placeRepository.save(place);
     }
 
     // Place 객체를 PlaceResponse 객체로 변환하는 메서드

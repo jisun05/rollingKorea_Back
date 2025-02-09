@@ -3,7 +3,6 @@ package history.traveler.rollingkorea.place.controller;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
-import history.traveler.rollingkorea.place.domain.Place;
 import history.traveler.rollingkorea.place.service.PlaceService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -51,11 +50,10 @@ public class PlaceController {
     // 유적지 등록 (관리자)
    // @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/admin/place/create")
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
-    public ResponseEntity<Place> addPlace(@RequestBody PlaceCreateRequest placeCreateRequest) {
-        Place createdPlace = placeService.placeCreate(placeCreateRequest);
-        logger.info("Place created: {}", createdPlace);
-        return new ResponseEntity<>(createdPlace, HttpStatus.CREATED);
+    public void addPlace(@RequestBody PlaceCreateRequest placeCreateRequest) {
+        placeService.placeCreate(placeCreateRequest);
     }
 
     // 유적지 수정 (관리자)
@@ -63,7 +61,7 @@ public class PlaceController {
     @PutMapping("/admin/place/{id}")//이후 url수정필요
     @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public void updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
-       placeService.update(id, placeEditRequest);
+       placeService.placeUpdate(id, placeEditRequest);
 
     }
 

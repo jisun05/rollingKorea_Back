@@ -1,6 +1,7 @@
 package history.traveler.rollingkorea.place.controller.request;
 import jakarta.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public record PlaceCreateRequest(
 
@@ -19,6 +20,6 @@ public record PlaceCreateRequest(
         @NotNull
         String placeDescription,
         @Nullable
-        ImageRequest imageRequest
+        List<ImageRequest> imageRequests
 ) {
 }

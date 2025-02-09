@@ -22,6 +22,7 @@ public enum ErrorCode {
     //place
     NOT_FOUND_PLACE(HttpStatus.NOT_FOUND, "Place is not found."),
     DUPLICATE_PLACE(HttpStatus.BAD_REQUEST, "This place already exists."),
+    DUPLICATE_LOCATION(HttpStatus.BAD_REQUEST,"There's already a registered place at this location."),
     //place_likes
     PLACE_IS_DUPLICATED(HttpStatus.NOT_FOUND, "You already have it."),
     NOT_FOUND_LIKEPLACE(HttpStatus.NOT_FOUND, "Not found your save place."),
