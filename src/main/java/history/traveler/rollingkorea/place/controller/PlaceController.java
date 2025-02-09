@@ -57,15 +57,9 @@ public class PlaceController {
     //@CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/admin/place/{id}")//이후 url수정필요
     @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
-    public ResponseEntity<Place> updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
-        Place updatedPlace = placeService.update(id, placeEditRequest);
-        if (updatedPlace != null) {
-            logger.info("Place updated: {}", updatedPlace);
-            return new ResponseEntity<>(updatedPlace, HttpStatus.OK);
-        } else {
-            logger.error("Place not found for id: {}", id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public void updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
+       placeService.update(id, placeEditRequest);
+
     }
 
     // 유적지 삭제 (관리자)
