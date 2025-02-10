@@ -5,7 +5,6 @@ import history.traveler.rollingkorea.comment.controller.response.CommentResponse
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
-import history.traveler.rollingkorea.question.controller.response.ContactUsResponse;
 import history.traveler.rollingkorea.question.domain.ContactUs;
 import history.traveler.rollingkorea.question.repository.ContactUsRepository;
 import history.traveler.rollingkorea.question.service.ContactUsService;
@@ -19,7 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static history.traveler.rollingkorea.global.error.ErrorCode.*;
+import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_USER;
+import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_CONTACTUS;
 
 @Service
 @Transactional
