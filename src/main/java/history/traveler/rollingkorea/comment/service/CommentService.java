@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface CommentService {
 
     //create comment
-    void createComment(CommentCreateRequest commentCreateRequest);
+    void createComment(Long userId, CommentCreateRequest commentCreateRequest);
 
     //search whole comment
     Page<CommentResponse> commentFindAll(Pageable pageable);

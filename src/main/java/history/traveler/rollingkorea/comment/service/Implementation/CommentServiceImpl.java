@@ -34,12 +34,14 @@ public class CommentServiceImpl implements CommentService {
 
     //only user can write
     @Override
-    public void createComment(CommentCreateRequest commentCreateRequest) {
+    public void createComment(Long userId, CommentCreateRequest commentCreateRequest) {
         User user = getUser(); // bring user data
         if (user == null) {
+            System.out.println("check test111");
             throw new IllegalArgumentException("user is null");
         }
-        Comment comment = Comment.createComment(user, commentCreateRequest);
+      Comment comment = Comment.createComment(user, commentCreateRequest);
+        System.out.println("DEBUG: comment userId = " + comment.getUser().getUserId());
         commentRepository.save(comment);
     }
 
@@ -136,7 +138,7 @@ public class CommentServiceImpl implements CommentService {
 
     //check comment's owner
     private void writeCommentUserEqualLoginUserCheck(User user, Comment comment) {
-        if (!comment.getUser().getLoginId().equals(user.getLoginId())) {
+        if (!comment.getUser().getUserId().equals(user.getUserId())) {
             throw new BusinessException(NOT_MATCH_COMMENT);
         }
     }

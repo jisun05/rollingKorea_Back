@@ -31,7 +31,7 @@ public class Reply {
 
 
     @ManyToOne // Reply는 여러 개가 하나의 Comment에 속할 수 있는 관계
-    @JoinColumn(name = "comment_id", referencedColumnName = "comment_id", insertable = false, updatable = false )
+    @JoinColumn(name = "comment_id", nullable = true, referencedColumnName = "comment_id", insertable = false, updatable = false )
     private Comment comment;
 
     private String content;

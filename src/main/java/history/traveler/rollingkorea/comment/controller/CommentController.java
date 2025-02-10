@@ -43,8 +43,9 @@ public class CommentController {
     @PostMapping("/comment")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('USER')")
+    @Operation(summary = "Create comment by user.", description = "Create the comment for a specific user.")
     public void createComment(Long userId, @RequestBody @Valid CommentCreateRequest commentCreateRequest) {
-         commentService.createComment(commentCreateRequest);
+         commentService.createComment(userId, commentCreateRequest);
     }
 
     //comment search

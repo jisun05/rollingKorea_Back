@@ -33,7 +33,7 @@ public class Comment {
 
 
     @ManyToOne // Comment는 여러 개가 하나의 User에 속할 수 있는 단방향 관계
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", updatable = false)
     private User user; // User 엔티티와의 관계를 나타내는 필드
 
 
@@ -50,20 +50,26 @@ public class Comment {
     private Long likes;
 
     @Builder
-    public Comment(Long userId, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
-
-        this.getUser().setUserId(userId);
+    public Comment(User user, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.user = user;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
+
     //create comment
     public static Comment createComment(User user, CommentCreateRequest commentCreateRequest) {
 
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null when creating a comment!");
+        }
+
         return Comment.builder()
-                .userId(user.getUserId())
+                .user(user)
                 .content(commentCreateRequest.content())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 
