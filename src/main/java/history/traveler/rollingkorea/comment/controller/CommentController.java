@@ -1,4 +1,5 @@
 package history.traveler.rollingkorea.comment.controller;
+
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
@@ -7,6 +8,7 @@ import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.service.CommentService;
 import history.traveler.rollingkorea.comment.service.Implementation.CommentServiceImpl;
 import history.traveler.rollingkorea.comment.service.ReplyService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Parameter;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -78,11 +81,13 @@ public class CommentController {
         commentService.deleteComment(commentId);
     }
 
-    //search by id
-    @GetMapping("/comment/{userId}")
+    @GetMapping("/api/comment/user/{userId}")
+    @Operation(summary = "Find comments by user ID", description = "Fetches the comments for a specific user.")
     @ResponseStatus(HttpStatus.OK)
-    public Page<CommentResponse> findByUser( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return commentService.findByUser(pageable);
+    public Page<CommentResponse> findCommentByUser(
+            @Parameter(description = "The unique identifier of the user", required = true) @PathVariable Long userId,
+            @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return commentService.findByUser_UserId(userId, pageable);
     }
 
 }

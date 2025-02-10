@@ -14,13 +14,12 @@ import history.traveler.rollingkorea.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_COMMENT;
-import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_USER;
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_COMMENT;
 
 @Service
@@ -75,9 +74,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<CommentResponse> findByUser(Pageable pageable) {
-        User user = getUser();
-        Page<Comment> comments = commentRepository.findByUser(user, pageable);
+    public Page<CommentResponse> findByUser_UserId(Long userId, Pageable pageable) {
+        Page<Comment> comments = commentRepository.findByUser_UserId(userId, pageable);
         return comments.map(CommentResponse::new);
     }
 
@@ -96,19 +94,39 @@ public class CommentServiceImpl implements CommentService {
     public User getCommentForUser(Long userId) {
         return userRepository.findById(userId).get();
     }
-
+// 원래 코드
+//
+//    private User getUser() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            String loginId = authentication.getName(); // bring loginId
+//
+//            return userRepository.findByLoginId(loginId) //search by loginId
+//                    .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
+//        }
+//
+//        return null;
+//    }
 
     private User getUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            String loginId = authentication.getName(); // bring loginId
+        //테스트 후 주석 제거 필요
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            String loginId = authentication.getName(); // bring loginId
+//
+//            return userRepository.findByLoginId(loginId) // search by loginId
+//                    .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
+//        }
 
-            return userRepository.findByLoginId(loginId) //search by loginId
-                    .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
-        }
-
-        return null;
+        // 🔥 테스트용 더미 유저 추가 (로그인 없이 Swagger 테스트 가능)
+        return User.builder()
+                .userId(1L)
+                .loginId("jisunnala@gmail.com")
+                .nickname("TestUser")
+                .build();
     }
+
 
     //check if the comment is exist
     private Comment existCommentCheck(Long commentId) {

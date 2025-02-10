@@ -32,7 +32,7 @@ public class Comment {
     private Long commentId;    //auto increment 쓸 경우 String 타입은 지양한다그래서 변경
 
 
-    @ManyToOne // Comment는 여러 개가 하나의 User에 속할 수 있는 관계
+    @ManyToOne // Comment는 여러 개가 하나의 User에 속할 수 있는 단방향 관계
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user; // User 엔티티와의 관계를 나타내는 필드
 
