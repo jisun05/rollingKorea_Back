@@ -1,17 +1,26 @@
 package history.traveler.rollingkorea.comment.controller;
 
 
-
-import history.traveler.rollingkorea.comment.service.ReplyService;
 import history.traveler.rollingkorea.comment.controller.request.ReplyCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest;
-
+import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
+import history.traveler.rollingkorea.comment.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +30,14 @@ public class ReplyController {
 
 private final ReplyService replyService;
 
+    @GetMapping("/reply/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<ReplyResponse>> getRepliesByCommentId(@PathVariable Long commentId) {
+        List<ReplyResponse> replies = replyService.getRepliesByCommentId(commentId);
+        return ResponseEntity.ok(replies);
+    }
 
-
-//make reply
+    //make reply
     @PostMapping("/reply")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('USER')")

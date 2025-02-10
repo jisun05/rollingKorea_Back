@@ -122,6 +122,4 @@ public class CommentServiceImpl implements CommentService {
             throw new BusinessException(NOT_MATCH_COMMENT);
         }
     }
-
-
 }

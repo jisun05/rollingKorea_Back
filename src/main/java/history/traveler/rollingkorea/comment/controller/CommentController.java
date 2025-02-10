@@ -44,12 +44,12 @@ public class CommentController {
          commentService.createComment(commentCreateRequest);
     }
 
-//    //comment search
-//    @GetMapping("/comment")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Page<CommentResponse> commentFindAll( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
-//        return commentService.commentFindAll(pageable); // 댓글 서비스에서 페이지 정보를 기반으로 모든 댓글을 조회하여 반환
-//    }
+    //comment search
+    @GetMapping("/comment")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<CommentResponse> commentFindAll( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return commentService.commentFindAll(pageable); // 댓글 서비스에서 페이지 정보를 기반으로 모든 댓글을 조회하여 반환
+    }
 
     //comment search
     @GetMapping("/comment/{commentId}")
