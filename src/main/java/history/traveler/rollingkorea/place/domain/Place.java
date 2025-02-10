@@ -88,6 +88,7 @@ public class Place {
         this.region = placeEditRequest.region();
         this.latitude = placeEditRequest.latitude();
         this.longitude = placeEditRequest.longitude();
+        this.updatedAt = LocalDateTime.now();
         this.placeDescription = placeEditRequest.placeDescription();
     }
 }

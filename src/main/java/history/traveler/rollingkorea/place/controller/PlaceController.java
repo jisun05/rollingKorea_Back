@@ -4,6 +4,7 @@ import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
 import history.traveler.rollingkorea.place.service.PlaceService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,7 @@ public class PlaceController {
         this.placeService = placeService;
     }
 
+    @Operation
     @GetMapping(path = "/api/place",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Page<PlaceResponse> placeFindByRegion(@RequestParam String region, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
