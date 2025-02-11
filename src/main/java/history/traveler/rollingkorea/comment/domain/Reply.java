@@ -70,6 +70,7 @@ public class Reply {
     public void edit(@NotNull(message = "write your reply") @Size(max = 500, message = "max size is 500") String content) {
 
             this.content = content;
+            this.updatedAt = LocalDateTime.now();
 
     }
 }
