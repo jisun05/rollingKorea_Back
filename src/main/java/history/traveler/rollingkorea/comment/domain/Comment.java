@@ -76,6 +76,7 @@ public class Comment {
     //edit comment
     public void editComment(CommentEditRequest commentEditRequest) {
         this.content = commentEditRequest.content();
+        this.updatedAt = LocalDateTime.now();
     }
 
 }
