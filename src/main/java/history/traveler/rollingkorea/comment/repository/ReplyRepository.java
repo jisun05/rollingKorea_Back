@@ -17,6 +17,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     void deleteByReplyId(Long replyId);
 
 
-
+    @Query("select r from Reply r where r.user.userId = :userId")
+    List<Reply> findByUserId(@Param("userId") Long userId);
 }
 

@@ -6,6 +6,9 @@ import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.service.ReplyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,10 +33,18 @@ public class ReplyController {
 
 private final ReplyService replyService;
 
-    @GetMapping("/reply/{commentId}")
+    @GetMapping("/reply/comment/{commentId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<ReplyResponse>> getRepliesByCommentId(@PathVariable Long commentId) {
+    public ResponseEntity<List<ReplyResponse>> getRepliesByCommentId(@PathVariable Long commentId, @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         List<ReplyResponse> replies = replyService.getRepliesByCommentId(commentId);
+        return ResponseEntity.ok(replies);
+    }
+
+
+    @GetMapping("/reply/user/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<ReplyResponse>> getRepliesByUserId(@PathVariable Long userId, @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+        List<ReplyResponse> replies = replyService.getRepliesByUserId(userId, pageable);
         return ResponseEntity.ok(replies);
     }
 

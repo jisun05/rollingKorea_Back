@@ -14,6 +14,7 @@ import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,8 +31,6 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
     private final UserRepository userRepository;
 
-
-
     @Override
     public void replyCreate(Long commentId, ReplyCreateRequest replyCreateRequest) {
         User user = getUser();
@@ -42,11 +41,7 @@ public class ReplyServiceImpl implements ReplyService {
 
         Reply reply = Reply.createReply(user, comment, replyCreateRequest);
         replyRepository.save(reply);
-
-
-
     }
-
 
     //edit reply
     @Override
@@ -58,12 +53,27 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public void deleteByReplyId(Long replyId) {
-
         User user = getUser();
         existMemberWriteReplyCheck(replyId, user);
         replyRepository.deleteByReplyId(replyId);
-
     }
+
+    @Override
+    public List<ReplyResponse> getRepliesByCommentId(Long commentId) {
+        List<Reply> replies = replyRepository.findByCommentId(commentId);
+        return replies.stream()
+                .map(ReplyResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReplyResponse> getRepliesByUserId(Long userId, Pageable pageable) {
+        List<Reply> replies = replyRepository.findByUserId(userId);
+        return replies.stream()
+                .map(ReplyResponse::new)
+                .collect(Collectors.toList());
+    }
+
 //테스트를 위한 주석
 //    private User getUser() {
 //
@@ -87,11 +97,6 @@ public class ReplyServiceImpl implements ReplyService {
                 .orElseThrow(() -> new BusinessException(NOT_MATCH_REPLY));
     }
 
-    public List<ReplyResponse> getRepliesByCommentId(Long commentId) {
-        List<Reply> replies = replyRepository.findByCommentId(commentId);
-        return replies.stream()
-                .map(ReplyResponse::new)
-                .collect(Collectors.toList());
-    }
+
 
 }
