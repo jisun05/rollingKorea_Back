@@ -10,7 +10,7 @@ public enum ErrorCode {
 
 
     //user
-
+    NOT_FOUND_USER(HttpStatus.NOT_FOUND, "User not found"),
     NOT_EQUAL_PASSWORD(HttpStatus.BAD_REQUEST,"Check your password"),
     DUPLICATED_LOGIN_ID(HttpStatus.BAD_REQUEST, "This ID already exists."),
 
@@ -34,8 +34,9 @@ public enum ErrorCode {
 
 
     //reply
-    NOT_FOUND_USER(HttpStatus.NOT_FOUND, "User not found"),
+
     NOT_FOUND_REPLY(HttpStatus.NOT_FOUND, "Reply not found."),
+    NOT_MATCH_REPLY(HttpStatus.BAD_REQUEST, "This is not the reply you wrote."),
 
 
     //contactUs

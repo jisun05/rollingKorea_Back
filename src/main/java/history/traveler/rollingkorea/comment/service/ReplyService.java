@@ -16,7 +16,7 @@ public interface ReplyService {
     void replyEdit(Long replyId, ReplyEditRequest ReplyEditRequest);
 
 
-    void replyDelete(Long replyId);
+    void deleteByReplyId(Long replyId);
 
     List<ReplyResponse> getRepliesByCommentId(Long commentId);
 }

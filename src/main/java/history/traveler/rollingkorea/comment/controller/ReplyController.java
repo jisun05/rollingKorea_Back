@@ -54,11 +54,11 @@ private final ReplyService replyService;
     }
 
     //delete reply
-    @DeleteMapping("/reply/{reply}")
+    @DeleteMapping("/reply/{replyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public void replyDelete(@PathVariable("replyId") Long replyId) {
-        replyService.replyDelete(replyId);
+    public void deleteReply(@PathVariable("replyId") Long replyId) {
+        replyService.deleteByReplyId(replyId);
     }
 
 

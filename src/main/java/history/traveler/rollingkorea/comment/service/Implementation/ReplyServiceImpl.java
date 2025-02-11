@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_REPLY;
+import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_REPLY;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +29,7 @@ public class ReplyServiceImpl implements ReplyService {
     private final CommentRepository commentRepository;
     private final ReplyRepository replyRepository;
     private final UserRepository userRepository;
+
 
 
     @Override
@@ -43,6 +44,7 @@ public class ReplyServiceImpl implements ReplyService {
         replyRepository.save(reply);
 
 
+
     }
 
 
@@ -55,11 +57,11 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public void replyDelete(Long replyId) {
+    public void deleteByReplyId(Long replyId) {
 
         User user = getUser();
-        Reply reply = existMemberWriteReplyCheck(replyId, user);
-        replyRepository.delete(reply);
+        existMemberWriteReplyCheck(replyId, user);
+        replyRepository.deleteByReplyId(replyId);
 
     }
 //테스트를 위한 주석
@@ -82,7 +84,7 @@ public class ReplyServiceImpl implements ReplyService {
     //check user's reply
     private Reply existMemberWriteReplyCheck(Long replyId, User user) {
         return replyRepository.findByReplyIdAndUser_UserId(replyId, user.getUserId())
-                .orElseThrow(() -> new BusinessException(NOT_FOUND_REPLY));
+                .orElseThrow(() -> new BusinessException(NOT_MATCH_REPLY));
     }
 
     public List<ReplyResponse> getRepliesByCommentId(Long commentId) {

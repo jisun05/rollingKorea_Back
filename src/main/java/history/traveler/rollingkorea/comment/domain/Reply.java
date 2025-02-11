@@ -31,7 +31,7 @@ public class Reply {
 
 
     @ManyToOne // Reply는 여러 개가 하나의 Comment에 속할 수 있는 관계
-    @JoinColumn(name = "comment_id", nullable = true, referencedColumnName = "comment_id", insertable = false, updatable = false )
+    @JoinColumn(name = "comment_id", nullable = true, referencedColumnName = "comment_id", updatable = false )
     private Comment comment;
 
     private String content;
@@ -47,18 +47,23 @@ public class Reply {
 
 
     @Builder
-    public Reply(User user, Comment comment, String content) {
+    public Reply(User user, Comment comment, String content,  LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.user = user;
         this.comment = comment;
         this.content = content;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     // create reply
     public static Reply createReply(User user, Comment comment, ReplyCreateRequest replyCreateRequest) {
+        System.out.println("Comment ID in createReply: " + comment.getCommentId()); // 디버깅용
         return Reply.builder()
                 .user(user)
                 .comment(comment)
                 .content(replyCreateRequest.content())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 
