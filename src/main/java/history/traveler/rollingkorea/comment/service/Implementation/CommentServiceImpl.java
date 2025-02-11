@@ -111,16 +111,6 @@ public class CommentServiceImpl implements CommentService {
 //    }
 
     private User getUser() {
-        //테스트 후 주석 제거 필요
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            String loginId = authentication.getName(); // bring loginId
-//
-//            return userRepository.findByLoginId(loginId) // search by loginId
-//                    .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
-//        }
-
         // 🔥 테스트용 더미 유저 추가 (로그인 없이 Swagger 테스트 가능)
         return User.builder()
                 .userId(1L)

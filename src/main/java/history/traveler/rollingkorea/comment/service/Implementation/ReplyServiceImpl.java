@@ -14,13 +14,12 @@ import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_REPLY;
-import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_USER;
 
 @Service
 @RequiredArgsConstructor
@@ -63,12 +62,21 @@ public class ReplyServiceImpl implements ReplyService {
         replyRepository.delete(reply);
 
     }
+//테스트를 위한 주석
+//    private User getUser() {
+//
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        return userRepository.findByLoginId(authentication.getName())
+//                .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
+//    }
 
     private User getUser() {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findByLoginId(authentication.getName())
-                .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
+        // 🔥 테스트용 더미 유저 추가 (로그인 없이 Swagger 테스트 가능)
+        return User.builder()
+                .userId(1L)
+                .loginId("jisunnala@gmail.com")
+                .nickname("TestUser")
+                .build();
     }
 
     //check user's reply
