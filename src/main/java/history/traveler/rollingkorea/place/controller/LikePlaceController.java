@@ -1,10 +1,17 @@
 package history.traveler.rollingkorea.place.controller;
 
 import history.traveler.rollingkorea.place.controller.request.LikePlaceManageRequest;
+import history.traveler.rollingkorea.place.controller.response.LikePlaceResponse;
 import history.traveler.rollingkorea.place.service.LikePlaceService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +35,14 @@ public class LikePlaceController {
         likePlaceService.manageLikePlace(likePlaceManageRequest);
     }
 
-//    //search likePlace
-//    @GetMapping("/api/likePlace/{userId}")
-//    @Operation(summary = "Find likePlaces by user ID", description = "Fetches the likePlaces for a specific user.")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Page<PlaceResponse> findAllByUser
-//    (@Parameter(description = "The unique identifier of the user", required = true) @PathVariable User user,
-//     @PageableDefault(sort = "like_place_id", direction = Sort.Direction.DESC) Pageable pageable){
-//        return likePlaceService.findAllByUser(user ,pageable);
-//    }
+    //search likePlace
+    @GetMapping("/api/likePlace")
+    @Operation(summary = "Find likePlaces by user ID", description = "Fetches the likePlaces for a specific user.")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('USER')")
+    public Page<LikePlaceResponse> findAllByUser
+    (@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return likePlaceService.findAllByUser(pageable);
+    }
 
 }

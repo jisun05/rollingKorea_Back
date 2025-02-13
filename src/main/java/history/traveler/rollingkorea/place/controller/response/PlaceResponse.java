@@ -1,9 +1,11 @@
 package history.traveler.rollingkorea.place.controller.response;
 
 import history.traveler.rollingkorea.place.domain.Image;
+import history.traveler.rollingkorea.place.domain.LikePlace;
 import history.traveler.rollingkorea.place.domain.Place;
 import history.traveler.rollingkorea.place.repository.ImageRepository;
 import lombok.Builder;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,8 @@ public record PlaceResponse(
 
 )
 {
+
+
 
     // Place 객체를 PlaceResponse로 변환하는 정적 메서드
     public static PlaceResponse from(Place place, ImageRepository imageRepository) {
@@ -42,4 +46,6 @@ public record PlaceResponse(
                 .map(image -> new ImageResponse(image.getImagePath()))  // Image 엔티티를 ImageResponse로 변환
                 .collect(Collectors.toList());  // 리스트로 수집
     }
+
+
 }

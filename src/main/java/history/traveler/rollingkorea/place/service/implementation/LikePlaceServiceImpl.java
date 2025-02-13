@@ -2,6 +2,7 @@ package history.traveler.rollingkorea.place.service.implementation;
 
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.place.controller.request.LikePlaceManageRequest;
+import history.traveler.rollingkorea.place.controller.response.LikePlaceResponse;
 import history.traveler.rollingkorea.place.domain.LikePlace;
 import history.traveler.rollingkorea.place.domain.Place;
 import history.traveler.rollingkorea.place.repository.ImageRepository;
@@ -10,6 +11,8 @@ import history.traveler.rollingkorea.place.repository.PlaceRepository;
 import history.traveler.rollingkorea.place.service.LikePlaceService;
 import history.traveler.rollingkorea.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,19 +54,15 @@ public class LikePlaceServiceImpl implements LikePlaceService {
     }
 
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Page<PlaceResponse> findAllByUser(User user, Pageable pageable) {
-//         user = getUser();
-//
-//        Page<LikePlace> likePlaces = likePlaceRepository.findAllByUser(user ,pageable);
-//
-//        return likePlaces.map(likePlace -> {
-//            Place place = placeRepository.findById(likePlace.getPlaceId())
-//                    .orElseThrow(() -> new BusinessException(NOT_FOUND_LIKEPLACE));
-//            return PlaceResponse.from(place, imageRepository);
-//        });
-//    }
+    @Override
+    @Transactional(readOnly = true)
+    public Page<LikePlaceResponse> findAllByUser(Pageable pageable) {
+         User user = getUser();
+
+        Page<LikePlace> likePlaces = likePlaceRepository.findAllByUser_UserId(user.getUserId() ,pageable);
+
+        return likePlaces.map(LikePlaceResponse::new);
+    }
 
 
 

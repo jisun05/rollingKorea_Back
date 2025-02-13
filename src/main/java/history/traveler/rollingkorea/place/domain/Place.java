@@ -6,6 +6,7 @@ import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -104,4 +105,9 @@ public class Place {
         this.updatedAt = LocalDateTime.now();
         this.placeDescription = placeEditRequest.placeDescription();
     }
+    // images 필드를 단방향 관계로 유지?
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
+
+
 }

@@ -10,11 +10,9 @@ import java.util.Optional;
 
 public interface LikePlaceRepository extends JpaRepository<LikePlace, Long> {
 
-    Page<LikePlace> findAllByUser(User user, Pageable pageable);
+    Page<LikePlace> findAllByUser_UserId(Long userId, Pageable pageable);
 
-   
 
-    //Optional<PlaceResponse> findByUser_UserId(Long userId);
 
     void deleteById(Long likePlaceId);
 

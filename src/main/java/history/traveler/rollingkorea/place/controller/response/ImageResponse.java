@@ -5,7 +5,7 @@ import java.util.List;
 public record ImageResponse(
 
         String imagePath
-
+        
 ) {
 
     public static List<ImageResponse> toResponse(Place place){
