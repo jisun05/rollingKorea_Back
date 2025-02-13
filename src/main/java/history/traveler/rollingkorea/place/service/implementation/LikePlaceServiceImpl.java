@@ -1,25 +1,19 @@
 package history.traveler.rollingkorea.place.service.implementation;
+
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
-import history.traveler.rollingkorea.place.controller.request.LikePlaceAddRequest;
-import history.traveler.rollingkorea.place.controller.response.LikePlaceResponse;
+import history.traveler.rollingkorea.place.controller.request.LikePlaceManageRequest;
 import history.traveler.rollingkorea.place.domain.LikePlace;
 import history.traveler.rollingkorea.place.domain.Place;
+import history.traveler.rollingkorea.place.repository.ImageRepository;
 import history.traveler.rollingkorea.place.repository.LikePlaceRepository;
 import history.traveler.rollingkorea.place.repository.PlaceRepository;
 import history.traveler.rollingkorea.place.service.LikePlaceService;
 import history.traveler.rollingkorea.user.domain.User;
-import history.traveler.rollingkorea.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_LIKEPLACE;
+
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_PLACE;
-import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_USER;
-import static history.traveler.rollingkorea.global.error.ErrorCode.PLACE_IS_DUPLICATED;
 
 @Service
 @RequiredArgsConstructor
@@ -28,46 +22,66 @@ public class LikePlaceServiceImpl implements LikePlaceService {
 
     private final LikePlaceRepository likePlaceRepository;
     private final PlaceRepository placeRepository;
-    private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
 
+    @Transactional
     @Override
-    public void addPlace(LikePlaceAddRequest likePlaceAddRequest) {
-
+    public void manageLikePlace(LikePlaceManageRequest likePlaceManageRequest) {
         User user = getUser();
-        Place place = existPlaceCheck(likePlaceAddRequest.place().getPlaceId());
+        Place place = existPlaceCheck(likePlaceManageRequest.placeId());
 
-        //이미 존재하는 상품이면 delete처리
-        if (likePlaceRepository.findByPlaceIdAndUser(place.getPlaceId(), user).isPresent())
-            throw new BusinessException(PLACE_IS_DUPLICATED);
+        // place와 user 값이 모두 유효한지 확인
+        if (place == null) {
+            throw new IllegalArgumentException("존재하지 않는 placeId입니다.");
+        }
 
-        LikePlace likePlace = LikePlace.builder()
-                .user(user)
-                .placeId(place.getPlaceId())
+        if (user == null) {
+            throw new IllegalArgumentException("유효하지 않은 사용자입니다.");
+        }
+        System.out.println("Place ID111: " + place.getPlaceId());
+        System.out.println("Place ID222: " + likePlaceManageRequest.placeId());
+        likePlaceRepository.findByPlace_PlaceIdAndUser(likePlaceManageRequest.placeId(), user)
+                .ifPresentOrElse(likePlaceRepository::delete, () -> {
+                    // LikePlace 객체 생성
+                    LikePlace likePlace = LikePlace.createLikePlace(user, place);
+                    // 로그로 LikePlace 객체의 값 확인
+                    System.out.println("LikePlace created with placeId: " + likePlace.getPlace().getPlaceId());
+                    likePlaceRepository.save(likePlace);
+                });
+    }
+
+
+//    @Override
+//    @Transactional(readOnly = true)
+//    public Page<PlaceResponse> findAllByUser(User user, Pageable pageable) {
+//         user = getUser();
+//
+//        Page<LikePlace> likePlaces = likePlaceRepository.findAllByUser(user ,pageable);
+//
+//        return likePlaces.map(likePlace -> {
+//            Place place = placeRepository.findById(likePlace.getPlaceId())
+//                    .orElseThrow(() -> new BusinessException(NOT_FOUND_LIKEPLACE));
+//            return PlaceResponse.from(place, imageRepository);
+//        });
+//    }
+
+
+
+
+
+//test를 위한 주석처리
+//    private User getUser(){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        return userRepository.findByLoginId(authentication.getName()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
+//    }
+
+    private User getUser() {
+        // 🔥 테스트용 더미 유저 추가 (로그인 없이 Swagger 테스트 가능)
+        return User.builder()
+                .userId(1L)
+                .loginId("jisunnala@gmail.com")
+                .nickname("TestUser")
                 .build();
-
-        likePlaceRepository.save(likePlace);
-    }
-
-    @Override
-    @Transactional(readOnly = true) /// 이 메서드는 트랜잭션을 사용하며, 읽기 전용으로 설정되어 있어 데이터 변경 작업을 하지 않음을 나타냅
-    public Page<LikePlaceResponse> findLikePlaceUser(Pageable pageable) {
-
-      User user = getUser();
-      Page<LikePlace> likePlaces = likePlaceRepository.findAllByUser_UserId(user.getUserId(), pageable);
-      return likePlaces.map(LikePlaceResponse::new);
-    }
-
-    @Override
-    public void deleteLikePlace(Long likePlaceId) {
-        User user = getUser();
-        LikePlace likePlace = existUserLikePlaceCheck(likePlaceId, user);
-        likePlaceRepository.deleteById(likePlace.getLikePlaceId());
-
-    }
-
-    private User getUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findByLoginId(authentication.getName()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
     }
 
     //The code is tested
@@ -76,8 +90,5 @@ public class LikePlaceServiceImpl implements LikePlaceService {
                 () -> new BusinessException(NOT_FOUND_PLACE));
     }
 
-    private LikePlace existUserLikePlaceCheck(Long likePlaceId, User user) {
-        return likePlaceRepository.findByPlaceIdAndUser(likePlaceId, user)
-                .orElseThrow(() -> new BusinessException(NOT_FOUND_LIKEPLACE));
-    }
+
 }

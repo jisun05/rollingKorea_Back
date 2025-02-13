@@ -1,18 +1,24 @@
 package history.traveler.rollingkorea.place.domain;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -53,8 +59,14 @@ public class Place {
     @Column(name = "count_like")
     private String countLike;
 
+    // 상품 삭제 시 이미지 DB 도 같이 삭제 , cascade 옵션
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    private List<LikePlace> likePlaces = new ArrayList<>();
+
+
+
     @Builder
-    public Place(Long placeId, String placeName, String website, double latitude, double longitude, String region, String placeDescription, LocalDateTime createdAt, LocalDateTime updatedAt, String countLike) {
+    public Place(Long placeId, String placeName, String website, double latitude, double longitude, String region, String placeDescription, LocalDateTime createdAt, LocalDateTime updatedAt, String countLike, List<LikePlace> likePlaces) {
         this.placeId = placeId;
         this.placeName = placeName;
         this.website = website;
@@ -65,6 +77,7 @@ public class Place {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.countLike = countLike;
+        this.likePlaces = likePlaces;
     }
 
     public static Place create(PlaceCreateRequest placeCreateRequest) {

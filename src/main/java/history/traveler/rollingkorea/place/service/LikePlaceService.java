@@ -1,18 +1,12 @@
 package history.traveler.rollingkorea.place.service;
-import history.traveler.rollingkorea.place.controller.request.LikePlaceAddRequest;
-import history.traveler.rollingkorea.place.controller.response.LikePlaceResponse;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import history.traveler.rollingkorea.place.controller.request.LikePlaceManageRequest;
 
 public interface LikePlaceService {
 
     //add LikePlace
-    void addPlace(LikePlaceAddRequest likePlaceAddRequest);
+    void manageLikePlace(LikePlaceManageRequest likePlaceManageRequest);
 
-    //search likeplace
-    Page<LikePlaceResponse> findLikePlaceUser(Pageable pageable);
-
-   //delete
-   void deleteLikePlace(Long likePlaceId);
+    //Page<PlaceResponse> findAllByUser(User user, Pageable pageable);
 
 }
