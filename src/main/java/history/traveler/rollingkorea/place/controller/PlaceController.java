@@ -51,7 +51,7 @@ public class PlaceController {
 
     // 유적지 등록 (관리자)
    // @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/admin/place/create")
+    @PostMapping("/admin/place")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public void addPlace(@RequestBody PlaceCreateRequest placeCreateRequest) {

@@ -22,7 +22,7 @@ public class ContactUsController {
     private final ContactUsService contactUsService;
 
     //create comment
-    @PostMapping("/contactUs")
+    @PostMapping("/contact-us")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('USER')")
     public void createContactUs(Long userId, @RequestBody @Valid ContactUsCreateRequest contactUsCreateRequest) {
@@ -31,7 +31,7 @@ public class ContactUsController {
 
 
     //edit comment
-    @PutMapping("/contactUs/{contactUsId}")
+    @PutMapping("/contact-us/{contactUsId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('USER')")
     public void editContactUs(@PathVariable("contactUsId") Long contactUsId, @RequestBody @Valid ContactUsEditRequest contactUsEditRequest) {
@@ -39,7 +39,7 @@ public class ContactUsController {
     }
 
     //delete comment
-    @DeleteMapping("/contactUs/{contactUsId}")
+    @DeleteMapping("/contact-us/{contactUsId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('ADMIN')")
     public void deleteContactUs(@PathVariable("contactUsId") Long contactUsId) {
@@ -47,11 +47,12 @@ public class ContactUsController {
     }
 
     //search by id
-    @GetMapping("/contactUs/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Page<CommentResponse> findByUser(@PageableDefault(sort = "contactUsId", direction = Sort.Direction.DESC) Pageable pageable) {
+    @GetMapping("/contact-us")
+    public Page<CommentResponse> findByUser(
+            @PageableDefault(sort = "contactUsId", direction = Sort.Direction.DESC) Pageable pageable) {
         return contactUsService.findByUser(pageable);
     }
+
 
 
 }

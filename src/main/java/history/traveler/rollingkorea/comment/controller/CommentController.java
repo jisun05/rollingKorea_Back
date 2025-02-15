@@ -61,7 +61,7 @@ public class CommentController {
     public ResponseEntity<CommentResponse> getComment(@PathVariable Long commentId){
         Comment comment = commentService.findById(commentId);
         CommentResponse commentResponse = new CommentResponse(comment);
-        List<ReplyResponse> replies = commentResponse.getReplies(replyService);
+        List<ReplyResponse> replies = commentResponse.getReplies(commentService);
         // 필요한 경우 replies를 commentResponse에 추가하는 로직을 구현할 수 있습니다.
         return ResponseEntity.ok(commentResponse);
     }
@@ -82,13 +82,20 @@ public class CommentController {
         commentService.deleteComment(commentId);
     }
 
-    @GetMapping("/api/comment/user/{userId}")
+    @GetMapping("/comment/user/{userId}")
     @Operation(summary = "Find comments by user ID", description = "Fetches the comments for a specific user.")
     @ResponseStatus(HttpStatus.OK)
     public Page<CommentResponse> findCommentByUser(
             @Parameter(description = "The unique identifier of the user", required = true) @PathVariable Long userId,
             @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.findByUser_UserId(userId, pageable);
+    }
+
+    @GetMapping("/comment/reply/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<ReplyResponse>> getRepliesByCommentId(@PathVariable Long commentId, @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+        List<ReplyResponse> replies = commentService.getRepliesByCommentId(commentId);
+        return ResponseEntity.ok(replies);
     }
 
 }

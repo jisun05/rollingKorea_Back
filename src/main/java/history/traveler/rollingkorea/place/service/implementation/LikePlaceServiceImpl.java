@@ -29,9 +29,9 @@ public class LikePlaceServiceImpl implements LikePlaceService {
 
     @Transactional
     @Override
-    public void manageLikePlace(LikePlaceManageRequest likePlaceManageRequest) {
+    public void manageLikePlace(LikePlaceManageRequest request) {
         User user = getUser();
-        Place place = existPlaceCheck(likePlaceManageRequest.placeId());
+        Place place = existPlaceCheck(request.placeId());
 
         // place와 user 값이 모두 유효한지 확인
         if (place == null) {
@@ -42,8 +42,9 @@ public class LikePlaceServiceImpl implements LikePlaceService {
             throw new IllegalArgumentException("유효하지 않은 사용자입니다.");
         }
         System.out.println("Place ID111: " + place.getPlaceId());
-        System.out.println("Place ID222: " + likePlaceManageRequest.placeId());
-        likePlaceRepository.findByPlace_PlaceIdAndUser(likePlaceManageRequest.placeId(), user)
+        System.out.println("Place ID222: " + request.placeId());
+
+        likePlaceRepository.findByPlace_PlaceIdAndUser(request.placeId(), user)
                 .ifPresentOrElse(likePlaceRepository::delete, () -> {
                     // LikePlace 객체 생성
                     LikePlace likePlace = LikePlace.createLikePlace(user, place);

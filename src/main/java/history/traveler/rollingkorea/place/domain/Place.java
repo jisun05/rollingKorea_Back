@@ -60,9 +60,14 @@ public class Place {
     @Column(name = "count_like")
     private String countLike;
 
-    // 상품 삭제 시 이미지 DB 도 같이 삭제 , cascade 옵션
+
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<LikePlace> likePlaces = new ArrayList<>();
+
+    // 이미지 불러오기 위해선 양방향 설정해야됨?
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
+
 
 
 
@@ -105,9 +110,6 @@ public class Place {
         this.updatedAt = LocalDateTime.now();
         this.placeDescription = placeEditRequest.placeDescription();
     }
-    // images 필드를 단방향 관계로 유지?
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Image> images = new ArrayList<>();
 
 
 }

@@ -16,6 +16,5 @@ public interface LikePlaceRepository extends JpaRepository<LikePlace, Long> {
 
     void deleteById(Long likePlaceId);
 
-
     Optional<LikePlace> findByPlace_PlaceIdAndUser(Long placeId, User user);
 }
