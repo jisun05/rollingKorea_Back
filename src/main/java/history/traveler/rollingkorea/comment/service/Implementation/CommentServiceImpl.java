@@ -3,6 +3,7 @@ package history.traveler.rollingkorea.comment.service.Implementation;
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.domain.Reply;
 import history.traveler.rollingkorea.comment.repository.CommentRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_COMMENT;
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_COMMENT;
@@ -87,10 +89,14 @@ public class CommentServiceImpl implements CommentService {
         return null;
     }
 
-    public List<Reply> findByCommentId(Long commentId) {
-
-        return replyRepository.findByCommentId(commentId);
+    @Override
+    public List<ReplyResponse> getRepliesByCommentId(Long commentId) {
+        List<Reply> replies = replyRepository.findByCommentId(commentId);
+        return replies.stream()
+                .map(ReplyResponse::new)
+                .collect(Collectors.toList());
     }
+
 
 
     public User getCommentForUser(Long userId) {

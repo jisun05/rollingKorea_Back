@@ -1,6 +1,6 @@
 package history.traveler.rollingkorea.comment.controller.response;
 import history.traveler.rollingkorea.comment.domain.Comment;
-import history.traveler.rollingkorea.comment.service.ReplyService;
+import history.traveler.rollingkorea.comment.service.CommentService;
 import java.util.List;
 
 public record CommentResponse(
@@ -15,7 +15,7 @@ public record CommentResponse(
     }
 
     // Reply 리스트를 별도로 조회하는 메서드
-    public List<ReplyResponse> getReplies(ReplyService replyService) {
-        return replyService.getRepliesByCommentId(this.commentId);
+    public List<ReplyResponse> getReplies(CommentService commentService) {
+        return commentService.getRepliesByCommentId(this.commentId);
     }
 }

@@ -19,7 +19,7 @@ public interface ReplyService {
 
     void deleteByReplyId(Long replyId);
 
-    List<ReplyResponse> getRepliesByCommentId(Long commentId);
+
 
     List<ReplyResponse> getRepliesByUserId(Long userId, Pageable pageable);
 }

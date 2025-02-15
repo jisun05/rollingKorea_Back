@@ -33,13 +33,6 @@ public class ReplyController {
 
 private final ReplyService replyService;
 
-    @GetMapping("/reply/comment/{commentId}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<ReplyResponse>> getRepliesByCommentId(@PathVariable Long commentId, @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<ReplyResponse> replies = replyService.getRepliesByCommentId(commentId);
-        return ResponseEntity.ok(replies);
-    }
-
 
     @GetMapping("/reply/user/{userId}")
     @ResponseStatus(HttpStatus.OK)

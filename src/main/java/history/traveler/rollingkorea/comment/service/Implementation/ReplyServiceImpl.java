@@ -58,13 +58,6 @@ public class ReplyServiceImpl implements ReplyService {
         replyRepository.deleteByReplyId(replyId);
     }
 
-    @Override
-    public List<ReplyResponse> getRepliesByCommentId(Long commentId) {
-        List<Reply> replies = replyRepository.findByCommentId(commentId);
-        return replies.stream()
-                .map(ReplyResponse::new)
-                .collect(Collectors.toList());
-    }
 
     @Override
     public List<ReplyResponse> getRepliesByUserId(Long userId, Pageable pageable) {
