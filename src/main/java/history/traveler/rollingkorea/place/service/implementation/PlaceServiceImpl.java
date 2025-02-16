@@ -111,6 +111,18 @@ public class PlaceServiceImpl implements PlaceService {
          placeRepository.save(place);
     }
 
+    // New method to find a place by its ID
+    @Override
+    @Transactional(readOnly = true)
+    public PlaceResponse findPlaceById(Long placeId) {
+        // Find the place by its ID
+        Place place = placeRepository.findByPlaceId(placeId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
+
+        // Return the corresponding PlaceResponse
+        return PlaceResponse.from(place, imageRepository);
+    }
+
     // Place 객체를 PlaceResponse 객체로 변환하는 메서드
     private PlaceResponse convertToResponse(Place place) {
         return PlaceResponse.from(place, imageRepository);

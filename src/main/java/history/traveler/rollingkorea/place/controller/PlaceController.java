@@ -47,7 +47,22 @@ public class PlaceController {
         return placeService.findByRegion(region, pageable);
     }
 
-    //유적지 조회?
+    //유적지 상세조회
+    // Method to find a single place by its ID
+    @Operation(summary = "Find Place by ID")
+    @GetMapping(path = "/api/place/{placeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<PlaceResponse> getPlaceById(@PathVariable Long placeId) {
+        logger.info("Request received to get place with ID: {}", placeId);
+        PlaceResponse placeResponse = placeService.findPlaceById(placeId);
+
+        if (placeResponse != null) {
+            return new ResponseEntity<>(placeResponse, HttpStatus.OK);
+        } else {
+            logger.error("Place not found for ID: {}", placeId);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     // 유적지 등록 (관리자)
    // @CrossOrigin(origins = "http://localhost:3000")

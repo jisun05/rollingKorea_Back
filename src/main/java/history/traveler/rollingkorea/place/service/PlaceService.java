@@ -22,4 +22,6 @@ public interface PlaceService {
     //관리자 유적지 생성
     void placeCreate(PlaceCreateRequest placeCreateRequest);
 
+    //유적지 단건 조회
+    PlaceResponse findPlaceById(Long placeId);
 }
