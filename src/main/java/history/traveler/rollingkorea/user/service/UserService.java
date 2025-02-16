@@ -2,7 +2,6 @@ package history.traveler.rollingkorea.user.service;
 
 
 import history.traveler.rollingkorea.user.controller.request.UserEditRequest;
-import history.traveler.rollingkorea.user.controller.request.UserSignupRequest;
 import history.traveler.rollingkorea.user.controller.response.UserResponse;
 
 
@@ -13,7 +12,7 @@ public interface UserService {
     UserResponse findByDetailMyInfo();
 
     // 회원생성
-    void userSignup(UserSignupRequest userSignupRequest);
+    //void userSignup(UserSignupRequest userSignupRequest);
 
     // 회원 중복체크
     void loginIdDuplicateCheck(String loginId);

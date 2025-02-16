@@ -1,15 +1,31 @@
 package history.traveler.rollingkorea.user.controller.response;
 
 import history.traveler.rollingkorea.user.domain.User;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record UserResponse(
         Long userId,
         String loginId,
+        String userName,
+        String nickName,
+        String location,
+        LocalDateTime birthday,
+        String phoneNumber,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        List<String> roles // 권한 필드 추가
 ) {
-    public UserResponse(User user) {
-        this(user.getUserId(), user.getLoginId(), user.getCreatedAt(), user.getUpdatedAt());
+    public UserResponse(User user, List<String> roles) {
+        this(user.getUserId(), user.getLoginId(), user.getUserName(), user.getNickname(), user.getLocation(),
+                user.getBirthday(), user.getPhoneNumber(), user.getCreatedAt(), user.getUpdatedAt(), roles);
+    }
+
+
+
+
+    public static UserResponse toResponse(User user, List<String> roles) {
+        return new UserResponse(user, roles);
     }
 }

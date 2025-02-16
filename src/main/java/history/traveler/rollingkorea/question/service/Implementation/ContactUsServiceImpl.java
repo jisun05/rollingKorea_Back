@@ -13,12 +13,9 @@ import history.traveler.rollingkorea.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_USER;
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_CONTACTUS;
 
 @Service
@@ -67,18 +64,31 @@ public class ContactUsServiceImpl implements ContactUsService {
 
     }
 
+//테스트를 위한 주석
+//    private User getUser() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if(authentication != null && authentication.isAuthenticated()) {
+//            String loginId = authentication.getName(); // bring loginId
+//
+//            return userRepository.findByLoginId(loginId) //search by loginId
+//                    .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
+//        }
+//
+//        return null;
+//    }
+
+
 
     private User getUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null && authentication.isAuthenticated()) {
-            String loginId = authentication.getName(); // bring loginId
-
-            return userRepository.findByLoginId(loginId) //search by loginId
-                    .orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
-        }
-
-        return null;
+        // 🔥 테스트용 더미 유저 추가 (로그인 없이 Swagger 테스트 가능)
+        return User.builder()
+                .userId(1L)
+                .loginId("jisunnala@gmail.com")
+                .nickname("TestUser")
+                .build();
     }
+
+
 
 
     private ContactUs existContactUsCheck(Long contactUsId) {

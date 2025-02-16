@@ -45,10 +45,6 @@ public class User {
     private String nickname;
 
     @Nullable
-    @Column(name = "gender")
-    private String gender;
-
-    @Nullable
     @Column(name = "location")
     private String location;
 
@@ -103,7 +99,6 @@ public class User {
         this.password = passwordEncoder.encode(userEditRequest.password());
         this.userName = userEditRequest.userName();
         this.nickname = userEditRequest.nickname();
-        this.gender = userEditRequest.gender();
         this.location = userEditRequest.location();
         this.phoneNumber = userEditRequest.phoneNumber();
         this.birthday = userEditRequest.birthday();

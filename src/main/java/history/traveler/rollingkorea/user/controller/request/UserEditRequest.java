@@ -12,9 +12,6 @@ public record UserEditRequest(
         String password,              // Password
 
         @Nullable
-        String gender,
-
-        @Nullable
         String nickname,
 
         @Nullable

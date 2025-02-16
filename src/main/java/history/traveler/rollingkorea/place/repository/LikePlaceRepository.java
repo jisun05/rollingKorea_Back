@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LikePlaceRepository extends JpaRepository<LikePlace, Long> {
@@ -17,4 +18,6 @@ public interface LikePlaceRepository extends JpaRepository<LikePlace, Long> {
     void deleteById(Long likePlaceId);
 
     Optional<LikePlace> findByPlace_PlaceIdAndUser(Long placeId, User user);
+
+    List<LikePlace> findByUser_UserId(Long userId);
 }
