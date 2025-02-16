@@ -3,12 +3,14 @@ package history.traveler.rollingkorea.comment.controller;
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.service.CommentService;
 import history.traveler.rollingkorea.comment.service.Implementation.CommentServiceImpl;
 import history.traveler.rollingkorea.comment.service.ReplyService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,9 +26,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.Parameter;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -51,7 +54,7 @@ public class CommentController {
     //comment search
     @GetMapping("/comment")
     @ResponseStatus(HttpStatus.OK)
-    public Page<CommentResponse> commentFindAll( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<CommentSearchAllResponse> commentFindAll( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.commentFindAll(pageable); // 댓글 서비스에서 페이지 정보를 기반으로 모든 댓글을 조회하여 반환
     }
 
@@ -61,8 +64,7 @@ public class CommentController {
     public ResponseEntity<CommentResponse> getComment(@PathVariable Long commentId){
         Comment comment = commentService.findById(commentId);
         CommentResponse commentResponse = new CommentResponse(comment);
-        List<ReplyResponse> replies = commentResponse.getReplies(commentService);
-        // 필요한 경우 replies를 commentResponse에 추가하는 로직을 구현할 수 있습니다.
+
         return ResponseEntity.ok(commentResponse);
     }
 
@@ -82,14 +84,15 @@ public class CommentController {
         commentService.deleteComment(commentId);
     }
 
-    @GetMapping("/comment/user/{userId}")
+    @GetMapping("/comment/user")
     @Operation(summary = "Find comments by user ID", description = "Fetches the comments for a specific user.")
     @ResponseStatus(HttpStatus.OK)
     public Page<CommentResponse> findCommentByUser(
-            @Parameter(description = "The unique identifier of the user", required = true) @PathVariable Long userId,
+            @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
             @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.findByUser_UserId(userId, pageable);
     }
+
 
     @GetMapping("/comment/reply/{commentId}")
     @ResponseStatus(HttpStatus.OK)

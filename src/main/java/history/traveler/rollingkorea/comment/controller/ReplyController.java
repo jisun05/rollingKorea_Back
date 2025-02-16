@@ -5,6 +5,7 @@ import history.traveler.rollingkorea.comment.controller.request.ReplyCreateReque
 import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.service.ReplyService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,9 +36,10 @@ public class ReplyController {
 private final ReplyService replyService;
 
 
-    @GetMapping("/reply/user/{userId}")
+    @GetMapping("/reply/user")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<ReplyResponse>> getRepliesByUserId(@PathVariable Long userId, @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+    @Operation(summary = "Find replies by user ID", description = "Fetches the replies for a specific user.")
+    public ResponseEntity<List<ReplyResponse>> getRepliesByUserId(@RequestParam Long userId, @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         List<ReplyResponse> replies = replyService.getRepliesByUserId(userId, pageable);
         return ResponseEntity.ok(replies);
     }

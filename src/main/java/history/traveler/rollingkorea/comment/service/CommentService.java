@@ -2,6 +2,7 @@ package history.traveler.rollingkorea.comment.service;
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import org.springframework.data.domain.Page;
@@ -16,7 +17,7 @@ public interface CommentService {
     void createComment(Long userId, CommentCreateRequest commentCreateRequest);
 
     //search whole comment
-    Page<CommentResponse> commentFindAll(Pageable pageable);
+    Page<CommentSearchAllResponse> commentFindAll(Pageable pageable);
 
     //edit comment
     void editComment(Long commentId, CommentEditRequest commentEditRequest);

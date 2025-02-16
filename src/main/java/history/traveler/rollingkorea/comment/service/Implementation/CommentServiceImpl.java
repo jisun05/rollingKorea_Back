@@ -3,6 +3,7 @@ package history.traveler.rollingkorea.comment.service.Implementation;
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.domain.Reply;
@@ -50,10 +51,10 @@ public class CommentServiceImpl implements CommentService {
     //search whole comment
     @Override
     @Transactional(readOnly = true)
-    public Page<CommentResponse> commentFindAll(Pageable pageable) {
+    public Page<CommentSearchAllResponse> commentFindAll(Pageable pageable) {
         Page<Comment> comments = commentRepository.findAll(pageable);
 
-        return comments.map(CommentResponse::new);
+        return comments.map(CommentSearchAllResponse::new);
     }
 
 

@@ -14,6 +14,7 @@ public record CommentResponse(
 
     }
 
+
     // Reply 리스트를 별도로 조회하는 메서드
     public List<ReplyResponse> getReplies(CommentService commentService) {
         return commentService.getRepliesByCommentId(this.commentId);
