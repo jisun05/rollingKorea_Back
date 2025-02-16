@@ -95,7 +95,7 @@ public class User {
     }
 
 
-    public User update(UserEditRequest userEditRequest, PasswordEncoder passwordEncoder) {
+    public void update(UserEditRequest userEditRequest, PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(userEditRequest.password());
         this.userName = userEditRequest.userName();
         this.nickname = userEditRequest.nickname();
@@ -103,7 +103,6 @@ public class User {
         this.phoneNumber = userEditRequest.phoneNumber();
         this.birthday = userEditRequest.birthday();
 
-        return this;
     }
 
 

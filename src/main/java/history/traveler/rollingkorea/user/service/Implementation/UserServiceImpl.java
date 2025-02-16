@@ -97,13 +97,13 @@ public class UserServiceImpl implements UserService {
         return UserResponse.toResponse(user,list); // 회원 정보 응답
     }
 
-
+    @Transactional
     @Override
     public void userEdit(UserEditRequest userEditRequest) {
         User user = getUser();
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //for test
-        //TODO : For test
         user.update(userEditRequest, passwordEncoder);  //origin
+        userRepository.save(user);
     }
 
 
@@ -131,6 +131,7 @@ public class UserServiceImpl implements UserService {
                 .userId(1L)
                 .loginId("jisunnala@gmail.com")
                 .nickname("TestUser")
+                .roleType(RoleType.ROLE_USER)
                 .build();
     }
     
