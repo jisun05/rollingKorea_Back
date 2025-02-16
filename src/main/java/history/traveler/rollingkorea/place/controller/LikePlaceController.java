@@ -28,7 +28,7 @@ public class LikePlaceController {
     private final LikePlaceService likePlaceService;
 
     //add place
-    @PostMapping("/like-place")
+    @PostMapping("/like-places")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('USER')")
     public void manageLikePlace(@RequestBody @Valid LikePlaceManageRequest likePlaceManageRequest){
@@ -36,7 +36,7 @@ public class LikePlaceController {
     }
 
     //search likePlace
-    @GetMapping("/api/like-place")
+    @GetMapping("/api/like-places")
     @Operation(summary = "Find likePlaces by user ID", description = "Fetches the likePlaces for a specific user.")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('USER')")

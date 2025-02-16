@@ -40,7 +40,7 @@ public class PlaceController {
     }
 
     @Operation
-    @GetMapping(path = "/api/place",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/api/places",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Page<PlaceResponse> placeFindByRegion(@RequestParam String region, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         logger.info("Response Status: 200 for region: {}", region);
@@ -50,7 +50,7 @@ public class PlaceController {
     //유적지 상세조회
     // Method to find a single place by its ID
     @Operation(summary = "Find Place by ID")
-    @GetMapping(path = "/api/place/{placeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/api/places/{placeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<PlaceResponse> getPlaceById(@PathVariable Long placeId) {
         logger.info("Request received to get place with ID: {}", placeId);
@@ -66,7 +66,7 @@ public class PlaceController {
 
     // 유적지 등록 (관리자)
    // @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/admin/place")
+    @PostMapping("/admin/places")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public void addPlace(@RequestBody PlaceCreateRequest placeCreateRequest) {
@@ -75,7 +75,7 @@ public class PlaceController {
 
     // 유적지 수정 (관리자)
     //@CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/admin/place/{id}")//이후 url수정필요
+    @PutMapping("/admin/places/{id}")//이후 url수정필요
     @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public void updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
        placeService.placeUpdate(id, placeEditRequest);
@@ -84,7 +84,7 @@ public class PlaceController {
 
     // 유적지 삭제 (관리자)
     //@CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/admin/place/{id}")
+    @DeleteMapping("/admin/places/{id}")
     @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public ResponseEntity<Void> deletePlace(@PathVariable Long id) {
         boolean isDeleted = placeService.placeDelete(id);

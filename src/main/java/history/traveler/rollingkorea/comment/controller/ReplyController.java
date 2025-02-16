@@ -36,7 +36,7 @@ public class ReplyController {
 private final ReplyService replyService;
 
 
-    @GetMapping("/reply/user")
+    @GetMapping("/replies/user")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find replies by user ID", description = "Fetches the replies for a specific user.")
     public ResponseEntity<List<ReplyResponse>> getRepliesByUserId(@RequestParam Long userId, @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -45,7 +45,7 @@ private final ReplyService replyService;
     }
 
     //make reply
-    @PostMapping("/reply")
+    @PostMapping("/replies")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('USER')")
     public void replyCreate(Long commentId, @RequestBody @Valid ReplyCreateRequest request) {
@@ -53,7 +53,7 @@ private final ReplyService replyService;
     }
 
 //edit reply
-    @PutMapping("/reply/{replyId}")
+    @PutMapping("/replies/{replyId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('USER')")
     public void replyEdit(@PathVariable("replyId") Long replyId , @RequestBody @Valid ReplyEditRequest request) {
@@ -61,19 +61,12 @@ private final ReplyService replyService;
     }
 
     //delete reply
-    @DeleteMapping("/reply/{replyId}")
+    @DeleteMapping("/replies/{replyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void deleteReply(@PathVariable("replyId") Long replyId) {
         replyService.deleteByReplyId(replyId);
     }
-
-
-
-
-
-
-
 
 
 }

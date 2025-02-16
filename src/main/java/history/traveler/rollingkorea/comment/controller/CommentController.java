@@ -43,7 +43,7 @@ public class CommentController {
     private ReplyService replyService;
 
     //create comment
-    @PostMapping("/comment")
+    @PostMapping("/comments")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "Create comment by user.", description = "Create the comment for a specific user.")
@@ -52,14 +52,14 @@ public class CommentController {
     }
 
     //comment search
-    @GetMapping("/comment")
+    @GetMapping("/comments")
     @ResponseStatus(HttpStatus.OK)
     public Page<CommentSearchAllResponse> commentFindAll( @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.commentFindAll(pageable); // 댓글 서비스에서 페이지 정보를 기반으로 모든 댓글을 조회하여 반환
     }
 
     //comment search
-    @GetMapping("/comment/{commentId}")
+    @GetMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CommentResponse> getComment(@PathVariable Long commentId){
         Comment comment = commentService.findById(commentId);
@@ -69,7 +69,7 @@ public class CommentController {
     }
 
     //edit comment
-    @PutMapping("/comment/{commentId}")
+    @PutMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('USER')")
     public void editComment(@PathVariable("commentId") Long commentId, @RequestBody @Valid CommentEditRequest commentEditRequest) {
@@ -77,14 +77,14 @@ public class CommentController {
     }
 
     //delete comment
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void deleteComment(@PathVariable("commentId") Long commentId) {
         commentService.deleteComment(commentId);
     }
 
-    @GetMapping("/comment/user")
+    @GetMapping("/comments/user")
     @Operation(summary = "Find comments by user ID", description = "Fetches the comments for a specific user.")
     @ResponseStatus(HttpStatus.OK)
     public Page<CommentResponse> findCommentByUser(
@@ -94,7 +94,7 @@ public class CommentController {
     }
 
 
-    @GetMapping("/comment/reply/{commentId}")
+    @GetMapping("/comments/replies/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<ReplyResponse>> getRepliesByCommentId(@PathVariable Long commentId, @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         List<ReplyResponse> replies = commentService.getRepliesByCommentId(commentId);

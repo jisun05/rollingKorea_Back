@@ -69,14 +69,14 @@ public class UserViewController {
 //        return ResponseEntity.status(HttpStatus.CREATED).body("SUCCESS");
 //    }
 
-    @GetMapping("/user/me")
+    @GetMapping("/users/me")
     @PreAuthorize("hasAnyRole('USER','ADMIN')") //메서드에 대한 접근 제어를 설정, 사용자가 'USER' 또는 'ADMIN' 역할이여야 접근 가능
     @ResponseStatus(HttpStatus.OK)
     public UserResponse findByDetailMyInfo() {
         return userService.findByDetailMyInfo();
     }
     //edit user
-    @PutMapping("/user")
+    @PutMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void memberEdit(@RequestBody @Valid UserEditRequest userEditRequest) {
@@ -84,7 +84,7 @@ public class UserViewController {
     }
 
     //withdrawal
-    @DeleteMapping("/user")
+    @DeleteMapping("/users")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void userDelete() {
