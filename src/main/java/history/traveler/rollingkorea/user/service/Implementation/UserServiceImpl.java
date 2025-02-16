@@ -106,11 +106,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-
+    @Transactional
     @Override
     public void userDelete() {
         User user = getUser();
         user.userDelete();
+        userRepository.save(user);
 
         //Check RoleType
         if (user.getRoleType().equals(RoleType.ROLE_USER)) {
