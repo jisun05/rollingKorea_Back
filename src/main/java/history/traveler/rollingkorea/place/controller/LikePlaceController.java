@@ -10,11 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,19 +31,19 @@ public class LikePlaceController {
     //add place
     @PostMapping("/like-places")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('USER')")
-    public void manageLikePlace(@RequestBody @Valid LikePlaceManageRequest likePlaceManageRequest){
-        likePlaceService.manageLikePlace(likePlaceManageRequest);
+    //@PreAuthorize("hasAnyRole('USER')")
+    public void manageLikePlace(@RequestParam Long userId,@RequestBody @Valid LikePlaceManageRequest likePlaceManageRequest){
+        likePlaceService.manageLikePlace(userId,likePlaceManageRequest);
     }
 
     //search likePlace
     @GetMapping("/api/like-places")
     @Operation(summary = "Find likePlaces by user ID", description = "Fetches the likePlaces for a specific user.")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('USER')")
+    //@PreAuthorize("hasAnyRole('USER')")
     public Page<LikePlaceResponse> findAllByUser
-    (@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return likePlaceService.findAllByUser(pageable);
+    (@RequestParam Long userId,  @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return likePlaceService.findAllByUser(userId, pageable);
     }
 
 }

@@ -29,7 +29,7 @@ public class LikePlaceServiceImpl implements LikePlaceService {
 
     @Transactional
     @Override
-    public void manageLikePlace(LikePlaceManageRequest request) {
+    public void manageLikePlace(Long userId, LikePlaceManageRequest request) {
         User user = getUser();
         Place place = existPlaceCheck(request.placeId());
 
@@ -57,7 +57,7 @@ public class LikePlaceServiceImpl implements LikePlaceService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<LikePlaceResponse> findAllByUser(Pageable pageable) {
+    public Page<LikePlaceResponse> findAllByUser(Long userId, Pageable pageable) {
          User user = getUser();
 
         Page<LikePlace> likePlaces = likePlaceRepository.findAllByUser_UserId(user.getUserId() ,pageable);

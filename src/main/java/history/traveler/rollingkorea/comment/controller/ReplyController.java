@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,7 +47,7 @@ private final ReplyService replyService;
     //make reply
     @PostMapping("/replies")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('USER')")
+    //@PreAuthorize("hasAnyRole('USER')")
     public void replyCreate(Long commentId, @RequestBody @Valid ReplyCreateRequest request) {
         replyService.replyCreate(commentId, request);
     }
@@ -55,7 +55,7 @@ private final ReplyService replyService;
 //edit reply
     @PutMapping("/replies/{replyId}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('USER')")
+    //@PreAuthorize("hasAnyRole('USER')")
     public void replyEdit(@PathVariable("replyId") Long replyId , @RequestBody @Valid ReplyEditRequest request) {
         replyService.replyEdit(replyId, request);
     }
@@ -63,7 +63,7 @@ private final ReplyService replyService;
     //delete reply
     @DeleteMapping("/replies/{replyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    //@PreAuthorize("hasAnyRole('USER','ADMIN')")
     public void deleteReply(@PathVariable("replyId") Long replyId) {
         replyService.deleteByReplyId(replyId);
     }

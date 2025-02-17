@@ -1,24 +1,14 @@
 package history.traveler.rollingkorea.user.controller;
 
 import history.traveler.rollingkorea.place.controller.PlaceController;
-import history.traveler.rollingkorea.user.controller.request.UserEditRequest;
-import history.traveler.rollingkorea.user.controller.response.UserResponse;
 import history.traveler.rollingkorea.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -69,27 +59,27 @@ public class UserViewController {
 //        return ResponseEntity.status(HttpStatus.CREATED).body("SUCCESS");
 //    }
 
-    @GetMapping("/users/me")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')") //메서드에 대한 접근 제어를 설정, 사용자가 'USER' 또는 'ADMIN' 역할이여야 접근 가능
-    @ResponseStatus(HttpStatus.OK)
-    public UserResponse findByDetailMyInfo() {
-        return userService.findByDetailMyInfo();
-    }
+//    @GetMapping("/users/me")
+//    //@PreAuthorize("hasAnyRole('USER','ADMIN')") //메서드에 대한 접근 제어를 설정, 사용자가 'USER' 또는 'ADMIN' 역할이여야 접근 가능
+//    @ResponseStatus(HttpStatus.OK)
+//    public UserResponse findByDetailMyInfo() {
+//        return userService.findByDetailMyInfo();
+//    }
     //edit user
-    @PutMapping("/users")
-    @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public void memberEdit(@RequestBody @Valid UserEditRequest userEditRequest) {
-        userService.userEdit(userEditRequest);
-    }
+//    @PutMapping("/users")
+//    @ResponseStatus(HttpStatus.OK)
+//    //@PreAuthorize("hasAnyRole('USER','ADMIN')")
+//    public void memberEdit(@RequestBody @Valid UserEditRequest userEditRequest) {
+//        userService.userEdit(userEditRequest);
+//    }
 
     //withdrawal
-    @DeleteMapping("/users")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public void userDelete() {
-        userService.userDelete();
-    }
+//    @DeleteMapping("/users")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    //@PreAuthorize("hasAnyRole('USER','ADMIN')")
+//    public void userDelete() {
+//        userService.userDelete();
+//    }
 
 //
 //    @GetMapping("/logout")

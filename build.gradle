@@ -26,7 +26,7 @@ dependencies {
     // OAuth 2.0 클라이언트를 쉽게 설정하고 사용할 수 있도록 도와주는 의존성
     //OAuth 2.0 인증: 다양한 OAuth 2.0 제공자와 통합해 사용자가 로그인할 수 있도록 지원, 자동 구성: Spring Boot의 자동 구성 기능을 활용, OAuth 2.0 클라이언트를 설정 자동 처리
     //보안 설정: Spring Security와 통합 OAuth 2.0 인증보안 설정 구성, 토큰 관리: 발급받은 액세스 토큰과 리프레시 토큰을 관리,API 호출: 인증된 사용자의 정보를 가져오거나, OAuth제공자의 API에 접근
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    //implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     //JPA(Java Persistence API) 지원: JPA를 사용하여 객체-관계 매핑(ORM)을 통해 데이터베이스의 데이터를 객체로 매핑, 객체를 통해 데이터베이스에 접근
     //JPA를 통해 데이터 액세스 계층을 쉽게 구현, CRUD 작업을 위한 리포지토리 인터페이스를 자동으로 생성
     //JPA와 관련된 설정(예: 데이터베이스 연결, JPA 구현체 설정 등)을 자동으로 처리, 쿼리 메서드: 메서드 이름을 기반 쿼리 생성, 트랜잭션 관리

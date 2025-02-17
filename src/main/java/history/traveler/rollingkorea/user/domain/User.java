@@ -1,8 +1,5 @@
 package history.traveler.rollingkorea.user.domain;
 
-import history.traveler.rollingkorea.user.controller.request.LoginRequest;
-import history.traveler.rollingkorea.user.controller.request.UserEditRequest;
-import history.traveler.rollingkorea.user.controller.request.UserSignupRequest;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -75,35 +72,35 @@ public class User {
 
 
     //make new  form user
-    public static User create(UserSignupRequest userSignupRequest, PasswordEncoder passwordEncoder) {
-        return User.builder()
-                .loginId(userSignupRequest.loginId())
-                .password(passwordEncoder.encode(userSignupRequest.password()))
-                .userName(userSignupRequest.userName())
-                .loginType(LoginType.NO_SOCIAL)
-                .build();
-    }
-
-    //make new google user
-    public static User googleCreate(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
-        return User.builder()
-                .loginId(loginRequest.loginId())
-                .password(passwordEncoder.encode(loginRequest.password()))
-                .userName("")
-                .loginType(LoginType.GOOGLE)
-                .build();
-    }
-
-
-    public void update(UserEditRequest userEditRequest, PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(userEditRequest.password());
-        this.userName = userEditRequest.userName();
-        this.nickname = userEditRequest.nickname();
-        this.location = userEditRequest.location();
-        this.phoneNumber = userEditRequest.phoneNumber();
-        this.birthday = userEditRequest.birthday();
-
-    }
+//    public static User create(UserSignupRequest userSignupRequest, PasswordEncoder passwordEncoder) {
+//        return User.builder()
+//                .loginId(userSignupRequest.loginId())
+//                .password(passwordEncoder.encode(userSignupRequest.password()))
+//                .userName(userSignupRequest.userName())
+//                .loginType(LoginType.NO_SOCIAL)
+//                .build();
+//    }
+//
+//    //make new google user
+//    public static User googleCreate(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
+//        return User.builder()
+//                .loginId(loginRequest.loginId())
+//                .password(passwordEncoder.encode(loginRequest.password()))
+//                .userName("")
+//                .loginType(LoginType.GOOGLE)
+//                .build();
+//    }
+//
+//
+//    public void update(UserEditRequest userEditRequest, PasswordEncoder passwordEncoder) {
+//        this.password = passwordEncoder.encode(userEditRequest.password());
+//        this.userName = userEditRequest.userName();
+//        this.nickname = userEditRequest.nickname();
+//        this.location = userEditRequest.location();
+//        this.phoneNumber = userEditRequest.phoneNumber();
+//        this.birthday = userEditRequest.birthday();
+//
+//    }
 
 
 

@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 public interface LikePlaceService {
 
     //add LikePlace
-    void manageLikePlace(LikePlaceManageRequest likePlaceManageRequest);
+    void manageLikePlace(Long userId, LikePlaceManageRequest likePlaceManageRequest);
 
-    Page<LikePlaceResponse> findAllByUser(Pageable pageable);
+    Page<LikePlaceResponse> findAllByUser(Long userId, Pageable pageable);
 
 }

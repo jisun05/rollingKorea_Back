@@ -15,7 +15,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,7 +68,7 @@ public class PlaceController {
    // @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/admin/places")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
+    //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public void addPlace(@RequestBody PlaceCreateRequest placeCreateRequest) {
         placeService.placeCreate(placeCreateRequest);
     }
@@ -76,7 +76,7 @@ public class PlaceController {
     // 유적지 수정 (관리자)
     //@CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/admin/places/{id}")//이후 url수정필요
-    @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
+    //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public void updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
        placeService.placeUpdate(id, placeEditRequest);
 
@@ -85,7 +85,7 @@ public class PlaceController {
     // 유적지 삭제 (관리자)
     //@CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/admin/places/{id}")
-    @PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
+    //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public ResponseEntity<Void> deletePlace(@PathVariable Long id) {
         boolean isDeleted = placeService.placeDelete(id);
         if (isDeleted) {

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
@@ -24,7 +24,7 @@ public class ContactUsController {
     //create comment
     @PostMapping("/contact-us")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('USER')")
+    //@PreAuthorize("hasAnyRole('USER')")
     public void createContactUs(Long userId, @RequestBody @Valid ContactUsCreateRequest contactUsCreateRequest) {
         contactUsService.createContactUs(contactUsCreateRequest);
     }
@@ -33,7 +33,7 @@ public class ContactUsController {
     //edit comment
     @PutMapping("/contact-us/{contactUsId}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('USER')")
+    //@PreAuthorize("hasAnyRole('USER')")
     public void editContactUs(@PathVariable("contactUsId") Long contactUsId, @RequestBody @Valid ContactUsEditRequest contactUsEditRequest) {
         contactUsService.editContactUs(contactUsId, contactUsEditRequest);
     }
@@ -41,7 +41,7 @@ public class ContactUsController {
     //delete comment
     @DeleteMapping("/contact-us/{contactUsId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    //@PreAuthorize("hasAnyRole('ADMIN')")
     public void deleteContactUs(@PathVariable("contactUsId") Long contactUsId) {
         contactUsService.deleteContactUs(contactUsId);
     }

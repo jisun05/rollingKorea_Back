@@ -6,8 +6,6 @@ import history.traveler.rollingkorea.place.domain.LikePlace;
 import history.traveler.rollingkorea.place.repository.ImageRepository;
 import history.traveler.rollingkorea.place.repository.LikePlaceRepository;
 import history.traveler.rollingkorea.place.repository.PlaceRepository;
-import history.traveler.rollingkorea.user.controller.request.UserEditRequest;
-import history.traveler.rollingkorea.user.controller.response.UserResponse;
 import history.traveler.rollingkorea.user.domain.RoleType;
 import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.repository.UserLoginHistoryRepository;
@@ -15,19 +13,12 @@ import history.traveler.rollingkorea.user.repository.UserRepository;
 import history.traveler.rollingkorea.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.List;
 
 import static history.traveler.rollingkorea.global.error.ErrorCode.DUPLICATED_LOGIN_ID;
-import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_USER;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +43,7 @@ public class UserServiceImpl implements UserService {
 //
 //    }
 
-    @Override
+    //@Override
     public void loginIdDuplicateCheck(String userId) {
         DuplicatedLoginIdCheck(userRepository.findByUserId(Long.valueOf(userId)).isPresent());
     }
@@ -85,29 +76,29 @@ public class UserServiceImpl implements UserService {
 //        return tokenProvider.generateToken(loginRequest);
 //    }
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserResponse findByDetailMyInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // 인증 정보 가져오기
-       // User user = userRepository.findByUserId(authentication.getName()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER)); // 회원 조회
-
-        User user = userRepository.findByUserId(getUser().getUserId()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); // 권한 정보 가져오기
-        List<String> list = authorities.stream().map(GrantedAuthority::getAuthority).toList(); // 권한 리스트 생성
-        return UserResponse.toResponse(user,list); // 회원 정보 응답
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public UserResponse findByDetailMyInfo() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // 인증 정보 가져오기
+//       // User user = userRepository.findByUserId(authentication.getName()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER)); // 회원 조회
+//
+//        User user = userRepository.findByUserId(getUser().getUserId()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
+//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); // 권한 정보 가져오기
+//        List<String> list = authorities.stream().map(GrantedAuthority::getAuthority).toList(); // 권한 리스트 생성
+//        return UserResponse.toResponse(user,list); // 회원 정보 응답
+//    }
+//
+//    @Transactional
+//    @Override
+//    public void userEdit(UserEditRequest userEditRequest) {
+//        User user = getUser();
+//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //for test
+//        user.update(userEditRequest, passwordEncoder);  //origin
+//        userRepository.save(user);
+//    }
 
     @Transactional
-    @Override
-    public void userEdit(UserEditRequest userEditRequest) {
-        User user = getUser();
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //for test
-        user.update(userEditRequest, passwordEncoder);  //origin
-        userRepository.save(user);
-    }
-
-    @Transactional
-    @Override
+    //@Override
     public void userDelete() {
         User user = getUser();
         user.userDelete();

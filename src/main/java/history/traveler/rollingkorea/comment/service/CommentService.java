@@ -20,10 +20,13 @@ public interface CommentService {
     Page<CommentSearchAllResponse> commentFindAll(Pageable pageable);
 
     //edit comment
-    void editComment(Long commentId, CommentEditRequest commentEditRequest);
+    void editComment(Long userId, Long commentId, CommentEditRequest commentEditRequest);
 
     //delete comment
-    void deleteComment(Long commentId);
+    //void deleteComment(Long commentId);
+
+    //delete comment
+    void deleteComment(Long userId, Long commentId);
 
     Page<CommentResponse> findByUser_UserId(Long userId, Pageable pageable);
 

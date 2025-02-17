@@ -20,10 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_COMMENT;
-import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_COMMENT;
 
 @Service
 @Transactional
@@ -60,20 +60,21 @@ public class CommentServiceImpl implements CommentService {
 
     //edit comment
     @Override
-    public void editComment(Long commentId, CommentEditRequest commentEditRequest) {
+    public void editComment(Long userId, Long commentId, CommentEditRequest commentEditRequest) {
         User user = getUser();
         Comment comment = existCommentCheck(commentId);
-        writeCommentUserEqualLoginUserCheck(user, comment);
+        //writeCommentUserEqualLoginUserCheck(user, comment);
         comment.editComment(commentEditRequest);
 
     }
 
     //delete comment
     @Override
-    public void deleteComment(Long commentId) {
-        User user = getUser();
+    public void deleteComment(Long userId, Long commentId) {
+        //User user = getUser();
+        Optional<User> user =  userRepository.findByUserId(userId);
         Comment comment = existCommentCheck(commentId);
-        writeCommentUserEqualLoginUserCheck(user, comment);
+       // writeCommentUserEqualLoginUserCheck(user, comment);
         commentRepository.delete(comment);
     }
 
@@ -134,9 +135,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     //check comment's owner
-    private void writeCommentUserEqualLoginUserCheck(User user, Comment comment) {
-        if (!comment.getUser().getUserId().equals(user.getUserId())) {
-            throw new BusinessException(NOT_MATCH_COMMENT);
-        }
-    }
+//    private void writeCommentUserEqualLoginUserCheck(User user, Comment comment) {
+//        if (!comment.getUser().getUserId().equals(user.getUserId())) {
+//            throw new BusinessException(NOT_MATCH_COMMENT);
+//        }
+//    }
 }

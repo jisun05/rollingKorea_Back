@@ -18,7 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,9 +44,9 @@ public class CommentController {
     //create comment
     @PostMapping("/comments")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('USER')")
+    //@PreAuthorize("hasAnyRole('USER')")
     @Operation(summary = "Create comment by user.", description = "Create the comment for a specific user.")
-    public void createComment(Long userId, @RequestBody @Valid CommentCreateRequest commentCreateRequest) {
+    public void createComment(@RequestParam Long userId, @RequestBody @Valid CommentCreateRequest commentCreateRequest) {
          commentService.createComment(userId, commentCreateRequest);
     }
 
@@ -71,17 +70,17 @@ public class CommentController {
     //edit comment
     @PutMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('USER')")
-    public void editComment(@PathVariable("commentId") Long commentId, @RequestBody @Valid CommentEditRequest commentEditRequest) {
-        commentService.editComment(commentId, commentEditRequest);
+    //@PreAuthorize("hasAnyRole('USER')")
+    public void editComment(@RequestParam Long userId,@PathVariable("commentId") Long commentId, @RequestBody @Valid CommentEditRequest commentEditRequest) {
+        commentService.editComment(userId, commentId, commentEditRequest);
     }
 
     //delete comment
     @DeleteMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public void deleteComment(@PathVariable("commentId") Long commentId) {
-        commentService.deleteComment(commentId);
+    //@PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public void deleteComment(@RequestParam Long userId, @PathVariable("commentId") Long commentId) {
+        commentService.deleteComment(userId, commentId);
     }
 
     @GetMapping("/comments/user")
