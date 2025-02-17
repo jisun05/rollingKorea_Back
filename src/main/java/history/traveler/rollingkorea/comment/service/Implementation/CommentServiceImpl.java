@@ -4,8 +4,7 @@ import history.traveler.rollingkorea.comment.controller.request.CommentCreateReq
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
-import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
-import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentSearchResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.domain.Reply;
@@ -54,10 +53,10 @@ public class CommentServiceImpl implements CommentService {
     //search whole comment
     @Override
     @Transactional(readOnly = true)
-    public Page<CommentSearchAllResponse> commentFindAll(Pageable pageable) {
+    public Page<CommentSearchResponse> commentFindAll(Pageable pageable) {
         Page<Comment> comments = commentRepository.findAll(pageable);
 
-        return comments.map(CommentSearchAllResponse::new);
+        return comments.map(CommentSearchResponse::new);
     }
 
 
@@ -83,9 +82,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<CommentResponse> findByUser_UserId(Long userId, Pageable pageable) {
+    public Page<CommentSearchResponse> findByUser_UserId(Long userId, Pageable pageable) {
         Page<Comment> comments = commentRepository.findByUser_UserId(userId, pageable);
-        return comments.map(CommentResponse::new);
+
+        return comments.map(CommentSearchResponse::new);
+
     }
 
     @Override

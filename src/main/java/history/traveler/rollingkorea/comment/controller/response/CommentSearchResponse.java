@@ -4,7 +4,7 @@ import history.traveler.rollingkorea.comment.domain.Comment;
 
 import java.time.LocalDateTime;
 
-public record CommentSearchAllResponse(
+public record CommentSearchResponse(
         Long commentId,
         String nickname,
         String content,
@@ -14,7 +14,7 @@ public record CommentSearchAllResponse(
 ) {
 
     // Comment 엔티티를 기반으로 CommentSearchAllResponse를 생성하는 팩토리 메서드
-    public CommentSearchAllResponse(Comment comment) {
+    public CommentSearchResponse(Comment comment) {
         this(
                 comment.getCommentId(),
                 comment.getNickname(),

@@ -4,8 +4,7 @@ import history.traveler.rollingkorea.comment.controller.request.CommentCreateReq
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
-import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
-import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentSearchResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,7 @@ public interface CommentService {
     CommentCreateResponse createComment(Long userId, CommentCreateRequest commentCreateRequest);
 
     //search whole comment
-    Page<CommentSearchAllResponse> commentFindAll(Pageable pageable);
+    Page<CommentSearchResponse> commentFindAll(Pageable pageable);
 
     //edit comment
     CommentEditResponse editComment(Long userId, Long commentId, CommentEditRequest commentEditRequest);
@@ -31,7 +30,7 @@ public interface CommentService {
     //delete comment
     void deleteComment(Long userId, Long commentId);
 
-    Page<CommentResponse> findByUser_UserId(Long userId, Pageable pageable);
+    Page<CommentSearchResponse> findByUser_UserId(Long userId, Pageable pageable);
 
     Comment findById(Long commentId);
 

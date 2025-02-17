@@ -5,7 +5,7 @@ import history.traveler.rollingkorea.comment.controller.request.CommentEditReque
 import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
-import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentSearchResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.service.CommentService;
@@ -55,7 +55,7 @@ public class CommentController {
     @GetMapping("/comments")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Retrieve all comments", description = "Fetches all comments with pagination support.")
-    public Page<CommentSearchAllResponse> commentFindAll(
+    public Page<CommentSearchResponse> commentFindAll(
             @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.commentFindAll(pageable);
     }
@@ -92,7 +92,7 @@ public class CommentController {
     @GetMapping("/comments/user")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find comments by user ID", description = "Fetches the comments for a specific user.")
-    public Page<CommentResponse> findCommentByUser(
+    public Page<CommentSearchResponse> findCommentByUser(
             @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
             @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.findByUser_UserId(userId, pageable);
