@@ -48,24 +48,24 @@ private final ReplyService replyService;
     @PostMapping("/replies")
     @ResponseStatus(HttpStatus.CREATED)
     //@PreAuthorize("hasAnyRole('USER')")
-    public void replyCreate(Long commentId, @RequestBody @Valid ReplyCreateRequest request) {
-        replyService.replyCreate(commentId, request);
+    public void replyCreate(@RequestParam Long userId, Long commentId, @RequestBody @Valid ReplyCreateRequest request) {
+        replyService.replyCreate(userId, commentId, request);
     }
 
 //edit reply
     @PutMapping("/replies/{replyId}")
     @ResponseStatus(HttpStatus.OK)
     //@PreAuthorize("hasAnyRole('USER')")
-    public void replyEdit(@PathVariable("replyId") Long replyId , @RequestBody @Valid ReplyEditRequest request) {
-        replyService.replyEdit(replyId, request);
+    public void replyEdit(@RequestParam Long userId, @PathVariable("replyId") Long replyId , @RequestBody @Valid ReplyEditRequest request) {
+        replyService.replyEdit(userId, replyId, request);
     }
 
     //delete reply
     @DeleteMapping("/replies/{replyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     //@PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public void deleteReply(@PathVariable("replyId") Long replyId) {
-        replyService.deleteByReplyId(replyId);
+    public void deleteReply(@RequestParam Long userId, @PathVariable("replyId") Long replyId) {
+        replyService.deleteByReplyId(userId, replyId);
     }
 
 

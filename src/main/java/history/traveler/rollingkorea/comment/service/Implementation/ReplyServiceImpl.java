@@ -32,7 +32,7 @@ public class ReplyServiceImpl implements ReplyService {
     private final UserRepository userRepository;
 
     @Override
-    public void replyCreate(Long commentId, ReplyCreateRequest replyCreateRequest) {
+    public void replyCreate(Long userId, Long commentId, ReplyCreateRequest replyCreateRequest) {
         User user = getUser();
 
         //find comment
@@ -45,14 +45,14 @@ public class ReplyServiceImpl implements ReplyService {
 
     //edit reply
     @Override
-    public void replyEdit(Long replyId, ReplyEditRequest replyEditRequest) {
+    public void replyEdit(Long userId, Long replyId, ReplyEditRequest replyEditRequest) {
         User user = getUser();
         Reply reply = existMemberWriteReplyCheck(replyId, user);
         reply.edit(replyEditRequest.content());
     }
 
     @Override
-    public void deleteByReplyId(Long replyId) {
+    public void deleteByReplyId(Long userId, Long replyId) {
         User user = getUser();
         existMemberWriteReplyCheck(replyId, user);
         replyRepository.deleteByReplyId(replyId);

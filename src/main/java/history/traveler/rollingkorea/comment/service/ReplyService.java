@@ -11,13 +11,13 @@ public interface ReplyService {
 
 
 
-    void replyCreate(Long reviewId, ReplyCreateRequest replyCreateRequest);
+    void replyCreate(Long userId, Long reviewId, ReplyCreateRequest replyCreateRequest);
 
 
-    void replyEdit(Long replyId, ReplyEditRequest ReplyEditRequest);
+    void replyEdit(Long userId,Long replyId, ReplyEditRequest ReplyEditRequest);
 
 
-    void deleteByReplyId(Long replyId);
+    void deleteByReplyId(Long userId, Long replyId);
 
 
 
