@@ -1,6 +1,9 @@
 package history.traveler.rollingkorea.comment.service;
+
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
+import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
@@ -14,13 +17,13 @@ import java.util.List;
 public interface CommentService {
 
     //create comment
-    void createComment(Long userId, CommentCreateRequest commentCreateRequest);
+    CommentCreateResponse createComment(Long userId, CommentCreateRequest commentCreateRequest);
 
     //search whole comment
     Page<CommentSearchAllResponse> commentFindAll(Pageable pageable);
 
     //edit comment
-    void editComment(Long userId, Long commentId, CommentEditRequest commentEditRequest);
+    CommentEditResponse editComment(Long userId, Long commentId, CommentEditRequest commentEditRequest);
 
     //delete comment
     //void deleteComment(Long commentId);

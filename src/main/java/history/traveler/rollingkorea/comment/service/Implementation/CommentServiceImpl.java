@@ -2,6 +2,8 @@ package history.traveler.rollingkorea.comment.service.Implementation;
 
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
+import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
@@ -37,15 +39,16 @@ public class CommentServiceImpl implements CommentService {
 
     //only user can write
     @Override
-    public void createComment(Long userId, CommentCreateRequest commentCreateRequest) {
+    public CommentCreateResponse createComment(Long userId, CommentCreateRequest commentCreateRequest) {
         User user = getUser(); // bring user data
         if (user == null) {
-            System.out.println("check test111");
+
             throw new IllegalArgumentException("user is null");
         }
-      Comment comment = Comment.createComment(user, commentCreateRequest);
-        System.out.println("DEBUG: comment userId = " + comment.getUser().getUserId());
-        commentRepository.save(comment);
+        Comment comment = Comment.createComment(user, commentCreateRequest);
+
+         commentRepository.save(comment);
+        return CommentCreateResponse.from(comment);
     }
 
     //search whole comment
@@ -60,12 +63,12 @@ public class CommentServiceImpl implements CommentService {
 
     //edit comment
     @Override
-    public void editComment(Long userId, Long commentId, CommentEditRequest commentEditRequest) {
+    public CommentEditResponse editComment(Long userId, Long commentId, CommentEditRequest commentEditRequest) {
         User user = getUser();
         Comment comment = existCommentCheck(commentId);
         //writeCommentUserEqualLoginUserCheck(user, comment);
         comment.editComment(commentEditRequest);
-
+        return CommentEditResponse.from(comment);
     }
 
     //delete comment

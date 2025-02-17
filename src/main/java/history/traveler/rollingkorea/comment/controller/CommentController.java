@@ -1,6 +1,9 @@
 package history.traveler.rollingkorea.comment.controller;
+
 import history.traveler.rollingkorea.comment.controller.request.CommentCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
+import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
+import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentSearchAllResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
@@ -17,7 +20,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,10 +46,10 @@ public class CommentController {
     @PostMapping("/comments")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new comment", description = "Creates a new comment for a specific user.")
-    public void createComment(
+    public CommentCreateResponse createComment(
             @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
             @RequestBody @Valid CommentCreateRequest commentCreateRequest) {
-        commentService.createComment(userId, commentCreateRequest);
+        return commentService.createComment(userId, commentCreateRequest);
     }
 
     @GetMapping("/comments")
@@ -61,11 +73,11 @@ public class CommentController {
     @PutMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Edit a comment", description = "Allows a user to edit their own comment.")
-    public void editComment(
+    public CommentEditResponse editComment(
             @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
             @Parameter(description = "The unique identifier of the comment", required = true) @PathVariable("commentId") Long commentId,
             @RequestBody @Valid CommentEditRequest commentEditRequest) {
-        commentService.editComment(userId, commentId, commentEditRequest);
+        return commentService.editComment(userId, commentId, commentEditRequest);
     }
 
     @DeleteMapping("/comments/{commentId}")

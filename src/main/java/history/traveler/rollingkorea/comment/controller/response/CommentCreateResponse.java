@@ -4,19 +4,19 @@ import history.traveler.rollingkorea.comment.domain.Comment;
 
 import java.time.LocalDateTime;
 
-public record CommentSearchAllResponse(
+public record CommentCreateResponse(
         Long commentId,
+        Long userId,
         String nickname,
         String content,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         Long likes
 ) {
-
-    // Comment 엔티티를 기반으로 CommentSearchAllResponse를 생성하는 팩토리 메서드
-    public CommentSearchAllResponse(Comment comment) {
-        this(
+    public static CommentCreateResponse from(Comment comment) {
+        return new CommentCreateResponse(
                 comment.getCommentId(),
+                comment.getUser().getUserId(),
                 comment.getNickname(),
                 comment.getContent(),
                 comment.getCreatedAt(),
