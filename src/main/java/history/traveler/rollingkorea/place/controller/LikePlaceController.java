@@ -4,46 +4,39 @@ import history.traveler.rollingkorea.place.controller.request.LikePlaceManageReq
 import history.traveler.rollingkorea.place.controller.response.LikePlaceResponse;
 import history.traveler.rollingkorea.place.service.LikePlaceService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-//import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/like-places") // ✅ 별도의 경로 지정
 public class LikePlaceController {
 
     private final LikePlaceService likePlaceService;
 
-    //add place
-    @PostMapping("/like-places")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    //@PreAuthorize("hasAnyRole('USER')")
-    public void manageLikePlace(@RequestParam Long userId,@RequestBody @Valid LikePlaceManageRequest likePlaceManageRequest){
-        likePlaceService.manageLikePlace(userId,likePlaceManageRequest);
+    @Operation(summary = "Manage liked places", description = "Allows a user to like or unlike a place.")
+    public void manageLikePlace(
+            @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
+            @RequestBody @Valid LikePlaceManageRequest likePlaceManageRequest) {
+        likePlaceService.manageLikePlace(userId, likePlaceManageRequest);
     }
 
-    //search likePlace
-    @GetMapping("/api/like-places")
-    @Operation(summary = "Find likePlaces by user ID", description = "Fetches the likePlaces for a specific user.")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    //@PreAuthorize("hasAnyRole('USER')")
-    public Page<LikePlaceResponse> findAllByUser
-    (@RequestParam Long userId,  @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    @Operation(summary = "Find liked places by user ID", description = "Fetches the liked places for a specific user.")
+    public Page<LikePlaceResponse> findAllByUser(
+            @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         return likePlaceService.findAllByUser(userId, pageable);
     }
-
 }

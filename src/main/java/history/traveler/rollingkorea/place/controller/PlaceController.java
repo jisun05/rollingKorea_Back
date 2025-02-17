@@ -39,7 +39,7 @@ public class PlaceController {
         this.placeService = placeService;
     }
 
-    @Operation
+    @Operation(summary = "Retrieve places by region", description = "Fetches all places in a given region with pagination support.")
     @GetMapping(path = "/api/places",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Page<PlaceResponse> placeFindByRegion(@RequestParam String region, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
@@ -47,9 +47,7 @@ public class PlaceController {
         return placeService.findByRegion(region, pageable);
     }
 
-    //유적지 상세조회
-    // Method to find a single place by its ID
-    @Operation(summary = "Find Place by ID")
+    @Operation(summary = "Find Place by place ID", description = "Retrieves details of a specific place by its ID.")
     @GetMapping(path = "/api/places/{placeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<PlaceResponse> getPlaceById(@PathVariable Long placeId) {
@@ -64,8 +62,7 @@ public class PlaceController {
         }
     }
 
-    // 유적지 등록 (관리자)
-   // @CrossOrigin(origins = "http://localhost:3000")
+    @Operation(summary = "Create a new place", description = "Registers a new place (Admin only).")
     @PostMapping("/admin/places")
     @ResponseStatus(HttpStatus.CREATED)
     //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
@@ -73,17 +70,14 @@ public class PlaceController {
         placeService.placeCreate(placeCreateRequest);
     }
 
-    // 유적지 수정 (관리자)
-    //@CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/admin/places/{id}")//이후 url수정필요
+    @Operation(summary = "Update a place", description = "Updates the details of an existing place (Admin only).")
+    @PutMapping("/admin/places/{id}") // 이후 url수정필요
     //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public void updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
-       placeService.placeUpdate(id, placeEditRequest);
-
+        placeService.placeUpdate(id, placeEditRequest);
     }
 
-    // 유적지 삭제 (관리자)
-    //@CrossOrigin(origins = "http://localhost:3000")
+    @Operation(summary = "Delete a place", description = "Deletes a place by place ID (Admin only).")
     @DeleteMapping("/admin/places/{id}")
     //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
     public ResponseEntity<Void> deletePlace(@PathVariable Long id) {

@@ -3,6 +3,7 @@ import history.traveler.rollingkorea.comment.controller.response.CommentResponse
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
 import history.traveler.rollingkorea.question.service.ContactUsService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,10 +19,9 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 public class ContactUsController {
 
-
     private final ContactUsService contactUsService;
 
-    //create comment
+    @Operation(summary = "Create a new contact message", description = "Allows users to create a new contact message.")
     @PostMapping("/contact-us")
     @ResponseStatus(HttpStatus.CREATED)
     //@PreAuthorize("hasAnyRole('USER')")
@@ -29,8 +29,7 @@ public class ContactUsController {
         contactUsService.createContactUs(contactUsCreateRequest);
     }
 
-
-    //edit comment
+    @Operation(summary = "Edit an existing contact message", description = "Allows users to edit their contact messages.")
     @PutMapping("/contact-us/{contactUsId}")
     @ResponseStatus(HttpStatus.OK)
     //@PreAuthorize("hasAnyRole('USER')")
@@ -38,7 +37,7 @@ public class ContactUsController {
         contactUsService.editContactUs(contactUsId, contactUsEditRequest);
     }
 
-    //delete comment
+    @Operation(summary = "Delete a contact message", description = "Allows admin to delete a contact message by ID.")
     @DeleteMapping("/contact-us/{contactUsId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     //@PreAuthorize("hasAnyRole('ADMIN')")
@@ -46,13 +45,10 @@ public class ContactUsController {
         contactUsService.deleteContactUs(contactUsId);
     }
 
-    //search by id
+    @Operation(summary = "Retrieve all contact messages", description = "Fetches all contact messages with pagination support.")
     @GetMapping("/contact-us")
     public Page<CommentResponse> findByUser(
             @PageableDefault(sort = "contactUsId", direction = Sort.Direction.DESC) Pageable pageable) {
         return contactUsService.findByUser(pageable);
     }
-
-
-
 }

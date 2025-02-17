@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor //클래스의 모든 final 필드와 @NonNull로 표시된 필드를 매개변수로 받는 생성자를 자동으로 생성
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000/*")
-public class UserViewController {
+public class UserController {
 
     private final UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(PlaceController.class);
