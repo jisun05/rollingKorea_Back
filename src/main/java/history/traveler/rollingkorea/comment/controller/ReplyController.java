@@ -73,4 +73,16 @@ public class ReplyController {
             @Parameter(description = "The unique identifier of the reply", required = true) @PathVariable("replyId") Long replyId) {
         replyService.deleteByReplyId(userId, replyId);
     }
+
+    @DeleteMapping("/replies/admin")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Admin Delete multiple replies", description = "Allows an admin to delete multiple replies at once.")
+    public void adminDeleteReplies(
+            @Parameter(description = "The unique identifier of the admin", required = true) @RequestParam Long adminId,
+            @Parameter(description = "The unique identifiers of the replies", required = true) @RequestBody List<Long> replyIds) {
+        // 관리자 권한 확인
+        replyService.adminDeleteReplies(adminId, replyIds);
+    }
+
+
 }

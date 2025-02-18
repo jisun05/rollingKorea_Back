@@ -24,4 +24,6 @@ public interface ReplyService {
 
 
     List<ReplySearchResponse> getRepliesByUserId(Long userId, Pageable pageable);
+
+    void adminDeleteReplies(Long adminId, List<Long> replyIds);
 }

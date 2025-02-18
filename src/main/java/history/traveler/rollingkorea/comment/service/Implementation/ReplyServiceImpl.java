@@ -71,6 +71,21 @@ public class ReplyServiceImpl implements ReplyService {
         replyRepository.deleteByReplyId(replyId);
     }
 
+    @Override
+    public void adminDeleteReplies(Long adminId, List<Long> replyIds) {
+        // 여러 개의 replyId에 대해 삭제 작업 처리
+        List<Reply> replies = replyRepository.findAllById(replyIds);
+
+        // 해당하는 reply가 없으면 예외 처리
+        if (replies.size() != replyIds.size()) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_REPLY);
+        }
+
+        // 해당하는 replies를 삭제
+        replyRepository.deleteAll(replies);
+    }
+
+
 
     @Override
     public List<ReplySearchResponse> getRepliesByUserId(Long userId, Pageable pageable) {
