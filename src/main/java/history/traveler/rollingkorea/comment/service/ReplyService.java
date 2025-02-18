@@ -4,7 +4,7 @@ import history.traveler.rollingkorea.comment.controller.request.ReplyCreateReque
 import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.ReplyCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyEditResponse;
-import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplySearchResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -23,5 +23,5 @@ public interface ReplyService {
 
 
 
-    List<ReplyResponse> getRepliesByUserId(Long userId, Pageable pageable);
+    List<ReplySearchResponse> getRepliesByUserId(Long userId, Pageable pageable);
 }

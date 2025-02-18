@@ -4,7 +4,7 @@ import history.traveler.rollingkorea.comment.controller.request.ReplyCreateReque
 import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.ReplyCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyEditResponse;
-import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplySearchResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.domain.Reply;
 import history.traveler.rollingkorea.comment.repository.CommentRepository;
@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_REPLY;
 
@@ -74,11 +73,13 @@ public class ReplyServiceImpl implements ReplyService {
 
 
     @Override
-    public List<ReplyResponse> getRepliesByUserId(Long userId, Pageable pageable) {
-        List<Reply> replies = replyRepository.findByUserId(userId);
-        return replies.stream()
-                .map(ReplyResponse::new)
-                .collect(Collectors.toList());
+    public List<ReplySearchResponse> getRepliesByUserId(Long userId, Pageable pageable) {
+        // 1. 주어진 userId에 해당하는 대댓글 목록 조회 (페이징 처리)
+        List<Reply> replies = replyRepository.findByUserId(userId, pageable);
+
+        // 2. 조회된 대댓글 목록을 ReplySearchResponse로 변환하여 반환
+        return ReplySearchResponse.fromList(replies);
+
     }
 
 //테스트를 위한 주석
