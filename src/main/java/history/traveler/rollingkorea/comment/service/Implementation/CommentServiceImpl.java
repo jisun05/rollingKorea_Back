@@ -5,7 +5,7 @@ import history.traveler.rollingkorea.comment.controller.request.CommentEditReque
 import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentSearchResponse;
-import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplySearchResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.domain.Reply;
 import history.traveler.rollingkorea.comment.repository.CommentRepository;
@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_COMMENT;
 
@@ -99,11 +98,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<ReplyResponse> getRepliesByCommentId(Long commentId) {
+    public List<ReplySearchResponse> getRepliesByCommentId(Long commentId) {
+
         List<Reply> replies = replyRepository.findByCommentId(commentId);
-        return replies.stream()
-                .map(ReplyResponse::new)
-                .collect(Collectors.toList());
+        List<ReplySearchResponse> replySearchResponses = ReplySearchResponse.fromList(replies);
+        return replySearchResponses;
+
     }
 
 

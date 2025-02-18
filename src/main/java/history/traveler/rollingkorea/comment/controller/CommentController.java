@@ -5,7 +5,7 @@ import history.traveler.rollingkorea.comment.controller.request.CommentEditReque
 import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentSearchResponse;
-import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplySearchResponse;
 import history.traveler.rollingkorea.comment.service.CommentService;
 import history.traveler.rollingkorea.comment.service.Implementation.CommentServiceImpl;
 import history.traveler.rollingkorea.comment.service.ReplyService;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -97,11 +96,11 @@ public class CommentController {
     @GetMapping("/comments/replies/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Retrieve replies for a comment", description = "Fetches all replies for a specific comment.")
-    public ResponseEntity<List<ReplyResponse>> getRepliesByCommentId(
+    public List<ReplySearchResponse> getRepliesByCommentId(
             @Parameter(description = "The unique identifier of the comment", required = true) @PathVariable Long commentId,
             @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<ReplyResponse> replies = commentService.getRepliesByCommentId(commentId);
-        return ResponseEntity.ok(replies);
+      ;
+        return commentService.getRepliesByCommentId(commentId);
     }
 }
 

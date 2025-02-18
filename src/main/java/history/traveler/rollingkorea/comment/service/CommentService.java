@@ -5,7 +5,7 @@ import history.traveler.rollingkorea.comment.controller.request.CommentEditReque
 import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentSearchResponse;
-import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplySearchResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -33,5 +33,5 @@ public interface CommentService {
 
     CommentSearchResponse findById(Long commentId);
 
-    List<ReplyResponse> getRepliesByCommentId(Long commentId);
+   List <ReplySearchResponse> getRepliesByCommentId(Long commentId);
 }
