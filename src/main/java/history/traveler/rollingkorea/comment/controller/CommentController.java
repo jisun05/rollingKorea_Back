@@ -102,5 +102,17 @@ public class CommentController {
       ;
         return commentService.getRepliesByCommentId(commentId);
     }
+
+
+    @DeleteMapping("/comments/admin")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Admin Delete multiple comments", description = "Allows an admin to delete multiple comments at once.")
+    public void adminDeleteComments(
+            @Parameter(description = "The unique identifier of the admin", required = true) @RequestParam Long adminId,
+            @Parameter(description = "The unique identifiers of the comments", required = true) @RequestBody List<Long> commentIds) {
+        // 관리자 권한 확인
+        commentService.adminDeleteComments(adminId, commentIds);
+    }
+
 }
 

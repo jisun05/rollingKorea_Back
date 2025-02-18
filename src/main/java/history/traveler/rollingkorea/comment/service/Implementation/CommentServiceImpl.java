@@ -11,6 +11,7 @@ import history.traveler.rollingkorea.comment.domain.Reply;
 import history.traveler.rollingkorea.comment.repository.CommentRepository;
 import history.traveler.rollingkorea.comment.repository.ReplyRepository;
 import history.traveler.rollingkorea.comment.service.CommentService;
+import history.traveler.rollingkorea.global.error.ErrorCode;
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.repository.UserRepository;
@@ -78,6 +79,20 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = existCommentCheck(commentId);
        // writeCommentUserEqualLoginUserCheck(user, comment);
         commentRepository.delete(comment);
+    }
+
+    @Override
+    public void adminDeleteComments(Long adminId, List<Long> commentIds) {
+        // 여러 개의 replyId에 대해 삭제 작업 처리
+        List<Comment> comments = commentRepository.findAllById(commentIds);
+
+        // 해당하는 reply가 없으면 예외 처리
+        if (comments.size() != commentIds.size()) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_REPLY);
+        }
+
+        // 해당하는 replies를 삭제
+        commentRepository.deleteAll(comments);
     }
 
     @Override

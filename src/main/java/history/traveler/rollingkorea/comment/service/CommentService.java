@@ -33,5 +33,7 @@ public interface CommentService {
 
     CommentSearchResponse findById(Long commentId);
 
-   List <ReplySearchResponse> getRepliesByCommentId(Long commentId);
+    List <ReplySearchResponse> getRepliesByCommentId(Long commentId);
+
+    void adminDeleteComments(Long adminId, List<Long> commentIds);
 }
