@@ -4,10 +4,8 @@ import history.traveler.rollingkorea.comment.controller.request.CommentCreateReq
 import history.traveler.rollingkorea.comment.controller.request.CommentEditRequest;
 import history.traveler.rollingkorea.comment.controller.response.CommentCreateResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentEditResponse;
-import history.traveler.rollingkorea.comment.controller.response.CommentResponse;
 import history.traveler.rollingkorea.comment.controller.response.CommentSearchResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
-import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.service.CommentService;
 import history.traveler.rollingkorea.comment.service.Implementation.CommentServiceImpl;
 import history.traveler.rollingkorea.comment.service.ReplyService;
@@ -63,11 +61,9 @@ public class CommentController {
     @GetMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get a comment by Comment ID", description = "Fetches a specific comment by its unique identifier.")
-    public ResponseEntity<CommentResponse> getComment(
+    public CommentSearchResponse getComment(
             @Parameter(description = "The unique identifier of the comment", required = true) @PathVariable Long commentId) {
-        Comment comment = commentService.findById(commentId);
-        CommentResponse commentResponse = new CommentResponse(comment);
-        return ResponseEntity.ok(commentResponse);
+        return commentService.findById(commentId);
     }
 
     @PutMapping("/comments/{commentId}")
