@@ -2,6 +2,8 @@ package history.traveler.rollingkorea.comment.service;
 
 import history.traveler.rollingkorea.comment.controller.request.ReplyCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest;
+import history.traveler.rollingkorea.comment.controller.response.ReplyCreateResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplyEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import org.springframework.data.domain.Pageable;
 
@@ -11,10 +13,10 @@ public interface ReplyService {
 
 
 
-    void replyCreate(Long userId, Long reviewId, ReplyCreateRequest replyCreateRequest);
+    ReplyCreateResponse replyCreate(Long userId, Long reviewId, ReplyCreateRequest replyCreateRequest);
 
 
-    void replyEdit(Long userId,Long replyId, ReplyEditRequest ReplyEditRequest);
+    ReplyEditResponse replyEdit(Long userId, Long replyId, ReplyEditRequest ReplyEditRequest);
 
 
     void deleteByReplyId(Long userId, Long replyId);

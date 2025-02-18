@@ -3,6 +3,8 @@ package history.traveler.rollingkorea.comment.controller;
 
 import history.traveler.rollingkorea.comment.controller.request.ReplyCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest;
+import history.traveler.rollingkorea.comment.controller.response.ReplyCreateResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplyEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.service.ReplyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,21 +49,21 @@ public class ReplyController {
     @PostMapping("/replies")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a reply", description = "Allows a user to create a reply on a comment.")
-    public void replyCreate(
+    public ReplyCreateResponse replyCreate(
             @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
             @Parameter(description = "The unique identifier of the comment", required = true) @RequestParam Long commentId,
             @RequestBody @Valid ReplyCreateRequest request) {
-        replyService.replyCreate(userId, commentId, request);
+        return replyService.replyCreate(userId, commentId, request);
     }
 
     @PutMapping("/replies/{replyId}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Edit a reply", description = "Allows a user to edit their own reply.")
-    public void replyEdit(
+    public ReplyEditResponse replyEdit(
             @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
             @Parameter(description = "The unique identifier of the reply", required = true) @PathVariable("replyId") Long replyId,
             @RequestBody @Valid ReplyEditRequest request) {
-        replyService.replyEdit(userId, replyId, request);
+        return replyService.replyEdit(userId, replyId, request);
     }
 
     @DeleteMapping("/replies/{replyId}")

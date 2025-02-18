@@ -2,6 +2,8 @@ package history.traveler.rollingkorea.comment.service.Implementation;
 
 import history.traveler.rollingkorea.comment.controller.request.ReplyCreateRequest;
 import history.traveler.rollingkorea.comment.controller.request.ReplyEditRequest;
+import history.traveler.rollingkorea.comment.controller.response.ReplyCreateResponse;
+import history.traveler.rollingkorea.comment.controller.response.ReplyEditResponse;
 import history.traveler.rollingkorea.comment.controller.response.ReplyResponse;
 import history.traveler.rollingkorea.comment.domain.Comment;
 import history.traveler.rollingkorea.comment.domain.Reply;
@@ -32,7 +34,7 @@ public class ReplyServiceImpl implements ReplyService {
     private final UserRepository userRepository;
 
     @Override
-    public void replyCreate(Long userId, Long commentId, ReplyCreateRequest replyCreateRequest) {
+    public ReplyCreateResponse replyCreate(Long userId, Long commentId, ReplyCreateRequest replyCreateRequest) {
         User user = getUser();
 
         //find comment
@@ -41,14 +43,26 @@ public class ReplyServiceImpl implements ReplyService {
 
         Reply reply = Reply.createReply(user, comment, replyCreateRequest);
         replyRepository.save(reply);
+
+        return new ReplyCreateResponse(reply);
     }
 
     //edit reply
     @Override
-    public void replyEdit(Long userId, Long replyId, ReplyEditRequest replyEditRequest) {
+    public ReplyEditResponse replyEdit(Long userId, Long replyId, ReplyEditRequest replyEditRequest) {
         User user = getUser();
-        Reply reply = existMemberWriteReplyCheck(replyId, user);
+
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_REPLY));
+
+        // 3. 수정된 내용으로 대댓글 업데이트
         reply.edit(replyEditRequest.content());
+
+        // 4. 대댓글 수정 결과를 저장
+        replyRepository.save(reply);
+
+        // 5. 수정된 대댓글 정보로 ReplyEditResponse 반환
+        return new ReplyEditResponse(reply);
     }
 
     @Override
