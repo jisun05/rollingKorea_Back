@@ -41,7 +41,7 @@
 <details>
 <summary>유적지</summary>
 
-- 카테고리 생성
+- 
 
 </details>
 
