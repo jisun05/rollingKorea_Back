@@ -41,8 +41,8 @@ public enum ErrorCode {
 
     //contactUs
     NOT_FOUND_CONTACTUS(HttpStatus.NOT_FOUND, "Question not found"),
-    NOT_MATCH_CONTACTUS(HttpStatus.BAD_REQUEST, "This is not the question you wrote.");
-
+    NOT_MATCH_CONTACTUS(HttpStatus.BAD_REQUEST, "This is not the question you wrote."),
+    NOT_FOUND_FILE(HttpStatus.NOT_FOUND, "File not found");
     ErrorCode(HttpStatus httpStatus, String message) {
         this.httpStatus = httpStatus;
         this.message = message;

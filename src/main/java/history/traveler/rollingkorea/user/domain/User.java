@@ -70,6 +70,9 @@ public class User {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    public User(Long userId) {
+    }
+
 
     //make new  form user
 //    public static User create(UserSignupRequest userSignupRequest, PasswordEncoder passwordEncoder) {
