@@ -1,5 +1,5 @@
 <details>
-<summary style="font-size: 2em; font-weight: bold;">English🗺️</summary>
+<summary style="font-size: 3em; font-weight: bold;">English🗺️</summary>
 
 # **RollingKorea Project**
 - An API that provides historical sites in Korea for foreigners.
@@ -127,7 +127,7 @@ Written to show detailed flow for each service. (In progress)<br>
 </details>
 </details>
 <details>
-<summary style="font-size: 2em; font-weight: bold;">Korean🗺️</summary>
+<summary style="font-size: 3em; font-weight: bold;">Korean🗺️</summary>
 
 # **RollingKorea Project**
 - 외국인들에게 한국의 역사적 명소를 제공하기 위한 API 입니다.
