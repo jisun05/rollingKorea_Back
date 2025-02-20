@@ -15,11 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 
 public interface ContactUsService {
-    ContactUsCreateResponse createContactUs(Long userId, @Valid ContactUsCreateRequest contactUsCreateRequest) throws IOException;
+    ContactUsCreateResponse createContactUs(Long userId, @Valid ContactUsCreateRequest contactUsCreateRequest);
 
     ContactUsEditResponse editContactUs(Long contactUsId, @Valid ContactUsEditRequest contactUsEditRequest);
 

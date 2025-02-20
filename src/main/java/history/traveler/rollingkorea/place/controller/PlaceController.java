@@ -1,10 +1,14 @@
 package history.traveler.rollingkorea.place.controller;
 
+import history.traveler.rollingkorea.place.controller.request.ImageRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
+import history.traveler.rollingkorea.place.controller.response.PlaceCreateResponse;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
 import history.traveler.rollingkorea.place.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +19,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +26,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import io.swagger.v3.oas.annotations.Parameter;
 
 import java.io.IOException;
 
@@ -63,18 +69,25 @@ public class PlaceController {
     }
 
     @Operation(summary = "Create a new place", description = "Registers a new place (Admin only).")
-    @PostMapping("/admin/places")
+    @PostMapping(value = "/admin/places", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
-    public void addPlace(@RequestBody PlaceCreateRequest placeCreateRequest) {
-        placeService.placeCreate(placeCreateRequest);
+    public PlaceCreateResponse addPlace(
+            @Parameter(
+                    description = "Place data in JSON format",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = PlaceCreateRequest.class))
+            )
+            @RequestPart("placeData") PlaceCreateRequest placeCreateRequest,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+        return placeService.placeCreate(placeCreateRequest, imageFile);
     }
+
 
     @Operation(summary = "Update a place", description = "Updates the details of an existing place (Admin only).")
     @PutMapping("/admin/places/{id}") // 이후 url수정필요
     //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
-    public void updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest) throws IOException {
-        placeService.placeUpdate(id, placeEditRequest);
+    public void updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest, ImageRequest imageRequest) throws IOException {
+        placeService.placeUpdate(id, placeEditRequest, imageRequest);
     }
 
     @Operation(summary = "Delete a place", description = "Deletes a place by place ID (Admin only).")

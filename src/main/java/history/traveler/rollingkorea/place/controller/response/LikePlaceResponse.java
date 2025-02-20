@@ -38,7 +38,7 @@ public record LikePlaceResponse(
         // 이미지는 LikePlace와 연관된 이미지가 있는 경우 가져오는 로직을 작성합니다.
         // 예를 들어, 이미지를 관리하는 엔티티가 있다면, 그 엔티티에서 List<ImageResponse>를 반환하는 방식입니다.
         return likePlace.getPlace().getImages().stream()  // Place의 이미지 리스트를 가져옴
-                .map(image -> new ImageResponse(image.getImagePath()))  // Image 객체를 ImageResponse로 변환
+                .map(image -> new ImageResponse(image.getImageData()))  // Image 객체를 ImageResponse로 변환
                 .collect(Collectors.toList());
     }
 

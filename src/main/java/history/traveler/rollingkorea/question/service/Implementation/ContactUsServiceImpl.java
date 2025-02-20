@@ -31,7 +31,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_CONTACTUS;
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_FILE;
@@ -48,7 +51,7 @@ public class ContactUsServiceImpl implements ContactUsService {
     @Operation(summary = "Create a new contact message", description = "Allows users to create a new contact message.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ContactUsCreateResponse createContactUs(@RequestParam Long userId, @RequestBody @Valid ContactUsCreateRequest request) throws IOException {
+    public ContactUsCreateResponse createContactUs(@RequestParam Long userId, @RequestBody @Valid ContactUsCreateRequest request) {
 
         // 사용자 조회
         User user = userRepository.findById(userId)
@@ -57,10 +60,16 @@ public class ContactUsServiceImpl implements ContactUsService {
         // 파일 데이터 처리: 첨부파일이 있는 경우 File 엔티티를 빌더 패턴으로 생성합니다.
         File file = null;
         if (request.file() != null && !request.file().isEmpty()) {
-            file = File.builder()
-                    .fileData(request.fileData())  // request.fileData()가 Blob 또는 byte[] 데이터를 반환한다고 가정
-                    .fileName(request.file().getOriginalFilename())
-                    .build();
+            try {
+                byte[] fileBytes = request.file().getBytes();
+                Blob blobData = new SerialBlob(fileBytes); // byte[]를 Blob으로 변환
+                file = File.builder()
+                        .fileData(blobData)
+                        .fileName(request.file().getOriginalFilename())
+                        .build();
+            } catch (IOException | SQLException e) {
+                throw new RuntimeException("파일 데이터를 처리하는 중 오류가 발생했습니다.", e);
+            }
         }
 
         // ContactUs 엔티티를 빌더 패턴으로 생성

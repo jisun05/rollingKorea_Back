@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,8 +24,9 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
 
-    @Column(name = "image_path", nullable = false)   //사진경로
-    private String imagePath;
+    @Lob
+    @Column(name = "image_data", nullable = true)
+    private byte[] imageData;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,8 +34,8 @@ public class Image {
     private Place place;
 
     @Builder
-    public Image(String imagePath, Place place) {
-        this.imagePath = imagePath;
+    public Image(byte[]  imageData, Place place) {
+        this.imageData = imageData;
         this.place = place;
     }
 }

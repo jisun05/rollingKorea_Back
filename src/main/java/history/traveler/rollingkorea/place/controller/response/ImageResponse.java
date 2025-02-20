@@ -4,7 +4,7 @@ import java.util.List;
 
 public record ImageResponse(
 
-        String imagePath
+        byte[] imagePath
         
 ) {
 

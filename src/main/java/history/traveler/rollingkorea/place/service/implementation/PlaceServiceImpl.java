@@ -5,6 +5,7 @@ import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.place.controller.request.ImageRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
+import history.traveler.rollingkorea.place.controller.response.PlaceCreateResponse;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
 import history.traveler.rollingkorea.place.domain.Image;
 import history.traveler.rollingkorea.place.domain.Place;
@@ -16,8 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -38,33 +40,32 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Transactional
-    public void placeUpdate(Long id, PlaceEditRequest placeEditRequest){
-
+    public void placeUpdate(Long id, PlaceEditRequest placeEditRequest, ImageRequest imageRequest) {
         Place place = placeRepository.findByPlaceId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
 
         // Place 정보 업데이트
         place.update(placeEditRequest);
 
-        // 이미지 업데이트 로직
-        if (placeEditRequest.imageRequests() != null && !placeEditRequest.imageRequests().isEmpty()) {
-            List<String> newImagePaths = placeEditRequest.imageRequests().stream()
-                    .map(ImageRequest::imagePath)  // ImageRequest에서 imagePath 추출
-                    .toList();
+        // 이미지 업데이트 로직: imageRequest가 null이 아니고, 이미지 파일이 존재하는 경우 처리
+        if (imageRequest != null && imageRequest.imageData() != null && !imageRequest.imageData().isEmpty()) {
+            // 기존 이미지 삭제 (해당 Place에 연결된 모든 이미지 삭제)
+            imageRepository.deleteByPlace_PlaceId(id);
 
-            // 기존 이미지 삭제 (이미지 테이블에서 해당 placeId에 해당하는 이미지들 삭제)
-            imageRepository.deleteByPlace_PlaceId(id);  // PlaceId에 해당하는 이미지 모두 삭제
+            try {
+                byte[] newImageData = imageRequest.imageData().getBytes();
 
-            // 새로운 이미지 추가
-            for (String imagePath : newImagePaths) {
                 Image image = Image.builder()
-                        .imagePath(imagePath)
-                        .place(place)  // 해당 Place와 연결
+                        .imageData(newImageData)
+                        .place(place)
                         .build();
-                imageRepository.save(image);  // 새로운 이미지 저장
+                imageRepository.save(image);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 파일 처리 중 오류가 발생했습니다.", e);
             }
         }
     }
+
     @Override
     @Transactional
     public boolean placeDelete(Long id) {
@@ -78,9 +79,8 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Transactional
-    public void placeCreate(PlaceCreateRequest placeCreateRequest) {
-
-        // 같은 이름의 상품이 있으면 예외처리
+    public PlaceCreateResponse placeCreate(PlaceCreateRequest placeCreateRequest, MultipartFile imageFile) {
+        // 같은 이름의 장소가 있으면 예외 처리
         if (placeRepository.findByPlaceName(placeCreateRequest.placeName()).isPresent()) {
             throw new BusinessException(ErrorCode.DUPLICATE_PLACE);
         }
@@ -90,26 +90,30 @@ public class PlaceServiceImpl implements PlaceService {
             throw new BusinessException(ErrorCode.DUPLICATE_LOCATION);
         }
 
-        //유적지 저장
+        // 유적지(Place) 저장
         Place place = Place.create(placeCreateRequest);
         placeRepository.save(place);
 
-        // 2. Image가 있는 경우 place 설정 후 저장
-        if (placeCreateRequest.imageRequests() != null) {
-            List<String> newImagePaths = placeCreateRequest.imageRequests().stream()
-                    .map(ImageRequest::imagePath)  // ImageRequest에서 imagePath 추출
-                    .toList();
-
-            for (String imagePath : newImagePaths) {
+        // 이미지가 첨부된 경우, 이미지 데이터를 추출하여 Image 엔티티로 저장
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                byte[] imageData = imageFile.getBytes();
                 Image image = Image.builder()
-                        .imagePath(imagePath)
-                        .place(place)  // 해당 Place와 연결
+                        .imageData(imageData)
+                        .place(place)
                         .build();
-                imageRepository.save(image);  // 새로운 이미지 저장
+                imageRepository.save(image);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 파일 처리 중 오류가 발생했습니다.", e);
             }
         }
-         placeRepository.save(place);
+
+        // 최종적으로 생성된 Place 엔티티를 기반으로 응답 객체 반환
+        return PlaceCreateResponse.from(place);
     }
+
+
+
 
     // New method to find a place by its ID
     @Override

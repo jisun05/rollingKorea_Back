@@ -51,7 +51,7 @@ public class ContactUsController {
     @PostMapping(consumes = "multipart/form-data")
     public ContactUsCreateResponse createContactUs(@RequestParam Long userId,
                                                    @RequestPart("content") String content,
-                                                   @RequestPart("file") MultipartFile file) throws IOException {
+                                                   @RequestPart("file") MultipartFile file){
 
         // ContactUsCreateRequest 객체 생성
         ContactUsCreateRequest request = new ContactUsCreateRequest(content, file);
