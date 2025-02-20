@@ -3,7 +3,7 @@
 
 # **RollingKorea Project**
 - An API that provides historical sites in Korea for foreigners.
-- Development Period: 24.12.15 ~ now<br>
+- Development Period: 15 December 2024 – present<br>
 - Team Members: 1 person<br>
 
 - Swagger documentation is in progress ->
