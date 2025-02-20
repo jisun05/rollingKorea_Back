@@ -1,7 +1,5 @@
+# 🔵 English
 # **RollingKorea Project**
-
-<details>
-<summary>English</summary>
 - An API that provides historical sites in Korea for foreigners.
 - Development Period: 24.12.15 ~ now<br>
 - Team Members: 1 person<br>
@@ -34,7 +32,6 @@ For detailed information, please refer to the sequence diagrams below.
 
 - Sign-up and login through the website
 - Social login (Google) authentication
-
   - The front-end sends the login social type for processing. Example: NO_SOCIAL / GOOGLE
 
 </details>
@@ -89,46 +86,68 @@ Written to show detailed flow for each service. (In progress)<br>
 <details>
 <summary>Test Execution Status</summary>
 
+- Unit tests for core features
+- Integration tests for API stability
+- Load testing for performance evaluation
+
 </details>
 
 <details>
 <summary>Technical Challenges</summary>
+
+- Optimizing database queries for large datasets
+- Implementing secure authentication and authorization mechanisms
+- Handling concurrent API requests efficiently
 
 </details>
 
 <details>
 <summary>Troubleshooting</summary>
 
+- Issues faced and how they were resolved
+- Debugging key problems in service implementation
+- Performance optimizations and enhancements
 
 </details>
 
 <details>
 <summary>Lessons Learned & Error Handling</summary>
 
+- Key takeaways from development
+- Effective error handling strategies
+- Best practices for API development
 
 </details>
 
 <details>
 <summary>Study Notes</summary>
 
+- Research on API security measures
+- Learning advanced Spring Boot features
+- Database indexing and performance improvements
 
 </details>
 
 <details>
 <summary>Errors</summary>
 
+- Common errors encountered during development
+- Debugging techniques and resolutions
+
 </details>
 
 <details>
 <summary>Reflections on the Project</summary>
 
+- Personal insights and challenges faced
+- Future improvements and next steps
+
 </details>
-</details>
 
+---
 
-
-<details>
-<summary>Korean</summary>
+### 🔵 Korean
+# **RollingKorea Project**
 - 외국인들에게 한국의 역사적 명소를 제공하기 위한 API 입니다.
 - 개발 기간 : 24.12.15 ~ now<br>
 - 참여 인원 : 1명<br>
@@ -137,21 +156,20 @@ Written to show detailed flow for each service. (In progress)<br>
 
 
 # 기술 스택
-- Language : Java<br>
-- Framework : Spring 6.2.1 / Springboot 3.4.1<br>
-- JDK : 21<br>
-- BuildTool : Gradle<br>
-- DB : MySQL <br>
-- Server : Local <br>
-- CI / CD : 준비중<br>
-
+- **Language**: Java<br>
+- **Framework**: Spring 6.2.1 / Spring Boot 3.4.1<br>
+- **JDK**: 21<br>
+- **Build Tool**: Gradle<br>
+- **Database**: MySQL <br>
+- **Server**: Local <br>
+- **CI/CD**: 준비중<br>
 
 
 # 프로젝트 구조
 --예정
 
 # ERD
-<img src="https://github.com/user-attachments/assets/6164d67d-cc2d-4763-bae5-748e6eb07f52"  width="1000" height="400" alt="">
+<img src="https://github.com/user-attachments/assets/6164d67d-cc2d-4763-bae5-748e6eb07f52" width="1000" height="400" alt="">
 
 # 기능설명
 개발자가 아닌, 누구나 어떤 기능이 있는지 확인할 수 있도록 간단히 작성했습니다.<br>
@@ -162,23 +180,19 @@ Written to show detailed flow for each service. (In progress)<br>
 
 - 사이트를 통해 회원 가입 및 로그인
 - 소셜 로그인(구글) 인증 후 로그인
-
-  +프론트에서 로그인 소셜 타입을 전달받아 사용 EX ) NO_SOCIAL / GOOGLE
+  + 프론트에서 로그인 소셜 타입을 전달받아 사용 EX ) NO_SOCIAL / GOOGLE
 
 </details>
-
 
 <details>
 <summary>유적지</summary>
 
-- 
+-
 
 </details>
 
-
 <details>
 <summary>마이페이지</summary>
-
 
 </details>
 
@@ -189,7 +203,6 @@ Written to show detailed flow for each service. (In progress)<br>
 
 </details>
 
-
 <details>
 <summary>코멘트</summary>
 
@@ -197,14 +210,13 @@ Written to show detailed flow for each service. (In progress)<br>
 
 </details>
 
-
 <details>
 <summary>댓글</summary>
 
 - 대댓글 생성
-  +ADMIN 도 삭제 가능
-</details>
+  + ADMIN 도 삭제 가능
 
+</details>
 
 # 시퀀스 다이어그램
 각 서비스마다 자세히 flow 를 나타내기 위해 작성했습니다.(준비중)<br>
@@ -222,4 +234,4 @@ Written to show detailed flow for each service. (In progress)<br>
 # ERROR
 
 # 프로젝트를 하면서 느낀 점
-</details>
+
