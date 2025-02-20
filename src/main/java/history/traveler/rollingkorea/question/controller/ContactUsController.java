@@ -34,7 +34,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 @RestController
 @RequiredArgsConstructor
@@ -105,10 +108,15 @@ public class ContactUsController {
     @Operation(summary = "Upload file for a contact message", description = "Allows users to upload a file for their contact message.")
     @PostMapping("/{contactUsId}/upload")
     public FileResponse uploadFile(@PathVariable Long contactUsId, @RequestParam("file") MultipartFile file) throws IOException {
-        byte[] fileData = file.getBytes();
+        Blob fileData;
+        try {
+            fileData = new SerialBlob(file.getBytes());
+        } catch (SQLException e) {
+            throw new IOException("Error converting file bytes to Blob", e);
+        }
         String fileName = file.getOriginalFilename();
-        // You can store the file data as needed, and then return the FileResponse.
-        return new FileResponse(fileData , fileName );
+        // 파일 데이터를 저장하는 로직을 추가할 수 있습니다.
+        return new FileResponse(fileData, fileName);
     }
 
     @Operation(summary = "Download file for a contact message", description = "Allows users to download a file attached to their contact message.")

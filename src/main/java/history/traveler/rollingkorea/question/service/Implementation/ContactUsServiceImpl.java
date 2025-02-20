@@ -49,25 +49,31 @@ public class ContactUsServiceImpl implements ContactUsService {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ContactUsCreateResponse createContactUs(@RequestParam Long userId, @RequestBody @Valid ContactUsCreateRequest request) throws IOException {
-        // 파일 데이터 처리
+
+        // 사용자 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        // 파일 데이터 처리: 첨부파일이 있는 경우 File 엔티티를 빌더 패턴으로 생성합니다.
         File file = null;
         if (request.file() != null && !request.file().isEmpty()) {
-            file = new File(request.file().getBytes(), request.file().getOriginalFilename());
+            file = File.builder()
+                    .fileData(request.fileData())  // request.fileData()가 Blob 또는 byte[] 데이터를 반환한다고 가정
+                    .fileName(request.file().getOriginalFilename())
+                    .build();
         }
 
-        // ContactUs 객체 생성
+        // ContactUs 엔티티를 빌더 패턴으로 생성
         ContactUs contactUs = ContactUs.builder()
-                .user(new User(userId))
-                .content(request.content())
-                .parentId(null)
-                .listOrder(0L)
+                .user(user)
+                .content(request.content())  // 메시지 필드가 있다고 가정
                 .file(file)
                 .build();
 
-        // 저장 로직
-        contactUsRepository.save(contactUs);
+        // 엔티티 저장
+        contactUs = contactUsRepository.save(contactUs);
 
-        // ContactUsCreateResponse 반환
+        // 저장된 엔티티를 기반으로 응답 DTO 반환
         return ContactUsCreateResponse.fromContactUs(contactUs);
     }
 

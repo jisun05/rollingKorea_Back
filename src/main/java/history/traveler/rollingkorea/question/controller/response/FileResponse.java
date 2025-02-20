@@ -1,14 +1,17 @@
 package history.traveler.rollingkorea.question.controller.response;
 
+import history.traveler.rollingkorea.question.domain.File;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public record FileResponse(byte[] fileData, String fileName) {
+import java.sql.Blob;
+
+public record FileResponse(Blob fileData, String fileName) {
 
     // Constructor is implicitly provided by the record type.
 
     // Convert a File entity to FileResponse
-    public static FileResponse fromFile(history.traveler.rollingkorea.question.domain.File file) {
+    public static FileResponse fromFile(File file) {
         return new FileResponse(file.getFileData(), file.getFileName());
     }
 
@@ -30,7 +33,7 @@ public record FileResponse(byte[] fileData, String fileName) {
     public String toString() {
         return "FileResponse{" +
                 "fileName='" + fileName + '\'' +
-                ", fileDataLength=" + (fileData != null ? fileData.length : 0) + " bytes" +
+                ", fileDataLength=" + (fileData != null ? fileData : 0) + " bytes" +
                 '}';
     }
 }
