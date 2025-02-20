@@ -1,4 +1,134 @@
 # **RollingKorea Project**
+
+<details>
+<summary>English</summary>
+- An API that provides historical sites in Korea for foreigners.
+- Development Period: 24.12.15 ~ now<br>
+- Team Members: 1 person<br>
+
+- Swagger documentation is in progress ->
+
+
+# Tech Stack
+- **Language**: Java<br>
+- **Framework**: Spring 6.2.1 / Spring Boot 3.4.1<br>
+- **JDK**: 21<br>
+- **Build Tool**: Gradle<br>
+- **Database**: MySQL <br>
+- **Server**: Local <br>
+- **CI/CD**: In progress<br>
+
+
+# Project Structure
+--To be determined
+
+# ERD
+<img src="https://github.com/user-attachments/assets/6164d67d-cc2d-4763-bae5-748e6eb07f52" width="1000" height="400" alt="">
+
+# Features
+The features are described simply so that non-developers can easily understand what functionalities are available.<br>
+For detailed information, please refer to the sequence diagrams below.
+
+<details>
+<summary>Users</summary>
+
+- Sign-up and login through the website
+- Social login (Google) authentication
+
+  - The front-end sends the login social type for processing. Example: NO_SOCIAL / GOOGLE
+
+</details>
+
+<details>
+<summary>Historical Sites</summary>
+
+- View historical sites information
+- Search for historical sites
+- Get recommendations for historical sites based on user preferences
+
+</details>
+
+<details>
+<summary>My Page</summary>
+
+- View and edit user profile
+- Check user history and visited places
+- Manage account settings
+
+</details>
+
+<details>
+<summary>Ranking</summary>
+
+- Ranking batch execution every Monday morning
+- View top-ranked historical sites based on user visits and interactions
+
+</details>
+
+<details>
+<summary>Comments</summary>
+
+- Create comments on historical sites
+- Edit and delete own comments
+- Like and reply to comments
+
+</details>
+
+<details>
+<summary>Replies</summary>
+
+- Create nested replies to comments
+- Edit and delete own replies
+- ADMIN can also delete any replies
+
+</details>
+
+# Sequence Diagram
+Written to show detailed flow for each service. (In progress)<br>
+
+<details>
+<summary>Test Execution Status</summary>
+
+</details>
+
+<details>
+<summary>Technical Challenges</summary>
+
+</details>
+
+<details>
+<summary>Troubleshooting</summary>
+
+
+</details>
+
+<details>
+<summary>Lessons Learned & Error Handling</summary>
+
+
+</details>
+
+<details>
+<summary>Study Notes</summary>
+
+
+</details>
+
+<details>
+<summary>Errors</summary>
+
+</details>
+
+<details>
+<summary>Reflections on the Project</summary>
+
+</details>
+</details>
+
+
+
+<details>
+<summary>Korean</summary>
 - 외국인들에게 한국의 역사적 명소를 제공하기 위한 API 입니다.
 - 개발 기간 : 24.12.15 ~ now<br>
 - 참여 인원 : 1명<br>
@@ -92,3 +222,4 @@
 # ERROR
 
 # 프로젝트를 하면서 느낀 점
+</details>
