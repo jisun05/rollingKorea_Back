@@ -1,5 +1,5 @@
 <details>
-<summary>English</summary>
+<summary style="font-size: 2em; font-weight: bold;">English🗺️</summary>
 
 # **RollingKorea Project**
 - An API that provides historical sites in Korea for foreigners.
@@ -43,7 +43,6 @@ For detailed information, please refer to the sequence diagrams below.
 
 - View historical sites information
 - Search for historical sites
-- Get recommendations for historical sites based on user preferences
 
 </details>
 
@@ -51,8 +50,6 @@ For detailed information, please refer to the sequence diagrams below.
 <summary>My Page</summary>
 
 - View and edit user profile
-- Check user history and visited places
-- Manage account settings
 
 </details>
 
@@ -60,16 +57,17 @@ For detailed information, please refer to the sequence diagrams below.
 <summary>Ranking</summary>
 
 - Ranking batch execution every Monday morning
-- View top-ranked historical sites based on user visits and interactions
+- View top10-ranked historical sites based on user's likes.
 
 </details>
 
 <details>
 <summary>Comments</summary>
 
-- Create comments on historical sites
+- Create comments
 - Edit and delete own comments
 - Like and reply to comments
+- ADMIN can also delete any comments
 
 </details>
 
@@ -88,66 +86,48 @@ Written to show detailed flow for each service. (In progress)<br>
 <details>
 <summary>Test Execution Status</summary>
 
-- Unit tests for core features
-- Integration tests for API stability
-- Load testing for performance evaluation
 
 </details>
 
 <details>
 <summary>Technical Challenges</summary>
 
-- Optimizing database queries for large datasets
-- Implementing secure authentication and authorization mechanisms
-- Handling concurrent API requests efficiently
-
 </details>
 
 <details>
 <summary>Troubleshooting</summary>
 
-- Issues faced and how they were resolved
-- Debugging key problems in service implementation
-- Performance optimizations and enhancements
+
 
 </details>
 
 <details>
 <summary>Lessons Learned & Error Handling</summary>
 
-- Key takeaways from development
-- Effective error handling strategies
-- Best practices for API development
 
 </details>
 
 <details>
 <summary>Study Notes</summary>
 
-- Research on API security measures
-- Learning advanced Spring Boot features
-- Database indexing and performance improvements
+
 
 </details>
 
 <details>
 <summary>Errors</summary>
 
-- Common errors encountered during development
-- Debugging techniques and resolutions
 
 </details>
 
 <details>
 <summary>Reflections on the Project</summary>
 
-- Personal insights and challenges faced
-- Future improvements and next steps
 
 </details>
 </details>
 <details>
-<summary>Korean</summary>
+<summary style="font-size: 2em; font-weight: bold;">Korean🗺️</summary>
 
 # **RollingKorea Project**
 - 외국인들에게 한국의 역사적 명소를 제공하기 위한 API 입니다.
