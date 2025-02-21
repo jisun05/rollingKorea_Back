@@ -1,7 +1,9 @@
 package history.traveler.rollingkorea.question.controller;
 
+import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
+import history.traveler.rollingkorea.question.controller.response.ContactUsAnswerResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsCreateResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsEditResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
@@ -77,6 +79,8 @@ public class ContactUsController {
         return contactUsService.editContactUs(contactUsId, request);
     }
 
+
+
     @Operation(summary = "Delete a contact message", description = "Allows users to delete their contact messages.")
     @DeleteMapping("/{contactUsId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -114,6 +118,17 @@ public class ContactUsController {
             // 파일을 찾을 수 없거나 오류가 발생하면 404 Not Found 반환
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Operation(
+            summary = "Admin replies to a contact message",
+            description = "Allows administrators to reply to a member's inquiry by creating a new ContactUs record with a parent reference"
+    )
+    @PutMapping("/{contactUsId}/answer")
+    @ResponseStatus(HttpStatus.OK)
+    public ContactUsAnswerResponse respondToContactUs(@PathVariable Long contactUsId,
+                                                  @RequestBody @Valid ContactUsAnswerRequest request) {
+        return contactUsService.answerContactUs(contactUsId, request);
     }
 
 }

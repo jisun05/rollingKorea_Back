@@ -1,7 +1,9 @@
 package history.traveler.rollingkorea.question.service;
 
+import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
+import history.traveler.rollingkorea.question.controller.response.ContactUsAnswerResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsCreateResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsEditResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
@@ -23,4 +25,6 @@ public interface ContactUsService {
     ContactUsSearchResponse getContactUs(Long contactUsId);
 
     FileResponse getFileResponse(Long contactUsId);
+
+    ContactUsAnswerResponse answerContactUs(Long contactUsId, ContactUsAnswerRequest request);
 }

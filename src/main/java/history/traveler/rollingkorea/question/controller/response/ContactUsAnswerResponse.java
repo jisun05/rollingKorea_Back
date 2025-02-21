@@ -1,22 +1,12 @@
 package history.traveler.rollingkorea.question.controller.response;
-
 import history.traveler.rollingkorea.question.domain.ContactUs;
 
-import java.time.LocalDateTime;
-
 public record ContactUsAnswerResponse(
-        Long contactUsId,    // ContactUs의 ID
-        String content,      // ContactUs의 내용
-        LocalDateTime createdAt,  // 생성 시간
-        LocalDateTime updatedAt   // 수정 시간
+        Long parentId, // 원본 문의의 ID
+        Long contactUsId,  // 관리자의 답변 레코드의 ID
+        String content
 ) {
-    // 정적 팩토리 메서드
-    public static ContactUsAnswerResponse from(ContactUs contactUs) {
-        return new ContactUsAnswerResponse(
-                contactUs.getContactUsId(),
-                contactUs.getContent(),
-                contactUs.getCreatedAt(),
-                contactUs.getUpdatedAt()
-        );
+    public static ContactUsAnswerResponse from(Long parentId, ContactUs contactUs) {
+        return new ContactUsAnswerResponse(parentId, contactUs.getContactUsId(), contactUs.getContent());
     }
 }

@@ -1,8 +1,10 @@
 package history.traveler.rollingkorea.question.service.implementation;
 
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
+import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
+import history.traveler.rollingkorea.question.controller.response.ContactUsAnswerResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsCreateResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsEditResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
@@ -126,6 +128,27 @@ public class ContactUsServiceImpl implements ContactUsService {
 
         return new FileResponse(file.getFileData(), file.getFileName());
     }
+
+    @Override
+    public ContactUsAnswerResponse answerContactUs(Long contactUsId, ContactUsAnswerRequest request) {
+        // 원본 문의 존재 여부 확인
+        ContactUs parentContactUs = existContactUsCheck(contactUsId);
+
+        // 관리자의 정보를 가져옵니다. (실제 환경에서는 관리자 인증 정보를 사용)
+        User adminUser = getUser();
+
+        // 관리자의 답변 레코드를 생성
+        // parentId 필드는 원본 문의의 ID로 설정합니다.
+        ContactUs contactUs = ContactUs.builder()
+                .user(adminUser)                     // 관리자의 정보
+                .content(request.content())          // 답변 내용
+                .parentId(parentContactUs.getContactUsId()) // 원본 문의의 ID 설정
+                .build();
+        contactUs = contactUsRepository.save(contactUs);
+
+        return ContactUsAnswerResponse.from(parentContactUs.getContactUsId(), contactUs);
+    }
+
 
     private User getUser() {
         return User.builder()
