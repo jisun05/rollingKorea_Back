@@ -1,10 +1,7 @@
 package history.traveler.rollingkorea.question.controller;
 
-import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
-import history.traveler.rollingkorea.question.controller.request.ContactUsStatusUpdateRequest;
-import history.traveler.rollingkorea.question.controller.response.ContactUsAnswerResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsCreateResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsEditResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
@@ -22,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -87,22 +83,6 @@ public class ContactUsController {
     //@PreAuthorize("hasAnyRole('USER')")
     public void deleteContactUs(@PathVariable Long contactUsId) {
         contactUsService.deleteContactUs(contactUsId);
-    }
-
-    @Operation(summary = "Admin answers a contact message", description = "Allows admin to respond to a contact message.")
-    @PostMapping("/{contactUsId}/answer")
-    @ResponseStatus(HttpStatus.CREATED)
-    //@PreAuthorize("hasAnyRole('ADMIN')")
-    public ContactUsAnswerResponse answerToContactUs(@PathVariable Long contactUsId, @RequestBody @Valid ContactUsAnswerRequest request) {
-        return contactUsService.answerToContactUs(contactUsId, request);
-    }
-
-    @Operation(summary = "Update contact message status", description = "Allows admin to update the status of a contact message.")
-    @PatchMapping("/{contactUsId}/status")
-    @ResponseStatus(HttpStatus.OK)
-    //@PreAuthorize("hasAnyRole('ADMIN')")
-    public void updateStatus(@PathVariable Long contactUsId, @RequestBody @Valid ContactUsStatusUpdateRequest request) {
-        contactUsService.updateStatus(contactUsId, request);
     }
 
     @Operation(summary = "Upload file for a contact message", description = "Allows users to upload a file for their contact message.")

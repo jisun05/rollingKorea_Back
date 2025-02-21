@@ -1,13 +1,8 @@
-package history.traveler.rollingkorea.question.service.Implementation;
+package history.traveler.rollingkorea.question.service.implementation;
 
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
-import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerEditRequest;
-import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
-import history.traveler.rollingkorea.question.controller.request.ContactUsStatusUpdateRequest;
-import history.traveler.rollingkorea.question.controller.response.ContactUsAnswerEditResponse;
-import history.traveler.rollingkorea.question.controller.response.ContactUsAnswerResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsCreateResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsEditResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
@@ -89,8 +84,11 @@ public class ContactUsServiceImpl implements ContactUsService {
     @Override
     public ContactUsEditResponse editContactUs(Long contactUsId, ContactUsEditRequest contactUsEditRequest) {
         User user = getUser();
+        // 수정할 ContactUs 객체를 먼저 조회
         ContactUs contactUs = existContactUsCheck(contactUsId);
+        // 조회된 ContactUs의 user 필드와 하드코딩된 user를 비교
         writeContactUsUserEqualLoginUserCheck(user, contactUs);
+        // 요청 내용으로 ContactUs 객체 수정
         contactUs.editContactUs(contactUsEditRequest);
         return ContactUsEditResponse.from(contactUs);
     }
@@ -111,35 +109,10 @@ public class ContactUsServiceImpl implements ContactUsService {
     }
 
 
-
     @Override
     public ContactUsSearchResponse getContactUs(Long contactUsId) {
         ContactUs contactUs = existContactUsCheck(contactUsId);
         return ContactUsSearchResponse.from(contactUs);
-    }
-
-    @Override
-    public ContactUsAnswerResponse answerToContactUs(Long contactUsId, ContactUsAnswerRequest request) {
-        ContactUs contactUs = existContactUsCheck(contactUsId);
-        contactUs.answerToContactUs(request);
-        return ContactUsAnswerResponse.from(contactUs);
-    }
-
-    @Override
-    public ContactUsAnswerEditResponse editAnswer(Long contactUsId, ContactUsAnswerEditRequest request) {
-        return null;
-    }
-
-    @Override
-    public void deleteAnswer(Long contactUsId) {
-        ContactUs contactUs = existContactUsCheck(contactUsId);
-        contactUs.deleteAnswer();
-    }
-
-    @Override
-    public void updateStatus(Long contactUsId, ContactUsStatusUpdateRequest request) {
-        ContactUs contactUs = existContactUsCheck(contactUsId);
-        contactUs.updateStatus(request);
     }
 
     @Override
@@ -168,7 +141,13 @@ public class ContactUsServiceImpl implements ContactUsService {
     }
 
     private void writeContactUsUserEqualLoginUserCheck(User user, ContactUs contactUs) {
-        if (!contactUs.getUser().getLoginId().equals(user.getLoginId())) {
+
+        if (contactUs.getUser() == null) {
+            // 필요한 경우, null일 때 적절한 예외를 던지거나 로직을 변경합니다.
+            throw new BusinessException(NOT_MATCH_CONTACTUS);
+        }
+
+        if (!contactUs.getUser().getUserId().equals(user.getUserId())) {
             throw new BusinessException(NOT_MATCH_CONTACTUS);
         }
     }
