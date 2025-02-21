@@ -7,6 +7,7 @@ import history.traveler.rollingkorea.place.controller.response.PlaceCreateRespon
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
 import history.traveler.rollingkorea.place.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import io.swagger.v3.oas.annotations.Parameter;
 
 import java.io.IOException;
 

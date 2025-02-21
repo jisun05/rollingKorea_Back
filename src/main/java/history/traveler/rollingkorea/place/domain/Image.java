@@ -25,7 +25,7 @@ public class Image {
     private Long imageId;
 
     @Lob
-    @Column(name = "image_data", nullable = true)
+    @Column(name = "image_data", nullable = true, columnDefinition = "MEDIUMBLOB")
     private byte[] imageData;
 
     @JsonBackReference

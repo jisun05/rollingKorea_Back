@@ -205,6 +205,8 @@ Written to show detailed flow for each service. (In progress)<br>
 
 # 테스트 진행 여부
 
+< src = https://www.notion.so/19365f59b80881b19becf3e79a247028?v=19365f59b8088179a63a000ca0099981&pvs=4>
+
 # 기술적 도전
 
 # 트러블 슈팅

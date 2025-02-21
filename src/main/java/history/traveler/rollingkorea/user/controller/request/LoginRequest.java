@@ -1,9 +1,8 @@
 package history.traveler.rollingkorea.user.controller.request;
 
 import history.traveler.rollingkorea.user.domain.LoginType;
+import jakarta.validation.constraints.NotNull;
 
-
-import javax.validation.constraints.NotNull;
 
 public record LoginRequest(
         @NotNull(message = "The loginId is a required field.")

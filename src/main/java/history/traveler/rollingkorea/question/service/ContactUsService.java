@@ -11,10 +11,11 @@ import history.traveler.rollingkorea.question.controller.response.ContactUsCreat
 import history.traveler.rollingkorea.question.controller.response.ContactUsEditResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
 import history.traveler.rollingkorea.question.controller.response.FileResponse;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import javax.validation.Valid;
+
 
 
 public interface ContactUsService {

@@ -1,6 +1,8 @@
 package history.traveler.rollingkorea.user.controller.request;
+
 import jakarta.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 public record UserEditRequest(
