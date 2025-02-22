@@ -10,8 +10,7 @@ public record ContactUsSearchResponse(
         Long parentId,         // ContactUs의 parentId
         Long listOrder,        // ContactUs의 listOrder
         LocalDateTime createdAt, // 생성 시간
-        LocalDateTime updatedAt, // 수정 시간
-        String fileName        // 파일 이름
+        LocalDateTime updatedAt// 수정 시간
 ) {
 
     // 정적 팩토리 메서드
@@ -22,8 +21,7 @@ public record ContactUsSearchResponse(
                 contactUs.getParentId(),
                 contactUs.getListOrder(),
                 contactUs.getCreatedAt(),
-                contactUs.getUpdatedAt(),
-                contactUs.getFile().getFileName()
+                contactUs.getUpdatedAt()
         );
     }
 }

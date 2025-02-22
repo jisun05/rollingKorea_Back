@@ -8,6 +8,7 @@ import history.traveler.rollingkorea.question.controller.response.ContactUsCreat
 import history.traveler.rollingkorea.question.controller.response.ContactUsEditResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
 import history.traveler.rollingkorea.question.controller.response.FileResponse;
+import history.traveler.rollingkorea.question.domain.ContactUs;
 import history.traveler.rollingkorea.question.service.ContactUsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -36,6 +37,8 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -121,14 +124,27 @@ public class ContactUsController {
     }
 
     @Operation(
-            summary = "Admin replies to a contact message",
-            description = "Allows administrators to reply to a member's inquiry by creating a new ContactUs record with a parent reference"
+            summary = "Admin/User replies to a contact message",
+            description = "Allows administrators to reply to a user's inquiry by creating a new ContactUs record with a parent reference"
     )
-    @PutMapping("/{contactUsId}/answer")
+    @PutMapping("/{contactUsId}/reply")
     @ResponseStatus(HttpStatus.OK)
     public ContactUsAnswerResponse respondToContactUs(@PathVariable Long contactUsId,
                                                   @RequestBody @Valid ContactUsAnswerRequest request) {
         return contactUsService.answerContactUs(contactUsId, request);
+    }
+
+    @Operation(
+            summary = "Retrieve all replies for a contact message",
+            description = "Retrieves all direct and nested replies for the specified contact message id."
+    )
+    @GetMapping("/{contactUsId}/replies")
+    public ResponseEntity<List<ContactUsSearchResponse>> getReplies(@PathVariable Long contactUsId) {
+        List<ContactUs> replies = contactUsService.getAllReplies(contactUsId);
+        List<ContactUsSearchResponse> response = replies.stream()
+                .map(ContactUsSearchResponse::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 
 }

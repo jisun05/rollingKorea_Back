@@ -4,10 +4,20 @@ import history.traveler.rollingkorea.question.controller.request.ContactUsAnswer
 import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
-import history.traveler.rollingkorea.question.controller.request.ContactUsStatusUpdateRequest;
 import history.traveler.rollingkorea.user.domain.User;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -68,10 +78,6 @@ public class ContactUs {
     public void editContactUs(ContactUsEditRequest contactUsEditRequest) {
         this.content = contactUsEditRequest.content();
         this.updatedAt = LocalDateTime.now(); // Update timestamp on edit
-    }
-
-    public void updateStatus(ContactUsStatusUpdateRequest request) {
-        // Implementation for updating status
     }
 
     public void deleteAnswer() {

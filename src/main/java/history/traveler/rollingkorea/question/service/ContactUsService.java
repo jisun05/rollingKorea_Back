@@ -8,9 +8,12 @@ import history.traveler.rollingkorea.question.controller.response.ContactUsCreat
 import history.traveler.rollingkorea.question.controller.response.ContactUsEditResponse;
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
 import history.traveler.rollingkorea.question.controller.response.FileResponse;
+import history.traveler.rollingkorea.question.domain.ContactUs;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 
 public interface ContactUsService {
@@ -27,4 +30,6 @@ public interface ContactUsService {
     FileResponse getFileResponse(Long contactUsId);
 
     ContactUsAnswerResponse answerContactUs(Long contactUsId, ContactUsAnswerRequest request);
+
+    List<ContactUs> getAllReplies(Long contactUsId);
 }

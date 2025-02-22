@@ -32,6 +32,8 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_CONTACTUS;
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_FILE;
@@ -110,7 +112,6 @@ public class ContactUsServiceImpl implements ContactUsService {
         return contactUs.map(ContactUsSearchResponse::from); // Map each ContactUs to ContactUsSearchResponse
     }
 
-
     @Override
     public ContactUsSearchResponse getContactUs(Long contactUsId) {
         ContactUs contactUs = existContactUsCheck(contactUsId);
@@ -137,19 +138,48 @@ public class ContactUsServiceImpl implements ContactUsService {
         // 관리자의 정보를 가져옵니다. (실제 환경에서는 관리자 인증 정보를 사용)
         User adminUser = getUser();
 
+        // 부모 문의에 해당하는 답글 중 최대 listOrder 값을 조회
+        // 만약 답글이 없다면 MAX(listOrder)는 0으로 처리되며, 새 답글은 0+1=1이 되어 첫번째 답글이 됩니다.
+        Long maxOrder = contactUsRepository.findMaxListOrderByParentId(parentContactUs.getContactUsId());
+        Long newOrder = maxOrder + 1;
+
         // 관리자의 답변 레코드를 생성
         // parentId 필드는 원본 문의의 ID로 설정합니다.
         ContactUs contactUs = ContactUs.builder()
                 .user(adminUser)                     // 관리자의 정보
                 .content(request.content())          // 답변 내용
                 .parentId(parentContactUs.getContactUsId()) // 원본 문의의 ID 설정
+                .listOrder(newOrder)
                 .build();
         contactUs = contactUsRepository.save(contactUs);
 
         return ContactUsAnswerResponse.from(parentContactUs.getContactUsId(), contactUs);
     }
 
+    /**
+     * 특정 문의글의 답글 및 하위 답글들을 재귀적으로 조회
+     */
+    @Override
+    public List<ContactUs> getAllReplies(Long contactUsId) {
+        // 원본 문의 존재 여부 체크
+        existContactUsCheck(contactUsId);
+        List<ContactUs> replies = new ArrayList<>();
+        fetchRepliesRecursively(contactUsId, replies);
+        return replies;
+    }
 
+    /**
+     * 재귀적으로 답글 트리를 조회하는 헬퍼 메서드.
+     */
+    private void fetchRepliesRecursively(Long parentId, List<ContactUs> accumulator) {
+        List<ContactUs> directReplies = contactUsRepository.findByParentId(parentId);
+        for (ContactUs reply : directReplies) {
+            accumulator.add(reply);
+            fetchRepliesRecursively(reply.getContactUsId(), accumulator);
+        }
+    }
+
+    // 임시로 반환하는 로그인한 사용자 (실제 환경에서는 인증 정보를 사용)
     private User getUser() {
         return User.builder()
                 .userId(1L)
