@@ -127,7 +127,7 @@ public class ContactUsController {
             summary = "Admin/User replies to a contact message",
             description = "Allows administrators to reply to a user's inquiry by creating a new ContactUs record with a parent reference"
     )
-    @PutMapping("/{contactUsId}/reply")
+    @PostMapping("/{contactUsId}/reply")
     @ResponseStatus(HttpStatus.OK)
     public ContactUsAnswerResponse respondToContactUs(@PathVariable Long contactUsId,
                                                   @RequestBody @Valid ContactUsAnswerRequest request) {
@@ -146,5 +146,7 @@ public class ContactUsController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
+
+
 
 }

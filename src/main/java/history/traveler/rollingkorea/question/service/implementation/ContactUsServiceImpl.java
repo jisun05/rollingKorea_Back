@@ -27,14 +27,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_CONTACTUS;
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_FOUND_FILE;
 import static history.traveler.rollingkorea.global.error.ErrorCode.NOT_MATCH_CONTACTUS;
@@ -102,6 +100,16 @@ public class ContactUsServiceImpl implements ContactUsService {
         User user = getUser();
         ContactUs contactUs = existContactUsCheck(contactUsId);
         writeContactUsUserEqualLoginUserCheck(user, contactUs);
+
+        // 원글에 달린 모든 하위 답글(자식 댓글)을 재귀적으로 조회
+        List<ContactUs> replies = getAllReplies(contactUsId);
+
+        // 먼저 하위 댓글들을 모두 삭제합니다.
+        if (!replies.isEmpty()) {
+            contactUsRepository.deleteAll(replies);
+        }
+
+        // 마지막으로 원글을 삭제합니다.
         contactUsRepository.delete(contactUs);
     }
 
@@ -120,14 +128,16 @@ public class ContactUsServiceImpl implements ContactUsService {
 
     @Override
     public FileResponse getFileResponse(Long contactUsId) {
-        ContactUs contactUs = existContactUsCheck(contactUsId);
-        File file = contactUs.getFile(); // Embedded File 객체 가져오기
+        // ContactUs 엔티티 조회
+        ContactUs contactUs = contactUsRepository.findById(contactUsId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_FILE));
 
-        if (file == null || file.getFileData() == null || file.getFileName() == null) {
+        // 파일 정보가 없는 경우 예외 발생
+        if (contactUs.getFile() == null || contactUs.getFile().getFileData() == null) {
             throw new BusinessException(NOT_FOUND_FILE);
         }
-
-        return new FileResponse(file.getFileData(), file.getFileName());
+        // FileResponse 생성 (FileResponse.fromFile 메서드에서 file_data와 file_name을 설정)
+        return FileResponse.fromFile(contactUs.getFile());
     }
 
     @Override
