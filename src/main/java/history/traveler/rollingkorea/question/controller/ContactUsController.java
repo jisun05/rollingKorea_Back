@@ -15,6 +15,8 @@ import history.traveler.rollingkorea.question.service.ContactUsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -34,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
@@ -121,20 +122,30 @@ public class ContactUsController {
 
     @Operation(summary = "Download file for a contact message", description = "Allows users to download a file attached to their contact message.")
     @GetMapping("/{contactUsId}/download")
-    public ResponseEntity<FileResponse> downloadFile(@PathVariable Long contactUsId) {
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long contactUsId) {
         try {
-            // 서비스에서 파일 데이터를 가져옴
+            // 서비스에서 FileResponse (Blob과 파일명이 담긴 레코드)를 가져옴
             FileResponse fileResponse = contactUsService.getFileResponse(contactUsId);
 
-            // HttpHeaders를 설정하고 응답 반환
-            HttpHeaders headers = FileResponse.getFileHeaders(fileResponse);
-            return ResponseEntity.ok().headers(headers).body(fileResponse);
+            // Blob 데이터를 byte 배열로 변환
+            Blob fileBlob = fileResponse.fileData();
+            byte[] fileBytes = fileBlob.getBytes(1, (int) fileBlob.length());
 
-        } catch (RuntimeException e) {
-            // 파일을 찾을 수 없거나 오류가 발생하면 404 Not Found 반환
+            // byte 배열을 ByteArrayResource로 감싸서 리소스 생성
+            ByteArrayResource resource = new ByteArrayResource(fileBytes);
+
+            // FileResponse에서 제공하는 헤더 생성 메서드 사용
+            HttpHeaders headers = FileResponse.getFileHeaders(fileResponse);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(fileBytes.length)
+                    .body(resource);
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @Operation(
             summary = "Admin/User replies to a contact message",
