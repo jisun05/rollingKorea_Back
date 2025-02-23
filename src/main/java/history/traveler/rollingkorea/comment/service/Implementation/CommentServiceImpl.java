@@ -15,7 +15,6 @@ import history.traveler.rollingkorea.global.error.ErrorCode;
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -107,7 +106,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentSearchResponse findById(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("Comment not found with id: " + commentId));
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_COMMENT));
 
         return new CommentSearchResponse(comment);
     }
