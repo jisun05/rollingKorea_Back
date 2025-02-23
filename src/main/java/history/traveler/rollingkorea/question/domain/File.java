@@ -6,7 +6,6 @@ import jakarta.persistence.Lob;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.sql.Blob;
 
 @Embeddable

@@ -2,11 +2,11 @@ package history.traveler.rollingkorea.place.service.implementation;
 
 import history.traveler.rollingkorea.global.error.ErrorCode;
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
-import history.traveler.rollingkorea.place.controller.request.ImageRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.controller.response.PlaceCreateResponse;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
+import history.traveler.rollingkorea.place.controller.response.PlaceUpdateResponse;
 import history.traveler.rollingkorea.place.domain.Image;
 import history.traveler.rollingkorea.place.domain.Place;
 import history.traveler.rollingkorea.place.repository.ImageRepository;
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -40,21 +41,20 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Transactional
-    public void placeUpdate(Long id, PlaceEditRequest placeEditRequest, ImageRequest imageRequest) {
+    public PlaceUpdateResponse placeUpdate(Long id, PlaceEditRequest placeEditRequest, MultipartFile imageFile) {
         Place place = placeRepository.findByPlaceId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
 
         // Place 정보 업데이트
         place.update(placeEditRequest);
 
-        // 이미지 업데이트 로직: imageRequest가 null이 아니고, 이미지 파일이 존재하는 경우 처리
-        if (imageRequest != null && imageRequest.imageData() != null && !imageRequest.imageData().isEmpty()) {
+        // 이미지 업데이트 로직
+        if (imageFile != null && !imageFile.isEmpty()) {
             // 기존 이미지 삭제 (해당 Place에 연결된 모든 이미지 삭제)
             imageRepository.deleteByPlace_PlaceId(id);
 
             try {
-                byte[] newImageData = imageRequest.imageData().getBytes();
-
+                byte[] newImageData = imageFile.getBytes();
                 Image image = Image.builder()
                         .imageData(newImageData)
                         .place(place)
@@ -64,7 +64,23 @@ public class PlaceServiceImpl implements PlaceService {
                 throw new RuntimeException("이미지 파일 처리 중 오류가 발생했습니다.", e);
             }
         }
+
+        // 업데이트된 Place 정보를 바탕으로 PlaceUpdateResponse 반환
+        return PlaceUpdateResponse.builder()
+                .placeId(place.getPlaceId())
+                .placeName(place.getPlaceName())
+                .region(place.getRegion())
+                .placeDescription(place.getPlaceDescription())
+                // 필요에 따라 place의 latitude, longitude 값이 존재하면 사용, 없으면 기본값(예: 0.0)으로 처리
+                .latitude(place.getLatitude())
+                .longitude(place.getLongitude())
+                // 해당 Place에 연결된 이미지 리스트 조회 (없으면 빈 리스트가 반환되도록)
+                .imageList(imageRepository.findByPlace_PlaceId(place.getPlaceId()))
+                .updatedAt(LocalDateTime.now())
+                .build();
     }
+
+
 
     @Override
     @Transactional

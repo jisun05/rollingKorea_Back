@@ -1,10 +1,10 @@
 package history.traveler.rollingkorea.place.controller;
 
-import history.traveler.rollingkorea.place.controller.request.ImageRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import history.traveler.rollingkorea.place.controller.response.PlaceCreateResponse;
 import history.traveler.rollingkorea.place.controller.response.PlaceResponse;
+import history.traveler.rollingkorea.place.controller.response.PlaceUpdateResponse;
 import history.traveler.rollingkorea.place.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -84,11 +83,15 @@ public class PlaceController {
 
 
     @Operation(summary = "Update a place", description = "Updates the details of an existing place (Admin only).")
-    @PutMapping("/admin/places/{id}") // 이후 url수정필요
-    //@PreAuthorize("hasRole('ADMIN')") // ADMIN만 호출 가능
-    public void updatePlace(@PathVariable Long id, @RequestBody PlaceEditRequest placeEditRequest, ImageRequest imageRequest) throws IOException {
-        placeService.placeUpdate(id, placeEditRequest, imageRequest);
+    @PutMapping(value = "/admin/places/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    // @PreAuthorize("hasRole('ADMIN')")
+    public PlaceUpdateResponse updatePlace(
+            @PathVariable Long id,
+            @RequestPart("placeEditRequest") PlaceEditRequest placeEditRequest,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) throws IOException {
+        return placeService.placeUpdate(id, placeEditRequest, imageFile);
     }
+
 
     @Operation(summary = "Delete a place", description = "Deletes a place by place ID (Admin only).")
     @DeleteMapping("/admin/places/{id}")
