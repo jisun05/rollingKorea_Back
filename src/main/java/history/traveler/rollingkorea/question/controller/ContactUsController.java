@@ -9,6 +9,8 @@ import history.traveler.rollingkorea.question.controller.response.ContactUsEditR
 import history.traveler.rollingkorea.question.controller.response.ContactUsSearchResponse;
 import history.traveler.rollingkorea.question.controller.response.FileResponse;
 import history.traveler.rollingkorea.question.domain.ContactUs;
+import history.traveler.rollingkorea.question.domain.File;
+import history.traveler.rollingkorea.question.repository.ContactUsRepository;
 import history.traveler.rollingkorea.question.service.ContactUsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -46,6 +48,7 @@ import java.util.stream.Collectors;
 public class ContactUsController {
 
     private final ContactUsService contactUsService;
+    private final ContactUsRepository contactUsRepository;
 
     @Operation(summary = "Create a new contact message", description = "Allows users to create a new contact message.")
     @ResponseStatus(HttpStatus.CREATED)
@@ -102,7 +105,17 @@ public class ContactUsController {
             throw new IOException("Error converting file bytes to Blob", e);
         }
         String fileName = file.getOriginalFilename();
-        // 파일 데이터를 저장하는 로직을 추가할 수 있습니다.
+
+        ContactUs contactUs = contactUsRepository.findById(contactUsId)
+                .orElseThrow(() -> new RuntimeException("ContactUs not found with id: " + contactUsId));
+
+        // 새로운 File 객체를 생성하고 엔티티의 파일 정보를 업데이트
+        File fileEntity = new File(fileData, fileName);
+        contactUs.updateFile(fileEntity);
+
+        // 엔티티 저장
+        contactUsRepository.save(contactUs);
+
         return new FileResponse(fileData, fileName);
     }
 

@@ -1,7 +1,5 @@
 package history.traveler.rollingkorea.question.domain;
 
-import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerEditRequest;
-import history.traveler.rollingkorea.question.controller.request.ContactUsAnswerRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsCreateRequest;
 import history.traveler.rollingkorea.question.controller.request.ContactUsEditRequest;
 import history.traveler.rollingkorea.user.domain.User;
@@ -18,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -79,15 +78,9 @@ public class ContactUs {
         this.updatedAt = LocalDateTime.now(); // Update timestamp on edit
     }
 
-    public void deleteAnswer() {
-        // Implementation for deleting answer
+    public void updateFile(File file) {
+        this.file = file;
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public void editAnswer(ContactUsAnswerEditRequest request) {
-        // Implementation for editing answer
-    }
-
-    public void answerToContactUs(ContactUsAnswerRequest request) {
-        // Implementation for answering contact us
-    }
 }
