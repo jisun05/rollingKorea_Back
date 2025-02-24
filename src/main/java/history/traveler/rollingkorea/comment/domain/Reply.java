@@ -70,7 +70,7 @@ public class Reply {
 
     // create reply
     public static Reply createReply(User user, Comment comment, ReplyCreateRequest replyCreateRequest) {
-        System.out.println("Comment ID in createReply: " + comment.getCommentId()); // 디버깅용
+
         return Reply.builder()
                 .user(user)
                 .comment(comment)

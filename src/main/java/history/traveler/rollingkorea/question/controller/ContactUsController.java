@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
@@ -121,7 +123,7 @@ public class ContactUsController {
     }
 
     @Operation(summary = "Download file for a contact message", description = "Allows users to download a file attached to their contact message.")
-    @GetMapping("/{contactUsId}/download")
+    @GetMapping(value = "/{contactUsId}/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<Resource> downloadFile(@PathVariable Long contactUsId) {
         try {
             // 서비스에서 FileResponse (Blob과 파일명이 담긴 레코드)를 가져옴
