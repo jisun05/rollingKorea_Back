@@ -1,6 +1,8 @@
 package history.traveler.rollingkorea.user.service;
 
 
+import history.traveler.rollingkorea.user.domain.User;
+
 public interface UserService {
 
 
@@ -21,7 +23,7 @@ public interface UserService {
 
     // 회원 삭제
     //void userDelete();
-
+    User findOrCreateGoogleUser(String email, String name);
     // 로그인 히스토리 삭제 스케줄러
     void schedulerLoginHistoryDeleteCron();
 }

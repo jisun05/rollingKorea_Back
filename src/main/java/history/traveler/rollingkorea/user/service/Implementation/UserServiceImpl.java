@@ -33,6 +33,21 @@ public class UserServiceImpl implements UserService {
     private final LikePlaceRepository likePlaceRepository;
     private final UserLoginHistoryRepository userLoginHistoryRepository;
 
+
+
+    @Override
+    public User findOrCreateGoogleUser(String email, String name) {
+        return userRepository.findByLoginId(email).orElseGet(() -> {
+            User newUser = User.builder()
+                    .loginId(email)
+                    .nickname(name)
+                    .roleType(RoleType.ROLE_USER)
+                    .build();
+            return userRepository.save(newUser);
+        });
+    }
+
+
 //    @Override
 //    public void userSignup(UserSignupRequest userSignupRequest) {
 //        DuplicatedLoginIdCheck(userRepository.findByLoginId(userSignupRequest.loginId()).isPresent());

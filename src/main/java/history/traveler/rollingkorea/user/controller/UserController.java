@@ -1,93 +1,64 @@
 package history.traveler.rollingkorea.user.controller;
 
-import history.traveler.rollingkorea.place.controller.PlaceController;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import history.traveler.rollingkorea.global.config.security.TokenProvider;
+import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.Duration;
+import java.util.Collections;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor //클래스의 모든 final 필드와 @NonNull로 표시된 필드를 매개변수로 받는 생성자를 자동으로 생성
+@RequiredArgsConstructor
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000/*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     private final UserService userService;
-    private static final Logger logger = LoggerFactory.getLogger(PlaceController.class);
+    private final TokenProvider tokenProvider;
 
-//
-//    @CrossOrigin(origins = "http://localhost:3000")
-//    @PostMapping("/googleLoginUrl")
-//    public ResponseEntity<?> login(@RequestBody AddUserRequest addUserRequest) {
-//        // 사용자 인증 로직
-//        String email = addUserRequest.getEmail();
-//        String password = addUserRequest.getPassword();
-//        log.info("email = " + email + "CHECK /googleLoginUrl");
-//
-//        // 사용자 인증
-//        User user = userService.authenticate(email, password);
-//        if (user == null) {
-//            // 인증 실패 시 401 Unauthorized 반환
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 잘못된 이메일 또는 비밀번호입니다.");
-//        }
-//
-//        // JWT 토큰 생성
-//        String token = tokenProvider.generateToken(user, Duration.ofHours(1)); // 1시간 유효한 토큰 생성
-//
-//        // 성공 시 JWT 토큰 반환
-//        return ResponseEntity.ok(new CreateAccessTokenResponse(token));
-//    }
+    @PostMapping("/google/login")
+    public ResponseEntity<?> googleLogin(@RequestBody GoogleLoginRequest request) {
+        String idTokenString = request.idToken();
 
-    //from login
-//    @PostMapping("/user/login")
-//    @ResponseStatus(HttpStatus.OK)
-//    public JwtTokenDto login(@RequestBody LoginRequest loginRequest) throws JsonProcessingException {
-//        return userService.login(loginRequest);
-//    }
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
+                    .setAudience(Collections.singletonList("386257786961-e3udpn75tlqvi29ejnkc3sagve80aqjf.apps.googleusercontent.com"))
+                    .build();
 
-    //sign up
-//    @PostMapping("/user/signup")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ResponseEntity<String> signup(@RequestBody @Valid UserSignupRequest userSignupRequest){
-//        logger.info("Request SignUP"); // 응답 로그 추가
-//        userService.userSignup(userSignupRequest);
-//        return ResponseEntity.status(HttpStatus.CREATED).body("SUCCESS");
-//    }
+            GoogleIdToken idToken = verifier.verify(idTokenString);
+            if (idToken != null) {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                String email = payload.getEmail();
+                String name = (String) payload.get("name");
+                Boolean emailVerified = (Boolean) payload.getEmailVerified();
 
-//    @GetMapping("/users/me")
-//    //@PreAuthorize("hasAnyRole('USER','ADMIN')") //메서드에 대한 접근 제어를 설정, 사용자가 'USER' 또는 'ADMIN' 역할이여야 접근 가능
-//    @ResponseStatus(HttpStatus.OK)
-//    public UserResponse findByDetailMyInfo() {
-//        return userService.findByDetailMyInfo();
-//    }
-    //edit user
-//    @PutMapping("/users")
-//    @ResponseStatus(HttpStatus.OK)
-//    //@PreAuthorize("hasAnyRole('USER','ADMIN')")
-//    public void memberEdit(@RequestBody @Valid UserEditRequest userEditRequest) {
-//        userService.userEdit(userEditRequest);
-//    }
+                if (emailVerified == null || !emailVerified) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("구글에서 이메일 검증 실패");
+                }
 
-    //withdrawal
-//    @DeleteMapping("/users")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    //@PreAuthorize("hasAnyRole('USER','ADMIN')")
-//    public void userDelete() {
-//        userService.userDelete();
-//    }
+                User user = userService.findOrCreateGoogleUser(email, name);
+                String token = tokenProvider.generateToken(user);
+                return ResponseEntity.ok(new CreateAccessTokenResponse(token));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 ID 토큰");
+            }
+        } catch (Exception e) {
+            log.error("구글 로그인 중 예외 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("토큰 검증 오류");
+        }
+    }
 
-//
-//    @GetMapping("/logout")
-//    public String logout(HttpServletRequest request, HttpServletResponse response) {
-//        new SecurityContextLogoutHandler().logout(request, response,
-//                SecurityContextHolder.getContext().getAuthentication());
-//        return "redirect:/";
-//    }
-
-
+    // record 형식 DTOs (패키지 분리 추천)
+    public record GoogleLoginRequest(String idToken) {}
+    public record CreateAccessTokenResponse(String token) {}
 }
