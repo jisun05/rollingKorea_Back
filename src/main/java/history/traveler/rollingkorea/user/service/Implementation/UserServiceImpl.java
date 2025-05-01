@@ -63,55 +63,6 @@ public class UserServiceImpl implements UserService {
         DuplicatedLoginIdCheck(userRepository.findByUserId(Long.valueOf(userId)).isPresent());
     }
 
-//    @Override
-//    public JwtTokenDto login(LoginRequest loginRequest) throws JsonProcessingException {
-//             //TODO : after make JwtTokenDto,TokenProvider
-//        return null;
-//        //if google
-//        if (loginRequest.loginType().equals(LoginType.GOOGLE)) {
-//            //make google user
-//            User user = User.googleCreate(loginRequest, passwordEncoder);
-//
-//            // 동일한 Email , LoginID 일 경우 토큰만 발급 후 리턴
-//            if (userRepository.findByLoginIdAndLoginType(loginRequest.loginId(),LoginType.NO_SOCIAL).isPresent()) {
-//                return tokenProvider.generateToken(loginRequest);
-//            }
-//
-//            DuplicatedLoginIdCheck(userRepository.findByLoginId(loginRequest.loginId()).isPresent());
-//            return tokenProvider.generateToken(loginRequest);
-//        }
-//        // 로그인한 회원의 타입이 NO_SOCIAL 이 아니라면 예외 (로그인타입 GOOGLE  조건문으로 확인완료)
-//        User user = userRepository.findByLoginId(loginRequest.loginId()).orElseThrow(
-//                () -> new BusinessException(NOT_FOUND_USER));
-//
-//        // 비밀번호 일치 여부 비교 ( 로그인 요청한 PW == DB 암호화 비밀번호 )
-//        if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
-//            throw new BusinessException(NOT_EQUAL_PASSWORD);
-//        }
-//        return tokenProvider.generateToken(loginRequest);
-//    }
-
-//    @Override
-//    @Transactional(readOnly = true)
-//    public UserResponse findByDetailMyInfo() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // 인증 정보 가져오기
-//       // User user = userRepository.findByUserId(authentication.getName()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER)); // 회원 조회
-//
-//        User user = userRepository.findByUserId(getUser().getUserId()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); // 권한 정보 가져오기
-//        List<String> list = authorities.stream().map(GrantedAuthority::getAuthority).toList(); // 권한 리스트 생성
-//        return UserResponse.toResponse(user,list); // 회원 정보 응답
-//    }
-//
-//    @Transactional
-//    @Override
-//    public void userEdit(UserEditRequest userEditRequest) {
-//        User user = getUser();
-//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //for test
-//        user.update(userEditRequest, passwordEncoder);  //origin
-//        userRepository.save(user);
-//    }
-
     @Transactional
     //@Override
     public void userDelete() {
