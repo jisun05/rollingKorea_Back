@@ -2,6 +2,7 @@ package history.traveler.rollingkorea.heritage.config;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +43,22 @@ public class RestConfig {
         return restTemplateBuilder
                 .messageConverters(xmlConv, jsonConv, stringConv)
                 .build();
+    }
+
+    /**
+     * XmlMapper를 빈으로 등록해서 @Autowired XmlMapper xmlMapper;
+     * 처럼 주입받을 수 있도록 합니다.
+     */
+    @Bean
+    public XmlMapper xmlMapper(Jackson2ObjectMapperBuilderCustomizer customizer) {
+        // Jackson2ObjectMapperBuilderCustomizer로 이미 등록된 모듈(ParameterNamesModule 등)을 가져오려면
+        // Jackson2ObjectMapperBuilderBuilder를 쓰는 방법도 있지만,
+        // 간단히 직접 생성 후 JAXB 모듈만 추가해 줍니다.
+        XmlMapper mapper = new XmlMapper();
+        // 레코드, 파라미터 이름, JDK8, JavaTime 모듈 등은
+        // spring-boot-autoconfigure가 자동 등록해 줍니다.
+        mapper.registerModule(new JaxbAnnotationModule());
+        return mapper;
     }
 }
 
