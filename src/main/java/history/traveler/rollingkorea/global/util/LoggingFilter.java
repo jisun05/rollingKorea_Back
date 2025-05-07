@@ -27,6 +27,8 @@ public class LoggingFilter implements Filter {
 
         // 요청 로그
         logger.info("Request Method: {}, Request URI: {}", httpRequest.getMethod(), httpRequest.getRequestURI());
+        // 요청 Content-Type 로그
+        logger.info(">> Request Content-Type: {}", httpRequest.getContentType());
 
         chain.doFilter(request, response);
 

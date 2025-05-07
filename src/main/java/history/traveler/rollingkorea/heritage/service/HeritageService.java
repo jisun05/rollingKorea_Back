@@ -26,23 +26,11 @@ public class HeritageService {
     }
 
     public List<HeritageRequest> getHeritages() throws Exception {
-        // ↓ JSON 디버그: 실제 JSON payload 찍기
-        String json = restTemplate.getForObject(
-                apiUrl + "?pageUnit=10&ccbaCncl=N&ccbaKdcd=11&ccbaCtcd=11&_type=json",
-                String.class);
-        System.out.println("🎯 RAW JSON:\n" + json);
-
-        // ↓ XML 디버그: 실제 XML payload 찍기
-        String xml = restTemplate.getForObject(
+        KindOpenApiResponse resp = restTemplate.getForObject(
                 apiUrl + "?pageUnit=10&ccbaCncl=N&ccbaKdcd=11&ccbaCtcd=11",
-                String.class);
-        System.out.println("🎯 RAW XML:\n" + xml);
-
-        // 기존 매핑: KindOpenApiResponse로 파싱
-        KindOpenApiResponse resp = xmlMapper.readValue(xml, KindOpenApiResponse.class);
-        List<HeritageRequest> list = resp == null ? List.of() : resp.items();
-        System.out.println("▶ parsed items count = " + list.size());
-        return list;
+                KindOpenApiResponse.class
+        );
+        return resp == null ? List.of() : resp.items();
     }
 }
 

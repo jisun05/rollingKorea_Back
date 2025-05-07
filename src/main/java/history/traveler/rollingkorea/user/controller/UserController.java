@@ -1,5 +1,6 @@
 package history.traveler.rollingkorea.user.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -10,10 +11,10 @@ import history.traveler.rollingkorea.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
 import java.util.Collections;
 
 @Slf4j
@@ -26,13 +27,21 @@ public class UserController {
     private final UserService userService;
     private final TokenProvider tokenProvider;
 
-    @PostMapping("/google/login")
+    @PostMapping(
+            value = "/google/login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> googleLogin(@RequestBody GoogleLoginRequest request) {
         String idTokenString = request.idToken();
 
         try {
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                    .setAudience(Collections.singletonList("386257786961-e3udpn75tlqvi29ejnkc3sagve80aqjf.apps.googleusercontent.com"))
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                    new NetHttpTransport(), new JacksonFactory()
+            )
+                    .setAudience(Collections.singletonList(
+                            "386257786961-e3udpn75tlqvi29ejnkc3sagve80aqjf.apps.googleusercontent.com"
+                    ))
                     .build();
 
             GoogleIdToken idToken = verifier.verify(idTokenString);
@@ -40,25 +49,40 @@ public class UserController {
                 GoogleIdToken.Payload payload = idToken.getPayload();
                 String email = payload.getEmail();
                 String name = (String) payload.get("name");
-                Boolean emailVerified = (Boolean) payload.getEmailVerified();
+                Boolean emailVerified = payload.getEmailVerified();
 
                 if (emailVerified == null || !emailVerified) {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("구글에서 이메일 검증 실패");
+                    return ResponseEntity
+                            .status(HttpStatus.UNAUTHORIZED)
+                            .body("구글에서 이메일 검증 실패");
                 }
 
                 User user = userService.findOrCreateGoogleUser(email, name);
                 String token = tokenProvider.generateToken(user);
-                return ResponseEntity.ok(new CreateAccessTokenResponse(token));
+                return ResponseEntity.ok(
+                        new CreateAccessTokenResponse(token)
+                );
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 ID 토큰");
+                return ResponseEntity
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .body("유효하지 않은 ID 토큰");
             }
         } catch (Exception e) {
             log.error("구글 로그인 중 예외 발생", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("토큰 검증 오류");
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("토큰 검증 오류");
         }
     }
 
-    // record 형식 DTOs (패키지 분리 추천)
-    public record GoogleLoginRequest(String idToken) {}
-    public record CreateAccessTokenResponse(String token) {}
+    /**
+     * DTOs for request and response
+     */
+    public static record GoogleLoginRequest(
+            @JsonProperty("idToken") String idToken
+    ) {}
+
+    public static record CreateAccessTokenResponse(
+            @JsonProperty("token") String token
+    ) {}
 }
