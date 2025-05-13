@@ -1,6 +1,7 @@
 package history.traveler.rollingkorea.user.controller;
 
 import history.traveler.rollingkorea.user.controller.request.UpdateProfileRequest;
+import history.traveler.rollingkorea.user.controller.response.UserResponse;
 import history.traveler.rollingkorea.user.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -50,16 +51,5 @@ public class ProfileController {
 
 
 
-    /**
-     * DTO for profile response
-     */
-    public static record UserResponse(
-            Long id,
-            String email,
-            String firstName,
-            String nickname,
-            String location,
-            String mobile,
-            String birthday
-    ) { }
+
 }

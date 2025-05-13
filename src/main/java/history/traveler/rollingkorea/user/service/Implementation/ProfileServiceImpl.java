@@ -1,6 +1,7 @@
 package history.traveler.rollingkorea.user.service.implementation;
-import history.traveler.rollingkorea.user.controller.ProfileController.UserResponse;
+
 import history.traveler.rollingkorea.user.controller.request.UpdateProfileRequest;
+import history.traveler.rollingkorea.user.controller.response.UserResponse;
 import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.repository.UserRepository;
 import history.traveler.rollingkorea.user.service.ProfileService;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static history.traveler.rollingkorea.user.controller.response.UserResponse.toResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +25,9 @@ public class ProfileServiceImpl implements ProfileService {
     public UserResponse getUserProfile(String principalName) {
         User user = userRepository.findByLoginId(principalName)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        return toResponse(user);
+        // 엔티티의 RoleType을 기반으로 역할 목록 생성
+        List<String> roles = List.of(user.getRoleType().name());
+        return toResponse(user, roles);
     }
 
     @Override
@@ -30,10 +36,10 @@ public class ProfileServiceImpl implements ProfileService {
         User user = userRepository.findByLoginId(principalName)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        if (req.userName() != null) user.setUserName(req.userName());
-        if (req.nickname()  != null) user.setNickname(req.nickname());
-        if (req.location()  != null) user.setLocation(req.location());
-        if (req.mobile()    != null) user.setPhoneNumber(req.mobile());
+        if (req.userName() != null)     user.setUserName(req.userName());
+        if (req.nickname()  != null)     user.setNickname(req.nickname());
+        if (req.location()  != null)     user.setLocation(req.location());
+        if (req.mobile()    != null)     user.setPhoneNumber(req.mobile());
         if (req.birthday()  != null) {
             LocalDate ld = LocalDate.parse(req.birthday());
             user.setBirthday(ld.atStartOfDay());
@@ -41,7 +47,8 @@ public class ProfileServiceImpl implements ProfileService {
         user.setUpdatedAt(LocalDateTime.now());
 
         User saved = userRepository.save(user);
-        return toResponse(saved);
+        List<String> roles = List.of(saved.getRoleType().name());
+        return toResponse(saved, roles);
     }
 
     @Override
@@ -52,20 +59,5 @@ public class ProfileServiceImpl implements ProfileService {
         user.userDelete();
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
-    }
-
-    /** 엔티티 → Controller.UserResponse 로 매핑 */
-    private UserResponse toResponse(User u) {
-        return new UserResponse(
-                u.getUserId(),
-                u.getLoginId(),
-                u.getUserName(),
-                u.getNickname(),
-                u.getLocation(),
-                u.getPhoneNumber(),
-                u.getBirthday() != null
-                        ? u.getBirthday().toLocalDate().toString()
-                        : null
-        );
     }
 }

@@ -1,13 +1,14 @@
 package history.traveler.rollingkorea.user.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import history.traveler.rollingkorea.user.controller.request.GoogleLoginRequest;
+import history.traveler.rollingkorea.user.controller.response.CreateAccessTokenResponse;
+import history.traveler.rollingkorea.user.domain.User;
+import history.traveler.rollingkorea.user.service.UserService;
+import history.traveler.rollingkorea.global.config.security.TokenProvider;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import history.traveler.rollingkorea.global.config.security.TokenProvider;
-import history.traveler.rollingkorea.user.domain.User;
-import history.traveler.rollingkorea.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,9 +33,8 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<?> googleLogin(@RequestBody GoogleLoginRequest request) {
+    public ResponseEntity<CreateAccessTokenResponse> googleLogin(@RequestBody GoogleLoginRequest request) {
         String idTokenString = request.idToken();
-
         try {
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                     new NetHttpTransport(), new JacksonFactory()
@@ -54,35 +54,22 @@ public class UserController {
                 if (emailVerified == null || !emailVerified) {
                     return ResponseEntity
                             .status(HttpStatus.UNAUTHORIZED)
-                            .body("구글에서 이메일 검증 실패");
+                            .body(new CreateAccessTokenResponse("구글에서 이메일 검증 실패"));
                 }
 
                 User user = userService.findOrCreateGoogleUser(email, name);
                 String token = tokenProvider.generateToken(user);
-                return ResponseEntity.ok(
-                        new CreateAccessTokenResponse(token)
-                );
+                return ResponseEntity.ok(new CreateAccessTokenResponse(token));
             } else {
                 return ResponseEntity
                         .status(HttpStatus.UNAUTHORIZED)
-                        .body("유효하지 않은 ID 토큰");
+                        .body(new CreateAccessTokenResponse("유효하지 않은 ID 토큰"));
             }
         } catch (Exception e) {
             log.error("구글 로그인 중 예외 발생", e);
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("토큰 검증 오류");
+                    .body(new CreateAccessTokenResponse("토큰 검증 오류"));
         }
     }
-
-    /**
-     * DTOs for request and response
-     */
-    public static record GoogleLoginRequest(
-            @JsonProperty("idToken") String idToken
-    ) {}
-
-    public static record CreateAccessTokenResponse(
-            @JsonProperty("token") String token
-    ) {}
 }
