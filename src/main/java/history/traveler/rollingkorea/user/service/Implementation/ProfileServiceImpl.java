@@ -1,7 +1,6 @@
 package history.traveler.rollingkorea.user.service.implementation;
-
-import history.traveler.rollingkorea.user.controller.ProfileController.UpdateUserRequest;
 import history.traveler.rollingkorea.user.controller.ProfileController.UserResponse;
+import history.traveler.rollingkorea.user.controller.request.UpdateProfileRequest;
 import history.traveler.rollingkorea.user.domain.User;
 import history.traveler.rollingkorea.user.repository.UserRepository;
 import history.traveler.rollingkorea.user.service.ProfileService;
@@ -27,11 +26,11 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional
-    public UserResponse updateUserFields(String principalName, UpdateUserRequest req) {
+    public UserResponse updateUserFields(String principalName, UpdateProfileRequest req) {
         User user = userRepository.findByLoginId(principalName)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        if (req.firstName() != null) user.setUserName(req.firstName());
+        if (req.userName() != null) user.setUserName(req.userName());
         if (req.nickname()  != null) user.setNickname(req.nickname());
         if (req.location()  != null) user.setLocation(req.location());
         if (req.mobile()    != null) user.setPhoneNumber(req.mobile());

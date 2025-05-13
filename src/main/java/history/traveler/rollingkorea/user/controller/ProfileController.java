@@ -1,5 +1,6 @@
 package history.traveler.rollingkorea.user.controller;
 
+import history.traveler.rollingkorea.user.controller.request.UpdateProfileRequest;
 import history.traveler.rollingkorea.user.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,13 @@ public class ProfileController {
     /**
      * Update one or more fields of the authenticated user's profile
      */
+
     @PatchMapping("/me")
     public ResponseEntity<UserResponse> updateProfile(
             Principal principal,
-            @RequestBody UpdateUserRequest updateRequest
+            @RequestBody UpdateProfileRequest updateProfileRequest
     ) {
-        UserResponse updated = profileService.updateUserFields(principal.getName(), updateRequest);
+        UserResponse updated = profileService.updateUserFields(principal.getName(), updateProfileRequest);
         return ResponseEntity.ok(updated);
     }
 
@@ -45,16 +47,8 @@ public class ProfileController {
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * DTO for update request
-     */
-    public static record UpdateUserRequest(
-            String firstName,
-            String nickname,
-            String location,
-            String mobile,
-            String birthday
-    ) { }
+
+
 
     /**
      * DTO for profile response
