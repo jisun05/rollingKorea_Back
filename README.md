@@ -82,6 +82,8 @@ For detailed information, please refer to the sequence diagrams below.
 
 # Sequence Diagram
 Login<br>
+
+```mermaid
 %%{init: {
   'themeVariables': {
     'fontSize': '16px',
@@ -89,7 +91,6 @@ Login<br>
     'noteFontSize': '14px'
   }
 }}%%
-```mermaid
 sequenceDiagram
     participant U as 사용자
     participant B as 브라우저
