@@ -82,6 +82,7 @@ For detailed information, please refer to the sequence diagrams below.
 
 # Sequence Diagram
 Login<br>
+```mermaid
 sequenceDiagram
     participant U as 사용자
     participant B as 브라우저
@@ -183,7 +184,7 @@ sequenceDiagram
     LoginModal->>LoginModal: handleClose()
     AuthCtx-->>Layout: Context 변경
     Layout->>B: Nav 재렌더링 (My Page & Logout 표시)
-
+```
 
 <details>
 <summary>Test Execution Status</summary>
