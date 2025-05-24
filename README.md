@@ -82,6 +82,13 @@ For detailed information, please refer to the sequence diagrams below.
 
 # Sequence Diagram
 Login<br>
+%%{init: {
+  'themeVariables': {
+    'fontSize': '16px',
+    'actorFontSize': '16px',
+    'noteFontSize': '14px'
+  }
+}}%%
 ```mermaid
 sequenceDiagram
     participant U as 사용자
