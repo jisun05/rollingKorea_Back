@@ -81,7 +81,109 @@ For detailed information, please refer to the sequence diagrams below.
 </details>
 
 # Sequence Diagram
-Written to show detailed flow for each service. (In progress)<br>
+Login<br>
+sequenceDiagram
+    participant U as 사용자
+    participant B as 브라우저
+    participant DNS as DNS 서버
+    participant S as 웹 서버
+    participant Bundler as Webpack 번들
+    participant IndexJS as src/index.js
+    participant AppJS as App.jsx
+    participant Layout as components/Layout.jsx
+    participant LoginModal as features/auth/LoginModal.jsx
+    participant LoginOauth2 as features/auth/LoginOauth2.jsx
+    participant GoogleSDK as @react-oauth/google
+    participant Net as 네트워크
+    participant Tomcat as Embedded Tomcat
+    participant FCP as FilterChainProxy
+    participant CORS as CorsFilter
+    participant JWTF as JwtAuthenticationFilter
+    participant Disp as DispatcherServlet
+    participant HMap as HandlerMapping
+    participant ReqConv as HttpMessageConverter (Request)
+    participant HAdapt as HandlerAdapter
+    participant Controller as UserController
+    participant Service as UserServiceImpl
+    participant Repo as UserRepository
+    participant DB as 데이터베이스
+    participant TokenProv as TokenProvider
+    participant ResConv as HttpMessageConverter (Response)
+    participant LS as localStorage
+    participant AuthCtx as AuthProvider
+
+    %% 1. 브라우저 초기 로드
+    U->>B: URL 입력 & Enter
+    B->>DNS: 도메인 → IP 조회
+    DNS-->>B: IP 반환
+    B->>S: HTTP GET /
+    S-->>B: build/index.html 전송
+    B->>Bundler: 번들 스크립트 로드
+    Bundler->>IndexJS: src/index.js 실행
+    IndexJS->>AppJS: ReactDOM.render(<App/>)
+    AppJS->>Layout: Layout 마운트 (Nav 포함)
+
+    %% 2. 로그인 모달 & 구글 SDK
+    U->>Layout: LogIn 버튼 클릭
+    Layout->>LoginModal: show Modal
+    LoginModal->>LoginOauth2: render LoginOauth2
+    LoginOauth2->>GoogleSDK: render <GoogleLogin>
+    GoogleSDK->>U: OAuth2 팝업 오픈
+    U->>GoogleSDK: 계정 선택 & 승인
+    GoogleSDK-->>LoginOauth2: onSuccess(credentialResponse)
+
+    %% 3. 프론트→백 요청
+    LoginOauth2->>Net: POST /api/google/login { idToken }
+    Net-->>Tomcat: HTTP 요청 도달
+    Tomcat->>FCP: ApplicationFilterChain.doFilter
+
+    %% 4. 시큐리티 필터
+    FCP->>CORS: CorsFilter.doFilter
+    CORS-->>FCP: chain.doFilter
+    FCP->>JWTF: JwtAuthenticationFilter.doFilter
+    JWTF-->>FCP: chain.doFilter
+    FCP->>Disp: chain.doFilter → DispatcherServlet
+
+    %% 5. DispatcherServlet → 컨트롤러
+    Disp->>HMap: 매핑 검색 (/api/google/login, POST)
+    HMap-->>Disp: UserController.googleLogin()
+    Disp->>ReqConv: JSON → GoogleLoginRequest 역직렬화
+    ReqConv-->>HAdapt: GoogleLoginRequest
+    HAdapt->>Controller: googleLogin(request)
+
+    %% 6. 백엔드 처리
+    Controller->>Controller: verify(idToken)
+    Controller->>Service: findOrCreateGoogleUser()
+    Service->>Repo: findByLoginId(email)
+    Repo->>DB: SELECT ...
+    DB-->>Repo: 결과
+    alt 신규 사용자
+        Service->>Repo: save(new User)
+        Repo->>DB: INSERT ...
+        DB-->>Repo: 새 User
+    end
+    Repo-->>Service: User 반환
+    Service-->>Controller: User
+    Controller->>TokenProv: generateToken(user)
+    TokenProv-->>Controller: JWT
+    Controller-->>ResConv: CreateAccessTokenResponse
+
+    %% 7. 응답 직렬화 & 전송
+    ResConv-->>Disp: JSON 바이트
+    Disp->>Tomcat: HTTP 200 + JSON
+    Tomcat-->>Net: 응답 전송
+
+    %% 8. 프론트 응답 처리
+    Net-->>LoginOauth2: JSON 수신
+    LoginOauth2->>LS: localStorage.setItem(token)
+    LoginOauth2->>LoginModal: onLoginSuccess()
+
+    %% 9. 상태 업데이트 & UI 반영
+    LoginModal->>AuthCtx: login() → isLoggedIn=true
+    LoginModal->>LoginModal: handleClose()
+    AuthCtx-->>Layout: Context 변경
+    Layout->>B: Nav 재렌더링 (My Page & Logout 표시)
+
 
 <details>
 <summary>Test Execution Status</summary>
