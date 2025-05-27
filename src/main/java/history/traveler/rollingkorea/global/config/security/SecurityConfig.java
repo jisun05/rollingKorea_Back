@@ -9,8 +9,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
@@ -24,7 +24,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // CustomOidcUserService를 생성자 주입으로 받아옵니다.
     private final CustomOidcUserService customOidcUserService;
 
     @Bean
@@ -33,14 +32,22 @@ public class SecurityConfig {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/error", "/webjars/**", "/css/**").permitAll()
+                        // ✅ 인증 없이 허용할 엔드포인트
+                        .requestMatchers(
+                                "/",
+                                "/error",
+                                "/webjars/**",
+                                "/css/**",
+                                "/api/places/**"   // ✅ /api/places 인증 없이 접근 가능
+                        ).permitAll()
+
+                        // ✅ 그 외는 인증 필요
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/oauth2/authorization/google")
                         .defaultSuccessUrl("http://localhost:3000", true)
                         .userInfoEndpoint(userInfo -> userInfo
-                                // userService에 주입받은 customOidcUserService를 그대로 사용
                                 .oidcUserService(customOidcUserService)
                         )
                 )
@@ -56,14 +63,15 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 );
+
         return http.build();
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
-        cfg.setAllowedOrigins(List.of("http://localhost:3000"));   // 프론트 도메인
-        cfg.setAllowedMethods(List.of("GET","POST","PATCH","DELETE","OPTIONS"));
+        cfg.setAllowedOrigins(List.of("http://localhost:3000")); // 프론트 도메인
+        cfg.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
         cfg.setAllowCredentials(true);
 
