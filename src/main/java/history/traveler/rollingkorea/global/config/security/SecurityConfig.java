@@ -1,5 +1,7 @@
 package history.traveler.rollingkorea.global.config.security;
 
+import history.traveler.rollingkorea.user.service.Implementation.CustomOidcUserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +9,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -19,33 +24,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final TokenProvider tokenProvider;
+    // CustomOidcUserService를 생성자 주입으로 받아옵니다.
+    private final CustomOidcUserService customOidcUserService;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // 1) CORS 설정
                 .cors().and()
-                // 2) CSRF 비활성화 (API 서버라면 토큰 방식으로 대체)
                 .csrf().disable()
-                // 3) 세션을 사용하지 않음 (JWT 방식)
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // 4) 엔드포인트별 허용/인가 규칙
                 .authorizeHttpRequests(auth -> auth
-                        // pre-flight 요청은 모두 허용
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // 구글 로그인, 인증 관련 엔드포인트는 모두 허용
-                        .requestMatchers(HttpMethod.POST, "/api/google/login").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        // 프로필 조회 등 그 외 요청은 인증 필요
+                        .requestMatchers("/", "/error", "/webjars/**", "/css/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                // 5) JWT 필터 등록: UsernamePasswordAuthenticationFilter 전에 실행
-                .addFilterBefore(
-                        new JwtAuthenticationFilter(tokenProvider),
-                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/oauth2/authorization/google")
+                        .defaultSuccessUrl("http://localhost:3000", true)
+                        .userInfoEndpoint(userInfo -> userInfo
+                                // userService에 주입받은 customOidcUserService를 그대로 사용
+                                .oidcUserService(customOidcUserService)
+                        )
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"message\": \"Logged out\"}");
+                        })
+                        .deleteCookies("JSESSIONID")
+                )
+                .sessionManagement(sm -> sm
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 );
-
         return http.build();
     }
 

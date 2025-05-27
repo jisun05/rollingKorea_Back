@@ -1,6 +1,6 @@
 package history.traveler.rollingkorea.user.service.Implementation;
 
-import history.traveler.rollingkorea.global.config.security.TokenProvider;
+import history.traveler.rollingkorea.global.error.ErrorCode;
 import history.traveler.rollingkorea.global.error.exception.BusinessException;
 import history.traveler.rollingkorea.place.domain.LikePlace;
 import history.traveler.rollingkorea.place.repository.ImageRepository;
@@ -26,8 +26,6 @@ import static history.traveler.rollingkorea.global.error.ErrorCode.DUPLICATED_LO
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final TokenProvider tokenProvider;
-    //private final PasswordEncoder passwordEncoder;
     private final PlaceRepository placeRepository;
     private final ImageRepository imageRepository;
     private final LikePlaceRepository likePlaceRepository;
@@ -47,16 +45,13 @@ public class UserServiceImpl implements UserService {
         });
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByLoginId(email)
+                .orElseThrow(() -> new BusinessException(
+                        ErrorCode.NOT_FOUND_USER));
+    }
 
-//    @Override
-//    public void userSignup(UserSignupRequest userSignupRequest) {
-//        DuplicatedLoginIdCheck(userRepository.findByLoginId(userSignupRequest.loginId()).isPresent());
-//
-//        User user = User.create(userSignupRequest, passwordEncoder);
-//        userRepository.save(user);
-//
-//
-//    }
 
     //@Override
     public void loginIdDuplicateCheck(String userId) {

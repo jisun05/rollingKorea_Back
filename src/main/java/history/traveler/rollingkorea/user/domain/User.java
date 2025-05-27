@@ -74,39 +74,6 @@ public class User {
     }
 
 
-    //make new  form user
-//    public static User create(UserSignupRequest userSignupRequest, PasswordEncoder passwordEncoder) {
-//        return User.builder()
-//                .loginId(userSignupRequest.loginId())
-//                .password(passwordEncoder.encode(userSignupRequest.password()))
-//                .userName(userSignupRequest.userName())
-//                .loginType(LoginType.NO_SOCIAL)
-//                .build();
-//    }
-//
-//    //make new google user
-//    public static User googleCreate(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
-//        return User.builder()
-//                .loginId(loginRequest.loginId())
-//                .password(passwordEncoder.encode(loginRequest.password()))
-//                .userName("")
-//                .loginType(LoginType.GOOGLE)
-//                .build();
-//    }
-//
-//
-//    public void update(UserEditRequest userEditRequest, PasswordEncoder passwordEncoder) {
-//        this.password = passwordEncoder.encode(userEditRequest.password());
-//        this.userName = userEditRequest.userName();
-//        this.nickname = userEditRequest.nickname();
-//        this.location = userEditRequest.location();
-//        this.phoneNumber = userEditRequest.phoneNumber();
-//        this.birthday = userEditRequest.birthday();
-//
-//    }
-
-
-
 
     //withdraw
     public void userDelete(){
