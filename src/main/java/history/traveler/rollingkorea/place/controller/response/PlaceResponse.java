@@ -18,7 +18,8 @@ public record PlaceResponse(
         double latitude,
         double longitude,
         String countLike,
-        List<ImageResponse> imageList
+        List<ImageResponse> imageList,
+        boolean liked
 
 )
 {
@@ -26,7 +27,7 @@ public record PlaceResponse(
 
 
     // Place 객체를 PlaceResponse로 변환하는 정적 메서드
-    public static PlaceResponse from(Place place, ImageRepository imageRepository) {
+    public static PlaceResponse from(Place place, ImageRepository imageRepository, boolean liked) {
         List<Image> images = imageRepository.findByPlace_PlaceId(place.getPlaceId());  // placeId로 이미지 목록 조회
         return PlaceResponse.builder()
                 .placeId(place.getPlaceId())
@@ -37,6 +38,7 @@ public record PlaceResponse(
                 .placeDescription(place.getPlaceDescription())
                 .countLike(place.getCountLike())
                 .imageList(toImageResponseList(images))  // 이미지 리스트 변환
+                .liked(liked)
                 .build();
     }
     // 이미지를 ImageResponse로 변환하는 메서드

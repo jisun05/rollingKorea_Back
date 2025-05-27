@@ -10,15 +10,21 @@ import history.traveler.rollingkorea.place.controller.response.PlaceUpdateRespon
 import history.traveler.rollingkorea.place.domain.Image;
 import history.traveler.rollingkorea.place.domain.Place;
 import history.traveler.rollingkorea.place.repository.ImageRepository;
+import history.traveler.rollingkorea.place.repository.LikePlaceRepository;
 import history.traveler.rollingkorea.place.repository.PlaceRepository;
 import history.traveler.rollingkorea.place.service.PlaceService;
+import history.traveler.rollingkorea.user.domain.User;
+import history.traveler.rollingkorea.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -28,15 +34,68 @@ public class PlaceServiceImpl implements PlaceService {
 
     private final PlaceRepository placeRepository;
     private final ImageRepository imageRepository;
+    private final UserRepository userRepository;
+    private final LikePlaceRepository likePlaceRepository;
 
     @Override
     @Transactional(readOnly = true)
     public Page<PlaceResponse> findByRegion(String region, Pageable pageable) {
-        // region으로 검색 후 모든 place 찾기
+        // 로그인 여부 확인
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = null;
+
+        if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
+            String loginId = auth.getName();
+            User user = userRepository.findByLoginId(loginId).orElse(null);
+            if (user != null) {
+                userId = user.getUserId();
+            }
+        }
+
+        Long finalUserId = userId; // 람다에서 사용
+
         Page<Place> places = placeRepository.findByRegion(pageable, region);
 
-        // Place 객체들을 PlaceResponse 객체로 변환
-        return places.map(place -> PlaceResponse.from(place, imageRepository));  // from() 메서드 사용
+        return places.map(place -> {
+            boolean liked = false;
+            if (finalUserId != null) {
+                liked = likePlaceRepository.findByPlace_PlaceIdAndUser(
+                        place.getPlaceId(),
+                        User.builder().userId(finalUserId).build()
+                ).isPresent();
+            }
+            // 비회원은 liked=false
+            return PlaceResponse.from(place, imageRepository, liked);
+        });
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PlaceResponse findPlaceById(Long placeId) {
+        Place place = placeRepository.findByPlaceId(placeId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
+
+        // 로그인 여부 확인
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = null;
+
+        if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
+            String loginId = auth.getName();
+            User user = userRepository.findByLoginId(loginId).orElse(null);
+            if (user != null) {
+                userId = user.getUserId();
+            }
+        }
+
+        boolean liked = false;
+        if (userId != null) {
+            liked = likePlaceRepository.findByPlace_PlaceIdAndUser(
+                    place.getPlaceId(),
+                    User.builder().userId(userId).build()
+            ).isPresent();
+        }
+
+        return PlaceResponse.from(place, imageRepository, liked);
     }
 
     @Override
@@ -45,14 +104,10 @@ public class PlaceServiceImpl implements PlaceService {
         Place place = placeRepository.findByPlaceId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
 
-        // Place 정보 업데이트
         place.update(placeEditRequest);
 
-        // 이미지 업데이트 로직
         if (imageFile != null && !imageFile.isEmpty()) {
-            // 기존 이미지 삭제 (해당 Place에 연결된 모든 이미지 삭제)
             imageRepository.deleteByPlace_PlaceId(id);
-
             try {
                 byte[] newImageData = imageFile.getBytes();
                 Image image = Image.builder()
@@ -65,22 +120,17 @@ public class PlaceServiceImpl implements PlaceService {
             }
         }
 
-        // 업데이트된 Place 정보를 바탕으로 PlaceUpdateResponse 반환
         return PlaceUpdateResponse.builder()
                 .placeId(place.getPlaceId())
                 .placeName(place.getPlaceName())
                 .region(place.getRegion())
                 .placeDescription(place.getPlaceDescription())
-                // 필요에 따라 place의 latitude, longitude 값이 존재하면 사용, 없으면 기본값(예: 0.0)으로 처리
                 .latitude(place.getLatitude())
                 .longitude(place.getLongitude())
-                // 해당 Place에 연결된 이미지 리스트 조회 (없으면 빈 리스트가 반환되도록)
                 .imageList(imageRepository.findByPlace_PlaceId(place.getPlaceId()))
                 .updatedAt(LocalDateTime.now())
                 .build();
     }
-
-
 
     @Override
     @Transactional
@@ -96,21 +146,17 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     @Transactional
     public PlaceCreateResponse placeCreate(PlaceCreateRequest placeCreateRequest, MultipartFile imageFile) {
-        // 같은 이름의 장소가 있으면 예외 처리
         if (placeRepository.findByPlaceName(placeCreateRequest.placeName()).isPresent()) {
             throw new BusinessException(ErrorCode.DUPLICATE_PLACE);
         }
 
-        // 같은 좌표(latitude, longitude)의 장소가 있으면 예외 처리
         if (placeRepository.findByLatitudeAndLongitude(placeCreateRequest.latitude(), placeCreateRequest.longitude()).isPresent()) {
             throw new BusinessException(ErrorCode.DUPLICATE_LOCATION);
         }
 
-        // 유적지(Place) 저장
         Place place = Place.create(placeCreateRequest);
         placeRepository.save(place);
 
-        // 이미지가 첨부된 경우, 이미지 데이터를 추출하여 Image 엔티티로 저장
         if (imageFile != null && !imageFile.isEmpty()) {
             try {
                 byte[] imageData = imageFile.getBytes();
@@ -124,27 +170,6 @@ public class PlaceServiceImpl implements PlaceService {
             }
         }
 
-        // 최종적으로 생성된 Place 엔티티를 기반으로 응답 객체 반환
         return PlaceCreateResponse.from(place);
-    }
-
-
-
-
-    // New method to find a place by its ID
-    @Override
-    @Transactional(readOnly = true)
-    public PlaceResponse findPlaceById(Long placeId) {
-        // Find the place by its ID
-        Place place = placeRepository.findByPlaceId(placeId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_PLACE));
-
-        // Return the corresponding PlaceResponse
-        return PlaceResponse.from(place, imageRepository);
-    }
-
-    // Place 객체를 PlaceResponse 객체로 변환하는 메서드
-    private PlaceResponse convertToResponse(Place place) {
-        return PlaceResponse.from(place, imageRepository);
     }
 }
