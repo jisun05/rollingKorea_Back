@@ -53,7 +53,7 @@ public class CommentController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Retrieve all comments", description = "Fetches all comments with pagination support.")
     public Page<CommentSearchResponse> commentFindAll(
-            @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(sort = "commentId", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.commentFindAll(pageable);
     }
 
@@ -89,7 +89,7 @@ public class CommentController {
     @Operation(summary = "Find comments by user ID", description = "Fetches the comments for a specific user.")
     public Page<CommentSearchResponse> findCommentByUser(
             @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
-            @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(sort = "commentId", direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.findByUser_UserId(userId, pageable);
     }
 
@@ -98,7 +98,7 @@ public class CommentController {
     @Operation(summary = "Retrieve replies for a comment", description = "Fetches all replies for a specific comment.")
     public List<ReplySearchResponse> getRepliesByCommentId(
             @Parameter(description = "The unique identifier of the comment", required = true) @PathVariable Long commentId,
-            @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(sort = "commentId", direction = Sort.Direction.DESC) Pageable pageable) {
       ;
         return commentService.getRepliesByCommentId(commentId);
     }

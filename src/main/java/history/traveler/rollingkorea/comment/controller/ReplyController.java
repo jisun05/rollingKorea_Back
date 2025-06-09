@@ -40,7 +40,7 @@ public class ReplyController {
     @Operation(summary = "Find replies by user ID", description = "Fetches the replies for a specific user.")
     public List<ReplySearchResponse> getRepliesByUserId(
             @Parameter(description = "The unique identifier of the user", required = true) @RequestParam Long userId,
-            @PageableDefault(sort = "comment_id", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(sort = "commentId", direction = Sort.Direction.DESC) Pageable pageable) {
         return replyService.getRepliesByUserId(userId, pageable);
 
     }

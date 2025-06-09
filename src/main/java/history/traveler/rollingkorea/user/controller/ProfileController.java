@@ -5,10 +5,10 @@ import history.traveler.rollingkorea.user.controller.response.UserResponse;
 import history.traveler.rollingkorea.user.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/users")
@@ -16,40 +16,33 @@ import java.time.LocalDate;
 public class ProfileController {
     private final ProfileService profileService;
 
-    /**
-     * Retrieve the authenticated user's profile
-     */
+    private String extractEmail(Authentication authentication) {
+        OAuth2AuthenticationToken oauth2 = (OAuth2AuthenticationToken) authentication;
+        OAuth2User user = oauth2.getPrincipal();
+        return user.getAttribute("email");
+    }
+
     @GetMapping("/me")
-    public ResponseEntity<UserResponse> getProfile(Principal principal) {
-        // principal.getName() returns username (email or userId based on config)
-        UserResponse response = profileService.getUserProfile(principal.getName());
+    public ResponseEntity<UserResponse> getProfile(Authentication authentication) {
+        String email = extractEmail(authentication);
+        UserResponse response = profileService.getUserProfile(email);
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Update one or more fields of the authenticated user's profile
-     */
-
     @PatchMapping("/me")
     public ResponseEntity<UserResponse> updateProfile(
-            Principal principal,
+            Authentication authentication,
             @RequestBody UpdateProfileRequest updateProfileRequest
     ) {
-        UserResponse updated = profileService.updateUserFields(principal.getName(), updateProfileRequest);
+        String email = extractEmail(authentication);
+        UserResponse updated = profileService.updateUserFields(email, updateProfileRequest);
         return ResponseEntity.ok(updated);
     }
 
-    /**
-     * Delete (withdraw) the authenticated user's account
-     */
     @DeleteMapping("/me")
-    public ResponseEntity<Void> deleteProfile(Principal principal) {
-        profileService.deleteUser(principal.getName());
+    public ResponseEntity<Void> deleteProfile(Authentication authentication) {
+        String email = extractEmail(authentication);
+        profileService.deleteUser(email);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
 }
