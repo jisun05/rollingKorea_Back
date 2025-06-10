@@ -1,5 +1,6 @@
 package history.traveler.rollingkorea.comment.controller.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import history.traveler.rollingkorea.comment.domain.Comment;
 
 import java.time.LocalDateTime;
@@ -8,12 +9,16 @@ public record CommentSearchResponse(
         Long commentId,
         String nickname,
         String content,
+
+        // 날짜를 ISO-8601 문자열로 직렬화
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         LocalDateTime createdAt,
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         LocalDateTime updatedAt,
+
         Long likes
 ) {
-
-    // Comment 엔티티를 기반으로 CommentSearchAllResponse를 생성하는 팩토리 메서드
     public CommentSearchResponse(Comment comment) {
         this(
                 comment.getCommentId(),
