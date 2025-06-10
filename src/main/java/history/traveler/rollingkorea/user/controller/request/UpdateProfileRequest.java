@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record UpdateProfileRequest(
         @JsonProperty("userName") String userName,
-        @JsonProperty("nickname")  String nickname,
+        @JsonProperty("nickName")  String nickname,
         @JsonProperty("location")  String location,
         @JsonProperty("mobile")    String mobile,
         @JsonProperty("birthday")  String birthday
