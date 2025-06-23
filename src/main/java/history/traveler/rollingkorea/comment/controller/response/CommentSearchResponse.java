@@ -22,7 +22,7 @@ public record CommentSearchResponse(
     public CommentSearchResponse(Comment comment) {
         this(
                 comment.getCommentId(),
-                comment.getNickname(),
+                comment.getUser().getNickname(),
                 comment.getContent(),
                 comment.getCreatedAt(),
                 comment.getUpdatedAt(),
