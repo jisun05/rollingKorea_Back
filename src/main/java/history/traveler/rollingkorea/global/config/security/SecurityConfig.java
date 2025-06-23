@@ -38,7 +38,10 @@ public class SecurityConfig {
                                 "/error",
                                 "/webjars/**",
                                 "/css/**",
-                                "/api/places/**"   // ✅ /api/places 인증 없이 접근 가능
+                                "/api/places/**",
+                                "/api/comments",
+                                "/api/comments/**"
+                                // ✅ /api/places 인증 없이 접근 가능
                         ).permitAll()
 
                         // ✅ 그 외는 인증 필요
