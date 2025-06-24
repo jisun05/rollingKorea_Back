@@ -40,7 +40,8 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/api/places/**",
                                 "/api/comments",
-                                "/api/comments/**"
+                                "/api/comments/**",
+                                "api/heritages/**"
                                 // ✅ /api/places 인증 없이 접근 가능
                         ).permitAll()
 

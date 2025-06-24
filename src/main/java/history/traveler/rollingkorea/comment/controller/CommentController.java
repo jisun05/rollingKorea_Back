@@ -18,16 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -75,6 +67,18 @@ public class CommentController {
         return commentService.editComment(userId, commentId, commentEditRequest);
     }
 
+    // ✅ PATCH 메서드 추가
+    @PatchMapping("/comments/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Partially edit a comment", description = "Allows a user to partially update their comment content.")
+    public ResponseEntity<Void> patchComment(
+            @PathVariable("commentId") Long commentId,
+            @RequestBody CommentEditRequest request
+    ) {
+        commentServiceImpl.patchCommentContent(commentId, request.content());
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a comment", description = "Allows a user to delete their own comment.")
@@ -99,10 +103,8 @@ public class CommentController {
     public List<ReplySearchResponse> getRepliesByCommentId(
             @Parameter(description = "The unique identifier of the comment", required = true) @PathVariable Long commentId,
             @PageableDefault(sort = "commentId", direction = Sort.Direction.DESC) Pageable pageable) {
-      ;
         return commentService.getRepliesByCommentId(commentId);
     }
-
 
     @DeleteMapping("/comments/admin")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -110,9 +112,6 @@ public class CommentController {
     public void adminDeleteComments(
             @Parameter(description = "The unique identifier of the admin", required = true) @RequestParam Long adminId,
             @Parameter(description = "The unique identifiers of the comments", required = true) @RequestBody List<Long> commentIds) {
-        // 관리자 권한 확인
         commentService.adminDeleteComments(adminId, commentIds);
     }
-
 }
-

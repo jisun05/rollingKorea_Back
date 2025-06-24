@@ -8,6 +8,7 @@ import history.traveler.rollingkorea.comment.controller.response.CommentSearchRe
 import history.traveler.rollingkorea.comment.controller.response.ReplySearchResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,4 +37,7 @@ public interface CommentService {
     List <ReplySearchResponse> getRepliesByCommentId(Long commentId);
 
     void adminDeleteComments(Long adminId, List<Long> commentIds);
+
+    @Transactional
+    void patchCommentContent(Long commentId, String content);
 }

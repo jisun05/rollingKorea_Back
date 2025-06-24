@@ -1,8 +1,9 @@
 package history.traveler.rollingkorea.heritage.service;
-
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import history.traveler.rollingkorea.heritage.domain.Heritage;
 import history.traveler.rollingkorea.heritage.dto.request.HeritageRequest;
-import history.traveler.rollingkorea.heritage.dto.response.KindOpenApiResponse;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import history.traveler.rollingkorea.heritage.controller.request.HeritageXmlWrapper;
+import history.traveler.rollingkorea.heritage.repository.HeritageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,22 +16,32 @@ public class HeritageService {
     private final RestTemplate restTemplate;
     private final String apiUrl;
     private final XmlMapper xmlMapper;
+    private final HeritageRepository heritageRepository;
+
+
 
     public HeritageService(
             RestTemplate restTemplate,
             @Value("${heritage.api.url}") String apiUrl,
-            XmlMapper xmlMapper) {
+            XmlMapper xmlMapper, HeritageRepository heritageRepository
+    ) {
         this.restTemplate = restTemplate;
         this.apiUrl = apiUrl;
         this.xmlMapper = xmlMapper;
+        this.heritageRepository = heritageRepository;
     }
 
     public List<HeritageRequest> getHeritages() throws Exception {
-        KindOpenApiResponse resp = restTemplate.getForObject(
+        String xml = restTemplate.getForObject(
                 apiUrl + "?pageUnit=10&ccbaCncl=N&ccbaKdcd=11&ccbaCtcd=11",
-                KindOpenApiResponse.class
+                String.class
         );
-        return resp == null ? List.of() : resp.items();
+
+        HeritageXmlWrapper wrapper = xmlMapper.readValue(xml, HeritageXmlWrapper.class);
+        return wrapper.item(); // record 필드
+    }
+
+    public List<Heritage> getAllFromDatabase() {
+        return heritageRepository.findAll();
     }
 }
-

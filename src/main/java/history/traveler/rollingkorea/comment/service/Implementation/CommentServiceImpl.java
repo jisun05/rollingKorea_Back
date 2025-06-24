@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
         User user = getUser();
         Comment comment = existCommentCheck(commentId);
         // writeCommentUserEqualLoginUserCheck(user, comment);
-        comment.editComment(commentEditRequest);
+        comment.updateContent(commentEditRequest.content()); // DTO의 content 필드만 꺼내서 전달
         return CommentEditResponse.from(comment);
     }
 
@@ -102,6 +102,16 @@ public class CommentServiceImpl implements CommentService {
         return ReplySearchResponse.fromList(replies);
     }
 
+
+    @Transactional
+    @Override
+    public void patchCommentContent(Long commentId, String content) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_COMMENT));
+        comment.updateContent(content); // <- 이 메서드는 Comment 엔티티에 정의되어 있어야 함
+    }
+
+
     private User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
@@ -116,4 +126,5 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND_COMMENT));
     }
+
 }
