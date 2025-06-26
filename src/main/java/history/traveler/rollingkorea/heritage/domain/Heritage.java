@@ -13,11 +13,11 @@ public class Heritage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ccsiName;
-    private String ccbaCtcdNm;
+    private String ccsiName;     // title
+    private String ccbaCtcdNm;   // addr1
     private String imageUrl;
-    private String latitude;
-    private String longitude;
+    private String latitude;     // mapy
+    private String longitude;    // mapx
 
     public Heritage(String ccsiName, String ccbaCtcdNm, String imageUrl, String latitude, String longitude) {
         this.ccsiName = ccsiName;

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import history.traveler.rollingkorea.heritage.dto.request.HeritageRequest;
 
 import java.util.List;
-
+// response 전체를 감싸는 클래스
 @JacksonXmlRootElement(localName = "response")
 public class KindOpenApiResponse {
 
@@ -20,27 +20,25 @@ public class KindOpenApiResponse {
         return body.getItems();
     }
 
-    // ─── Body 엔벨로프 ───────────────────────────────────────────────
-
-    public static class Body {
-        @JacksonXmlElementWrapper(localName = "items")  // <items> … </items>
-        @JacksonXmlProperty(localName = "item")         // 내부의 여러 <item> 요소
-        private List<HeritageRequest> items;
-
-        // Jackson용 getter/setter
-        public List<HeritageRequest> getItems() {
-            return items;
-        }
-        public void setItems(List<HeritageRequest> items) {
-            this.items = items;
-        }
-    }
-
-    // Jackson용 getter/setter
     public Body getBody() {
         return body;
     }
+
     public void setBody(Body body) {
         this.body = body;
+    }
+
+    public static class Body {
+        @JacksonXmlElementWrapper(localName = "items")
+        @JacksonXmlProperty(localName = "item")
+        private List<HeritageRequest> items;
+
+        public List<HeritageRequest> getItems() {
+            return items;
+        }
+
+        public void setItems(List<HeritageRequest> items) {
+            this.items = items;
+        }
     }
 }

@@ -1,27 +1,18 @@
 package history.traveler.rollingkorea.heritage.dto.request;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import history.traveler.rollingkorea.heritage.domain.Heritage;
 
-@JacksonXmlRootElement(localName = "item")  // XML의 <item>…</item> 블록과 대응
+@JacksonXmlRootElement(localName = "item")
 public record HeritageRequest(
-        @JacksonXmlProperty(localName = "ccsiName")
-        String ccsiName,
-
-        @JacksonXmlProperty(localName = "ccbaCtcdNm")
-        String ccbaCtcdNm,
-
-        @JacksonXmlProperty(localName = "imageUrl")
-        String imageUrl,
-
-        @JacksonXmlProperty(localName = "latitude")
-        String latitude,
-
-        @JacksonXmlProperty(localName = "longitude")
-        String longitude
+        @JacksonXmlProperty(localName = "title") String title,
+        @JacksonXmlProperty(localName = "addr1") String addr1,
+        @JacksonXmlProperty(localName = "mapx") String mapx,
+        @JacksonXmlProperty(localName = "mapy") String mapy,
+        @JacksonXmlProperty(localName = "firstimage") String imageUrl
 ) {
     public Heritage toEntity() {
-        return new Heritage(ccsiName, ccbaCtcdNm, imageUrl, latitude, longitude);
+        return new Heritage(title, addr1, imageUrl, mapx, mapy);
     }
 }
