@@ -23,6 +23,7 @@ repositories {
 
 
 dependencies {
+    implementation 'org.hibernate.common:hibernate-commons-annotations:6.0.6.Final'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations'
