@@ -1,10 +1,12 @@
 package history.traveler.rollingkorea.heritage.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import java.time.LocalDateTime;
 
+
+@Builder
 @Entity
-@Table(name = "heritage")
 public class Heritage {
 
     @Id
