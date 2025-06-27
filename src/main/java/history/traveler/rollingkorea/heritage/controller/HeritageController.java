@@ -9,29 +9,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/heritages")
+@RequiredArgsConstructor
 public class HeritageController {
 
     private final HeritageService heritageService;
 
-    @PostMapping("/fetch")
-    public ResponseEntity<String> fetchFromTourApi() throws Exception {
-        heritageService.fetchAndSaveHeritagesFromTourAPI();
-        return ResponseEntity.ok("✅ TourAPI로부터 유적지 정보 저장 완료");
+    @PostMapping("/sync")
+    public ResponseEntity<Void> syncAll() {
+        try {
+            heritageService.fetchAndSaveHeritagesFromTourAPI();
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(500)
+                    .build();
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<Heritage>> getAll() {
-        return ResponseEntity.ok(heritageService.getAllFromDatabase());
+    public List<Heritage> listAll() {
+        return heritageService.getAllFromDatabase();
     }
-
-    @PostMapping("/sync")
-    public ResponseEntity<String> fetchAndSave() throws Exception {
-        heritageService.fetchAndSaveHeritagesFromTourAPI();  // TourAPI에서 받아오기
-        return ResponseEntity.ok("✅ 관광지 정보 저장 완료");
-    }
-
-
-
 }

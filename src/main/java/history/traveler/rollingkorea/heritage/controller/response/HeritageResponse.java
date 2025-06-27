@@ -1,35 +1,58 @@
 package history.traveler.rollingkorea.heritage.dto.response;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import history.traveler.rollingkorea.heritage.domain.Heritage;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
-@JacksonXmlRootElement(localName = "item")  // XML의 <item>…</item> 블록과 대응
 public record HeritageResponse(
-
-        @JacksonXmlProperty(localName = "ccsiName")
-        String ccsiName,
-
-        @JacksonXmlProperty(localName = "ccbaCtcdNm")
-        String ccbaCtcdNm,
-
-        @JacksonXmlProperty(localName = "imageUrl")
-        String imageUrl,
-
-        @JacksonXmlProperty(localName = "latitude")
-        String latitude,
-
-        @JacksonXmlProperty(localName = "longitude")
-        String longitude
-
+        @JsonProperty("response") ResponseWrapper wrapper
 ) {
-    public static HeritageResponse from(Heritage heritage) {
-        return new HeritageResponse(
-                heritage.getCcsiName(),
-                heritage.getCcbaCtcdNm(),
-                heritage.getImageUrl(),
-                heritage.getLatitude(),
-                heritage.getLongitude()
-        );
-    }
+    public record ResponseWrapper(
+            Header header,
+            Body body
+    ) {}
+
+    public record Header(
+            String resultCode,
+            String resultMsg
+    ) {}
+
+    public record Body(
+            Items items,
+            int numOfRows,
+            int pageNo,
+            int totalCount
+    ) {}
+
+    public record Items(
+            @JsonProperty("item")
+            List<HeritageItem> itemList
+    ) {}
+
+    public record HeritageItem(
+            String addr1,
+            String addr2,
+            String areacode,
+            String cat1,
+            String cat2,
+            String cat3,
+            String contentid,
+            String contenttypeid,
+            String createdtime,
+            String firstimage,
+            String firstimage2,
+            String cpyrhtDivCd,
+            String mapx,
+            String mapy,
+            String mlevel,
+            String modifiedtime,
+            String sigungucode,
+            String tel,
+            String title,
+            String zipcode,
+            String lDongRegnCd,
+            String lDongSignguCd,
+            String lclsSystm1,
+            String lclsSystm2,
+            String lclsSystm3
+    ) {}
 }

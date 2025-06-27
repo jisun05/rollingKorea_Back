@@ -1,18 +1,31 @@
 package history.traveler.rollingkorea.heritage.dto.request;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import history.traveler.rollingkorea.heritage.domain.Heritage;
+import java.net.URI;
+import org.springframework.web.util.UriComponentsBuilder;
 
-@JacksonXmlRootElement(localName = "item")
 public record HeritageRequest(
-        @JacksonXmlProperty(localName = "title") String title,
-        @JacksonXmlProperty(localName = "addr1") String addr1,
-        @JacksonXmlProperty(localName = "mapx") String mapx,
-        @JacksonXmlProperty(localName = "mapy") String mapy,
-        @JacksonXmlProperty(localName = "firstimage") String imageUrl
+        String serviceKey,
+        String mobileOS,
+        String mobileApp,
+        String responseType,
+        String arrange,
+        int contentTypeId,
+        int numOfRows,
+        int pageNo
 ) {
-    public Heritage toEntity() {
-        return new Heritage(title, addr1, imageUrl, mapx, mapy);
+    public URI toUri() {
+        return UriComponentsBuilder
+                .fromHttpUrl("https://apis.data.go.kr/B551011/EngService2/areaBasedList2")
+                .queryParam("ServiceKey", serviceKey)
+                .queryParam("MobileOS", mobileOS)
+                .queryParam("MobileApp", mobileApp)
+                .queryParam("_type", responseType)
+                .queryParam("arrange", arrange)
+                .queryParam("contentTypeId", contentTypeId)
+                .queryParam("numOfRows", numOfRows)
+                .queryParam("pageNo", pageNo)
+                .encode()
+                .build()
+                .toUri();
     }
 }
