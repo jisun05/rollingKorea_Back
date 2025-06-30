@@ -9,22 +9,30 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 public interface PlaceService {
 
-    // 지역별 유적지 검색
-    Page<PlaceResponse> findByRegion(String region, Pageable pageable);
+    /**
+     * heritage의 areaCode로 유적지 목록 조회 (페이징, 좋아요 여부 포함)
+     */
+    Page<PlaceResponse> findByAreaCode(Integer areaCode, Pageable pageable);
 
-    // 관리자 유적지 수정
-    PlaceUpdateResponse placeUpdate(Long id, PlaceEditRequest placeEditRequest, MultipartFile imageFile) throws IOException;
+    /**
+     * 단일 유적지 조회 (contentId 기준, 좋아요 여부 포함)
+     */
+    PlaceResponse findPlaceByContentId(Long contentId);
 
-    // 관리자 유적지 삭제
-    boolean placeDelete(Long id);
-
-    //관리자 유적지 생성
+    /**
+     * heritage API 데이터를 Place로 import (Admin only)
+     */
     PlaceCreateResponse placeCreate(PlaceCreateRequest placeCreateRequest, MultipartFile imageFile);
 
-    //유적지 단건 조회
-    PlaceResponse findPlaceById(Long placeId);
+    /**
+     * 기존 Place의 mutable 필드(title, addr1, addr2 등) 업데이트 (Admin only)
+     */
+    PlaceUpdateResponse placeUpdate(Long contentId, PlaceEditRequest placeEditRequest, MultipartFile imageFile);
+
+    /**
+     * contentId 기준으로 Place 삭제 (Admin only)
+     */
+    boolean placeDelete(Long contentId);
 }

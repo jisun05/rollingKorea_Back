@@ -5,7 +5,6 @@ import history.traveler.rollingkorea.place.controller.request.LikePlaceManageReq
 import history.traveler.rollingkorea.place.controller.response.LikePlaceResponse;
 import history.traveler.rollingkorea.place.domain.LikePlace;
 import history.traveler.rollingkorea.place.domain.Place;
-import history.traveler.rollingkorea.place.repository.ImageRepository;
 import history.traveler.rollingkorea.place.repository.LikePlaceRepository;
 import history.traveler.rollingkorea.place.repository.PlaceRepository;
 import history.traveler.rollingkorea.place.service.LikePlaceService;
@@ -25,70 +24,56 @@ public class LikePlaceServiceImpl implements LikePlaceService {
 
     private final LikePlaceRepository likePlaceRepository;
     private final PlaceRepository placeRepository;
-    private final ImageRepository imageRepository;
 
-    @Transactional
+    /**
+     * 사용자-장소 좋아요 토글 처리
+     */
     @Override
     public void manageLikePlace(Long userId, LikePlaceManageRequest request) {
-        User user = getUser();
-        Place place = existPlaceCheck(request.placeId());
+        User user = getUser();  // 실제론 userId로 조회
+        Place place = existPlaceCheck(request.contentId());
 
-        // place와 user 값이 모두 유효한지 확인
-        if (place == null) {
-            throw new IllegalArgumentException("존재하지 않는 placeId입니다.");
-        }
+        // 로그 출력 (테스트용)
+        System.out.println("DB에서 조회된 contentId: " + place.getContentId());
+        System.out.println("요청으로 들어온 contentId: " + request.contentId());
 
-        if (user == null) {
-            throw new IllegalArgumentException("유효하지 않은 사용자입니다.");
-        }
-        System.out.println("Place ID111: " + place.getPlaceId());
-        System.out.println("Place ID222: " + request.placeId());
-
-        likePlaceRepository.findByPlace_PlaceIdAndUser(request.placeId(), user)
-                .ifPresentOrElse(likePlaceRepository::delete, () -> {
-                    // LikePlace 객체 생성
-                    LikePlace likePlace = LikePlace.createLikePlace(user, place);
-                    // 로그로 LikePlace 객체의 값 확인
-                    System.out.println("LikePlace created with placeId: " + likePlace.getPlace().getPlaceId());
-                    likePlaceRepository.save(likePlace);
-                });
+        likePlaceRepository
+                .findByPlace_ContentIdAndUser(request.contentId(), user)
+                .ifPresentOrElse(
+                        likePlaceRepository::delete,
+                        () -> {
+                            LikePlace likePlace = LikePlace.createLikePlace(user, place);
+                            System.out.println("LikePlace 생성, contentId: " + likePlace.getPlace().getContentId());
+                            likePlaceRepository.save(likePlace);
+                        }
+                );
     }
 
-
+    /**
+     * 유저가 좋아요 누른 장소 목록 조회 (페이징)
+     */
     @Override
     @Transactional(readOnly = true)
     public Page<LikePlaceResponse> findAllByUser(Long userId, Pageable pageable) {
-         User user = getUser();
-
-        Page<LikePlace> likePlaces = likePlaceRepository.findAllByUser_UserId(user.getUserId() ,pageable);
-
+        User user = getUser();  // 실제론 userId로 조회
+        Page<LikePlace> likePlaces = likePlaceRepository.findAllByUser_UserId(user.getUserId(), pageable);
         return likePlaces.map(LikePlaceResponse::new);
     }
 
-
-
-
-
-//test를 위한 주석처리
-//    private User getUser(){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        return userRepository.findByLoginId(authentication.getName()).orElseThrow(() -> new BusinessException(NOT_FOUND_USER));
-//    }
+    // --- 헬퍼 메서드 ---
 
     private User getUser() {
-        // 🔥 테스트용 더미 유저 추가 (로그인 없이 Swagger 테스트 가능)
+        // 🔥 테스트용 더미 유저 (실제론 userId 기반으로 UserRepository에서 꺼내오기)
         return User.builder()
                 .userId(1L)
-                .loginId("jisunnala@gmail.com")
+                .loginId("test@example.com")
                 .nickname("TestUser")
                 .build();
     }
 
-    //The code is tested
-    private Place existPlaceCheck(Long placeId) {
-        return placeRepository.findByPlaceId(placeId).orElseThrow(
-                () -> new BusinessException(NOT_FOUND_PLACE));
+    private Place existPlaceCheck(Long contentId) {
+        return placeRepository
+                .findByContentId(contentId)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_PLACE));
     }
-
-
 }

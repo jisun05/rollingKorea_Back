@@ -1,15 +1,7 @@
 package history.traveler.rollingkorea.place.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,16 +17,17 @@ public class Image {
     private Long imageId;
 
     @Lob
-    @Column(name = "image_data", nullable = true, columnDefinition = "MEDIUMBLOB")
+    @Column(name = "image_data", columnDefinition = "MEDIUMBLOB")
     private byte[] imageData;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_id")
+    // place 테이블의 PK가 content_id 로 바뀜
+    @JoinColumn(name = "content_id", nullable = false, referencedColumnName = "content_id")
     private Place place;
 
     @Builder
-    public Image(byte[]  imageData, Place place) {
+    public Image(byte[] imageData, Place place) {
         this.imageData = imageData;
         this.place = place;
     }

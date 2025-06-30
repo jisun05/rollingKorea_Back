@@ -11,13 +11,18 @@ import java.util.Optional;
 
 public interface LikePlaceRepository extends JpaRepository<LikePlace, Long> {
 
+    /**
+     * 특정 유저가 누른 좋아요 목록 (페이징)
+     */
     Page<LikePlace> findAllByUser_UserId(Long userId, Pageable pageable);
 
+    /**
+     * 좋아요 토글을 위해 contentId & User 로 조회
+     */
+    Optional<LikePlace> findByPlace_ContentIdAndUser(Long contentId, User user);
 
-
-    void deleteById(Long likePlaceId);
-
-    Optional<LikePlace> findByPlace_PlaceIdAndUser(Long placeId, User user);
-
+    /**
+     * 특정 유저의 좋아요 전체 조회
+     */
     List<LikePlace> findByUser_UserId(Long userId);
 }

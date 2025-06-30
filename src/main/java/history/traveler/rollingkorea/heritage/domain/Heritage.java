@@ -2,11 +2,14 @@ package history.traveler.rollingkorea.heritage.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
 
 @Builder
 @Entity
+@Getter
 public class Heritage {
 
     @Id
