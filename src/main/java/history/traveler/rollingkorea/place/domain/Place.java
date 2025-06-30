@@ -21,7 +21,7 @@ import java.util.List;
 public class Place {
 
     @Id
-    @Column(name = "content_id")
+    @Column(name = "content_id", nullable=false)
     private Long contentId;
 
     private String title;
@@ -153,6 +153,8 @@ public class Place {
 
     /** 외부 API 데이터로 Place 생성 */
     public static Place fromHeritage(Heritage heritage) {
+        Long id = heritage.getContentId();
+        if (id == null) throw new IllegalStateException("Heritage.contentId is null!");
         return Place.builder()
                 .contentId(heritage.getContentId())
                 .title(heritage.getTitle())
@@ -183,7 +185,6 @@ public class Place {
                 .build();
     }
 
-    /** 프론트용 편집 메서드는 필요 시 추가하세요 */
     public void update(PlaceEditRequest dto) {
         // 예: 타이틀, 주소, 이미지 등 원하는 필드만 골라 업데이트
         this.title = dto.title();
