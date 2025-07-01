@@ -2,14 +2,12 @@ package history.traveler.rollingkorea.place.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import history.traveler.rollingkorea.heritage.domain.Heritage;
-import history.traveler.rollingkorea.place.controller.request.PlaceCreateRequest;
 import history.traveler.rollingkorea.place.controller.request.PlaceEditRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +18,21 @@ import java.util.List;
 @Table(name = "place")
 public class Place {
 
+    /**
+     * 실제 DB 의 PK(id AUTO_INCREMENT)
+     */
     @Id
-    @Column(name = "content_id", nullable=false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /**
+     * 외부 API(heritage) 상의 고유 ID
+     */
+    @Column(name = "content_id", nullable = false, unique = true)
     private Long contentId;
 
     private String title;
-
     private String addr1;
-
     private String addr2;
 
     @Column(name = "area_code")
@@ -43,12 +48,6 @@ public class Place {
     @Column(name = "created_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdTime;
-
-    @Column(name = "first_image")
-    private String firstImage;
-
-    @Column(name = "first_image2")
-    private String firstImage2;
 
     @Column(name = "copyright_div_cd")
     private String copyrightDivCd;
@@ -92,36 +91,35 @@ public class Place {
     private List<LikePlace> likePlaces = new ArrayList<>();
 
     /** 이미지 관계 */
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
     @Builder
-    public Place(Long contentId,
-                 String title,
-                 String addr1,
-                 String addr2,
-                 Integer areaCode,
-                 String cat1,
-                 String cat2,
-                 String cat3,
-                 Integer contentTypeId,
-                 LocalDateTime createdTime,
-                 String firstImage,
-                 String firstImage2,
-                 String copyrightDivCd,
-                 Double mapX,
-                 Double mapY,
-                 Integer mLevel,
-                 LocalDateTime modifiedTime,
-                 Integer sigunguCode,
-                 String tel,
-                 String zipcode,
-                 Integer lDongRegnCd,
-                 Integer lDongSignguCd,
-                 String lclsSystm1,
-                 String lclsSystm2,
-                 String lclsSystm3,
-                 LocalDateTime importedAt
+    public Place(
+            Long contentId,
+            String title,
+            String addr1,
+            String addr2,
+            Integer areaCode,
+            String cat1,
+            String cat2,
+            String cat3,
+            Integer contentTypeId,
+            LocalDateTime createdTime,
+            String copyrightDivCd,
+            Double mapX,
+            Double mapY,
+            Integer mLevel,
+            LocalDateTime modifiedTime,
+            Integer sigunguCode,
+            String tel,
+            String zipcode,
+            Integer lDongRegnCd,
+            Integer lDongSignguCd,
+            String lclsSystm1,
+            String lclsSystm2,
+            String lclsSystm3,
+            LocalDateTime importedAt
     ) {
         this.contentId = contentId;
         this.title = title;
@@ -133,8 +131,6 @@ public class Place {
         this.cat3 = cat3;
         this.contentTypeId = contentTypeId;
         this.createdTime = createdTime;
-        this.firstImage = firstImage;
-        this.firstImage2 = firstImage2;
         this.copyrightDivCd = copyrightDivCd;
         this.mapX = mapX;
         this.mapY = mapY;
@@ -153,8 +149,9 @@ public class Place {
 
     /** 외부 API 데이터로 Place 생성 */
     public static Place fromHeritage(Heritage heritage) {
-        Long id = heritage.getContentId();
-        if (id == null) throw new IllegalStateException("Heritage.contentId is null!");
+        if (heritage.getContentId() == null) {
+            throw new IllegalStateException("Heritage.contentId is null!");
+        }
         return Place.builder()
                 .contentId(heritage.getContentId())
                 .title(heritage.getTitle())
@@ -166,8 +163,6 @@ public class Place {
                 .cat3(heritage.getCat3())
                 .contentTypeId(heritage.getContentTypeId())
                 .createdTime(heritage.getCreatedTime())
-                .firstImage(heritage.getFirstImage())
-                .firstImage2(heritage.getFirstImage2())
                 .copyrightDivCd(heritage.getCopyrightDivCd())
                 .mapX(heritage.getMapX())
                 .mapY(heritage.getMapY())
@@ -185,13 +180,11 @@ public class Place {
                 .build();
     }
 
+    /** 프론트용 편집 메서드 */
     public void update(PlaceEditRequest dto) {
-        // 예: 타이틀, 주소, 이미지 등 원하는 필드만 골라 업데이트
         this.title = dto.title();
         this.addr1 = dto.addr1();
         this.addr2 = dto.addr2();
         this.modifiedTime = LocalDateTime.now();
     }
-
-
 }
