@@ -4,6 +4,7 @@ import history.traveler.rollingkorea.heritage.domain.Heritage;
 import history.traveler.rollingkorea.heritage.service.HeritageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +21,9 @@ public class HeritageController {
      * 저장된 Heritage 엔티티 전체를 그대로 반환
      */
     @PostMapping("/sync")
+   // @PreAuthorize("hasRole('ADMIN')")    // → ADMIN 권한이 있을 때만 실행
     public ResponseEntity<List<Heritage>> syncAll() throws Exception {
-        // A) DB에 저장만 하는 호출
         heritageService.fetchAndSaveHeritagesFromTourAPI();
-
-        // B) 저장된 전체 Heritage 리스트를 꺼내서 그대로 반환
         List<Heritage> entities = heritageService.getAllFromDatabase();
         return ResponseEntity.ok(entities);
     }

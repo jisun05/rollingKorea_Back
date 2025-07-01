@@ -9,6 +9,7 @@ import history.traveler.rollingkorea.place.domain.Place;
 import history.traveler.rollingkorea.place.domain.Image;
 import history.traveler.rollingkorea.place.repository.PlaceRepository;
 import history.traveler.rollingkorea.place.repository.ImageRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.UnknownContentTypeException;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,21 +30,30 @@ import java.util.List;
 public class HeritageServiceImpl implements HeritageService {
 
     private static final Logger log = LoggerFactory.getLogger(HeritageServiceImpl.class);
+
+    // 한 배치에 모아서 저장할 사이즈
+    private static final int BATCH_SIZE = 50;
+    private static final DateTimeFormatter DTF =
+            DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
     private final RestTemplate restTemplate;
     private final HeritageRepository heritageRepository;
     private final PlaceRepository placeRepository;
     private final ImageRepository imageRepository;
+    private final EntityManager entityManager;  // 배치 처리 후 flush/clear 용
 
     @Value("${heritage.api.key}")
     private String serviceKey;
-
-    private static final DateTimeFormatter DTF =
-            DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
     @Override
     @Transactional
     public void fetchAndSaveHeritagesFromTourAPI() throws Exception {
         int pageNo = 1, pageSize = 100;
+
+        // 배치용 컬렉션
+        List<Heritage> heritageBatch = new ArrayList<>();
+        List<Place> placeBatch = new ArrayList<>();
+        List<Image> imageBatch = new ArrayList<>();
 
         while (true) {
             HeritageRequest req = new HeritageRequest(
@@ -52,57 +62,51 @@ public class HeritageServiceImpl implements HeritageService {
             HeritageResponse resp = restTemplate.getForObject(
                     req.toUri(), HeritageResponse.class
             );
-
             var body = resp.wrapper().body();
             var items = body.items().itemList();
             if (items.isEmpty()) break;
 
             for (var item : items) {
-                // 1) Save Heritage
+                // 1) Heritage 엔티티 생성
                 Heritage h = toEntity(item);
-                heritageRepository.save(h);
+                heritageBatch.add(h);
 
-                // 2) Convert & save Place
-                Place place = Place.fromHeritage(h);
-                placeRepository.save(place);
+                // 2) Place 엔티티 생성
+                Place p = Place.fromHeritage(h);
+                placeBatch.add(p);
 
-                // 3) Fetch image bytes and save Image entities
+                // 3) 이미지 URL 리스트
                 List<String> urls = List.of(item.firstimage(), item.firstimage2()).stream()
                         .filter(u -> u != null && !u.isBlank())
                         .toList();
 
-                for (String url : urls) {
-                    byte[] data;
-                    try {
-                        data = restTemplate.getForObject(url, byte[].class);
-                    } catch (UnknownContentTypeException ex) {
-                        log.warn("URL='{}' 응답이 이미지가 아님: {}", url, ex.getMessage());
-                        continue;
-                    } catch (HttpClientErrorException.NotFound ex) {
-                        // 404 Not Found
-                        log.warn("URL='{}' 이미지 없음(404): {}", url, ex.getStatusCode());
-                        continue;
-                    } catch (HttpClientErrorException ex) {
-                        // 그 외 4xx/5xx
-                        log.warn("URL='{}' HTTP 오류: {} {}", url, ex.getStatusCode(), ex.getStatusText());
-                        continue;
-                    } catch (Exception ex) {
-                        // 발행 가능한 모든 예외 보호
-                        log.error("URL='{}' 처리 중 예외 발생", url, ex);
-                        continue;
-                    }
+                // 4) 병렬로 이미지 다운로드
+                urls.parallelStream().forEach(url -> {
+                    byte[] data = safeFetch(url);
                     if (data != null && data.length > 0) {
-                        Image img = Image.builder()
-                                .imageData(data)
-                                .place(place)
-                                .build();
-                        imageRepository.save(img);
+                        synchronized (imageBatch) {
+                            imageBatch.add(Image.builder()
+                                    .place(p)
+                                    .imageData(data)
+                                    .build());
+                        }
                     }
+                });
+
+                // 배치 크기만큼 모였으면 저장
+                if (heritageBatch.size() >= BATCH_SIZE) {
+                    flushAndClear(heritageBatch, placeBatch, imageBatch);
                 }
             }
 
+            // 다음 페이지로
             if (pageNo * pageSize >= body.totalCount()) break;
             pageNo++;
+        }
+
+        // 남은 배치 처리
+        if (!heritageBatch.isEmpty()) {
+            flushAndClear(heritageBatch, placeBatch, imageBatch);
         }
     }
 
@@ -111,13 +115,44 @@ public class HeritageServiceImpl implements HeritageService {
         return heritageRepository.findAll();
     }
 
+    /** 안전하게 HTTP GET 으로 바이트[] 반환 (404, content-type 오류 등 모두 잡아서 null 리턴) */
+    private byte[] safeFetch(String url) {
+        try {
+            return restTemplate.getForObject(url, byte[].class);
+        } catch (UnknownContentTypeException ex) {
+            log.warn("URL='{}' 응답이 이미지가 아님: {}", url, ex.getMessage());
+        } catch (HttpClientErrorException.NotFound ex) {
+            log.warn("URL='{}' 이미지 없음(404): {}", url, ex.getStatusCode());
+        } catch (HttpClientErrorException ex) {
+            log.warn("URL='{}' HTTP 오류: {} {}", url, ex.getStatusCode(), ex.getStatusText());
+        } catch (Exception ex) {
+            log.error("URL='{}' 처리 중 예외 발생", url, ex);
+        }
+        return null;
+    }
+
+    /** 모아둔 배치를 저장하고 1차 캐시 비우기 */
+    private void flushAndClear(
+            List<Heritage> hBatch,
+            List<Place> pBatch,
+            List<Image> iBatch
+    ) {
+        heritageRepository.saveAll(hBatch);
+        placeRepository.saveAll(pBatch);
+        imageRepository.saveAll(iBatch);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        hBatch.clear();
+        pBatch.clear();
+        iBatch.clear();
+
+        log.debug(">> Batch flush: saved {} Heritage, {} Place, {} Image",
+                BATCH_SIZE, BATCH_SIZE, iBatch.size());
+    }
+
     private Heritage toEntity(HeritageResponse.HeritageItem item) {
-
-        // 이미지 URL 리스팅
-        List<String> urls = List.of(item.firstimage(), item.firstimage2()).stream()
-                .filter(u -> u != null && !u.isBlank())
-                .toList();
-
         return Heritage.builder()
                 .contentId(parseLongSafe(item.contentid()))
                 .title(item.title())
@@ -153,31 +188,19 @@ public class HeritageServiceImpl implements HeritageService {
             return null;
         }
     }
-
     private Long parseLongSafe(String s) {
         if (s == null || s.isBlank()) return null;
-        try {
-            return Long.valueOf(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        try { return Long.valueOf(s);
+        } catch (NumberFormatException e) { return null; }
     }
-
     private Integer parseIntegerSafe(String s) {
         if (s == null || s.isBlank()) return null;
-        try {
-            return Integer.valueOf(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        try { return Integer.valueOf(s);
+        } catch (NumberFormatException e) { return null; }
     }
-
     private Double parseDoubleSafe(String s) {
         if (s == null || s.isBlank()) return null;
-        try {
-            return Double.valueOf(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        try { return Double.valueOf(s);
+        } catch (NumberFormatException e) { return null; }
     }
 }
