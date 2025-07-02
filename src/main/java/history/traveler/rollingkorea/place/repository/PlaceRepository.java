@@ -14,7 +14,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     /**
      * heritage 기준 areaCode 로 장소 조회
      */
-    Page<Place> findByAreaCode(Pageable pageable, Integer areaCode);
+    Page<Place> findByAreaCode(Integer areaCode, Pageable pageable);
 
     /**
      * contentId 로 단일 장소 조회

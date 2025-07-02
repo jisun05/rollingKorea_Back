@@ -27,7 +27,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
@@ -62,7 +61,7 @@ public class PlaceServiceImpl implements PlaceService {
         // 람다에서 사용하기 위해 사실상 final 변수로 복사
         final Long finalUserId = userId;
 
-        Page<Place> places = placeRepository.findByAreaCode(pageable, areaCode);
+        Page<Place> places = placeRepository.findByAreaCode(areaCode, pageable);
 
         return places.map(place -> {
             boolean liked = false;
