@@ -14,16 +14,19 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.client.UnknownContentTypeException;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -31,16 +34,16 @@ public class HeritageServiceImpl implements HeritageService {
 
     private static final Logger log = LoggerFactory.getLogger(HeritageServiceImpl.class);
 
-    // 한 배치에 모아서 저장할 사이즈
-    private static final int BATCH_SIZE = 50;
+    private static final int BATCH_SIZE = 100;
     private static final DateTimeFormatter DTF =
             DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
     private final HeritageRepository heritageRepository;
     private final PlaceRepository placeRepository;
     private final ImageRepository imageRepository;
-    private final EntityManager entityManager;  // 배치 처리 후 flush/clear 용
+    private final EntityManager entityManager;
+    private final ThreadPoolTaskExecutor imageDownloadExecutor;
 
     @Value("${heritage.api.key}")
     private String serviceKey;
@@ -50,28 +53,29 @@ public class HeritageServiceImpl implements HeritageService {
     public void fetchAndSaveHeritagesFromTourAPI() throws Exception {
         int pageNo = 1, pageSize = 100;
 
-        // 배치용 컬렉션
         List<Heritage> heritageBatch = new ArrayList<>();
-        List<Place> placeBatch = new ArrayList<>();
-        List<Image> imageBatch = new ArrayList<>();
+        List<Place> placeBatch     = new ArrayList<>();
+        List<Image> imageBatch     = new ArrayList<>();
 
         while (true) {
             HeritageRequest req = new HeritageRequest(
                     serviceKey, "ETC", "AppTest", "json", "C", 76, pageSize, pageNo
             );
-            HeritageResponse resp = restTemplate.getForObject(
-                    req.toUri(), HeritageResponse.class
-            );
-            var body = resp.wrapper().body();
-            var items = body.items().itemList();
+
+            // 1) HeritageResponse 논블로킹 조회 (블록하여 페이징 제어)
+            HeritageResponse resp = webClient.get()
+                    .uri(req.toUri())
+                    .retrieve()
+                    .bodyToMono(HeritageResponse.class)
+                    .block();
+            var items = resp.wrapper().body().items().itemList();
             if (items.isEmpty()) break;
 
             for (var item : items) {
-                // 1) Heritage 엔티티 생성
+                // 2) Heritage, Place 객체 생성
                 Heritage h = toEntity(item);
                 heritageBatch.add(h);
 
-                // 2) Place 엔티티 생성
                 Place p = Place.fromHeritage(h);
                 placeBatch.add(p);
 
@@ -80,31 +84,39 @@ public class HeritageServiceImpl implements HeritageService {
                         .filter(u -> u != null && !u.isBlank())
                         .toList();
 
-                // 4) 병렬로 이미지 다운로드
-                urls.parallelStream().forEach(url -> {
-                    byte[] data = safeFetch(url);
-                    if (data != null && data.length > 0) {
-                        synchronized (imageBatch) {
-                            imageBatch.add(Image.builder()
+                // 4) 이미지 다운로드 태스크를 executor에 제출
+                List<Future<Image>> futures = new ArrayList<>();
+                for (String url : urls) {
+                    futures.add(imageDownloadExecutor.submit(() -> {
+                        byte[] data = safeFetchImage(url);
+                        if (data != null && data.length > 0) {
+                            return Image.builder()
                                     .place(p)
                                     .imageData(data)
-                                    .build());
+                                    .build();
                         }
+                        return null;
+                    }));
+                }
+                // 5) 모든 태스크 결과를 모아서 imageBatch에 추가
+                for (Future<Image> f : futures) {
+                    Image img = f.get(60, TimeUnit.SECONDS); // 최대 60초 대기
+                    if (img != null) {
+                        imageBatch.add(img);
                     }
-                });
+                }
 
-                // 배치 크기만큼 모였으면 저장
+                // 6) 배치 사이즈 도달 시 저장
                 if (heritageBatch.size() >= BATCH_SIZE) {
                     flushAndClear(heritageBatch, placeBatch, imageBatch);
                 }
             }
 
-            // 다음 페이지로
-            if (pageNo * pageSize >= body.totalCount()) break;
+            if (pageNo * pageSize >= resp.wrapper().body().totalCount()) break;
             pageNo++;
         }
 
-        // 남은 배치 처리
+        // 남은 데이터 저장
         if (!heritageBatch.isEmpty()) {
             flushAndClear(heritageBatch, placeBatch, imageBatch);
         }
@@ -115,27 +127,32 @@ public class HeritageServiceImpl implements HeritageService {
         return heritageRepository.findAll();
     }
 
-    /** 안전하게 HTTP GET 으로 바이트[] 반환 (404, content-type 오류 등 모두 잡아서 null 리턴) */
-    private byte[] safeFetch(String url) {
-        try {
-            return restTemplate.getForObject(url, byte[].class);
-        } catch (UnknownContentTypeException ex) {
-            log.warn("URL='{}' 응답이 이미지가 아님: {}", url, ex.getMessage());
-        } catch (HttpClientErrorException.NotFound ex) {
-            log.warn("URL='{}' 이미지 없음(404): {}", url, ex.getStatusCode());
-        } catch (HttpClientErrorException ex) {
-            log.warn("URL='{}' HTTP 오류: {} {}", url, ex.getStatusCode(), ex.getStatusText());
-        } catch (Exception ex) {
-            log.error("URL='{}' 처리 중 예외 발생", url, ex);
-        }
-        return null;
+    /** WebClient로 이미지 바이트를 안전하게 가져오기 */
+    private byte[] safeFetchImage(String url) {
+        return webClient.get()
+                .uri(url)
+                .exchangeToMono(this::handleImageResponse)
+                .onErrorResume(ex -> {
+                    log.warn("이미지 호출 중 예외 URL={} 메시지={}", url, ex.toString());
+                    return Mono.empty();
+                })
+                .block();
     }
 
-    /** 모아둔 배치를 저장하고 1차 캐시 비우기 */
+    private Mono<byte[]> handleImageResponse(ClientResponse response) {
+        if (response.statusCode().is2xxSuccessful()) {
+            return response.bodyToMono(byte[].class);
+        } else {
+            log.warn("이미지 응답 상태 비정상: {}", response.statusCode());
+            return Mono.empty();
+        }
+    }
+
+    /** 배치 저장 후 플러시 & 1차 캐시 클리어 */
     private void flushAndClear(
             List<Heritage> hBatch,
-            List<Place> pBatch,
-            List<Image> iBatch
+            List<Place>    pBatch,
+            List<Image>    iBatch
     ) {
         heritageRepository.saveAll(hBatch);
         placeRepository.saveAll(pBatch);
@@ -144,13 +161,17 @@ public class HeritageServiceImpl implements HeritageService {
         entityManager.flush();
         entityManager.clear();
 
+        log.debug(">> Batch flush: saved {} Heritage, {} Place, {} Image",
+                hBatch.size(), pBatch.size(), iBatch.size());
+
         hBatch.clear();
         pBatch.clear();
         iBatch.clear();
-
-        log.debug(">> Batch flush: saved {} Heritage, {} Place, {} Image",
-                BATCH_SIZE, BATCH_SIZE, iBatch.size());
     }
+
+    //====================================
+    // 아래부터는 기존과 동일한 파싱 헬퍼 메서드
+    //====================================
 
     private Heritage toEntity(HeritageResponse.HeritageItem item) {
         return Heritage.builder()
