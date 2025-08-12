@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -72,19 +73,24 @@ public class HeritageServiceImpl implements HeritageService {
             if (items.isEmpty()) break;
 
             for (var item : items) {
-                // 2) Heritage, Place 객체 생성
+                // 2) Heritage 엔티티 변환 & contentId 누락 스킵
                 Heritage h = toEntity(item);
+                if (h.getContentId() == null) {
+                    log.warn("contentId 누락, 해당 Heritage 스킵: {}", item);
+                    continue;
+                }
                 heritageBatch.add(h);
 
+                // 3) Place 엔티티 생성
                 Place p = Place.fromHeritage(h);
                 placeBatch.add(p);
 
-                // 3) 이미지 URL 리스트
+                // 4) 이미지 URL 리스트
                 List<String> urls = List.of(item.firstimage(), item.firstimage2()).stream()
                         .filter(u -> u != null && !u.isBlank())
                         .toList();
 
-                // 4) 이미지 다운로드 태스크를 executor에 제출
+                // 5) 이미지 다운로드 태스크 제출
                 List<Future<Image>> futures = new ArrayList<>();
                 for (String url : urls) {
                     futures.add(imageDownloadExecutor.submit(() -> {
@@ -98,7 +104,7 @@ public class HeritageServiceImpl implements HeritageService {
                         return null;
                     }));
                 }
-                // 5) 모든 태스크 결과를 모아서 imageBatch에 추가
+                // 6) 태스크 결과 취합
                 for (Future<Image> f : futures) {
                     Image img = f.get(60, TimeUnit.SECONDS); // 최대 60초 대기
                     if (img != null) {
@@ -106,7 +112,7 @@ public class HeritageServiceImpl implements HeritageService {
                     }
                 }
 
-                // 6) 배치 사이즈 도달 시 저장
+                // 7) 배치 저장 조건
                 if (heritageBatch.size() >= BATCH_SIZE) {
                     flushAndClear(heritageBatch, placeBatch, imageBatch);
                 }
@@ -116,7 +122,7 @@ public class HeritageServiceImpl implements HeritageService {
             pageNo++;
         }
 
-        // 남은 데이터 저장
+        // 남은 배치 저장
         if (!heritageBatch.isEmpty()) {
             flushAndClear(heritageBatch, placeBatch, imageBatch);
         }
