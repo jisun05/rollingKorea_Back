@@ -1,6 +1,6 @@
 package history.traveler.rollingkorea.ranking.controller;
 
-import history.traveler.rollingkorea.ranking.domain.Ranking;
+import history.traveler.rollingkorea.ranking.controller.response.RankingResponse;
 import history.traveler.rollingkorea.ranking.service.RankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

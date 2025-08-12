@@ -1,4 +1,4 @@
-package history.traveler.rollingkorea.ranking.controller;
+package history.traveler.rollingkorea.ranking.controller.response;
 import java.time.LocalDateTime;
 
 public record RankingResponse(

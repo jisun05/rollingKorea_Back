@@ -1,7 +1,6 @@
 package history.traveler.rollingkorea.ranking.service;
 
-import history.traveler.rollingkorea.ranking.controller.RankingResponse;
-import history.traveler.rollingkorea.ranking.domain.Ranking;
+import history.traveler.rollingkorea.ranking.controller.response.RankingResponse;
 import history.traveler.rollingkorea.ranking.repository.RankingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
