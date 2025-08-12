@@ -25,7 +25,7 @@ public class Ranking {
     private String position;
 
     @Column(name = "count_like")
-    private String countLike;
+    private int countLike;
 
 
     @Column(name = "created_at")
